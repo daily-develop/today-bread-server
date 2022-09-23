@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_HOST=localhost
+      - MYSQL_USER=bread
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=bread
+      - MYSQL_ROOT_PASSWORD=password
+    command:
+      - --lower_case_table_names=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    networks:
+      - bread
+
+
+  redis:
+    image: redis:6
+    volumes:
+      - ./data/redis:/data
+    command: redis-server --requirepass password --port 6379
+    ports:
+      - "6379:6379"
+    networks:
+      - bread
+
+networks:
+  bread:
+    labels:
+      - bread

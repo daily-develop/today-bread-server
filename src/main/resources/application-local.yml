@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bread
+    username: bread
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  redis:
+    host: localhost
+    password: password
+    port: 6379
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+#  graphql:
+#    graphiql:
+#      enabled: true
+
+storage:
+  bucket: bread
+  end-point: end-point
+  region: region
+  access-key: access-key
+  secret-key: secret-key
+
+jwt:
+  secret: 8acd4769ffd013700e141cb14a6236713121d25605cc50e56ead8bdd4265ebd8279167451bf87cc189e9ae9b202be19ef17bb23dce43f2b49483d97f0b7d5a38
