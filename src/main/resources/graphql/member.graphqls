@@ -1,15 +1,17 @@
+### Query ###
 type Query{
-    member(memberId: String): Member!
+    member(memberId: String!): Member!
 }
 
+### Type ###
 type Member{
-    id: ID,
-    createdAt: String,
-    updatedAt: String,
-    name: String,
-    nickname: String,
-    phone: String,
-    email: String,
-    address: String,
+    id: ID!
+    createdAt: String!
+    updatedAt: String!
+    name: String!
+    nickname: String!
+    phone: String!
+    email: String!
+    address: String!
     profileImageUrl: String
 }

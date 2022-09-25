@@ -1,6 +1,6 @@
-package com.github.org.todaybread.todaybread.auth.infra.http.filter;
+package com.github.org.todaybread.todaybread.auth.infra.filter;
 
-import com.github.org.todaybread.todaybread.auth.application.token.TokenProviderImpl;
+import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,10 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Transactional
 public class AuthFilter extends OncePerRequestFilter {
 
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER_PREFIX = "Bearer ";
-
-    private final TokenProviderImpl tokenProvider;
+    private final TokenServiceImpl tokenProvider;
 
     @Override
     protected void doFilterInternal(
@@ -41,8 +38,8 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;

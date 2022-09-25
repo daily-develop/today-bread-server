@@ -1,24 +1,21 @@
 package com.github.org.todaybread.todaybread.auth.application.auth;
 
-import com.github.org.todaybread.todaybread.auth.application.kakao.KakaoServiceImpl;
-import com.github.org.todaybread.todaybread.auth.application.token.TokenProviderImpl;
+import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthServiceImpl;
+import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
 import com.github.org.todaybread.todaybread.auth.domain.auth.Auth;
-import com.github.org.todaybread.todaybread.auth.domain.auth.AuthType;
-import com.github.org.todaybread.todaybread.auth.domain.token.Token;
-import com.github.org.todaybread.todaybread.auth.exceptions.ExistingAuthException;
-import com.github.org.todaybread.todaybread.auth.exceptions.InvalidClientException;
+import com.github.org.todaybread.todaybread.auth.exceptions.AlreadyExistingAuthException;
 import com.github.org.todaybread.todaybread.auth.exceptions.InvalidTokenException;
 import com.github.org.todaybread.todaybread.auth.exceptions.NotFoundAuthException;
 import com.github.org.todaybread.todaybread.auth.infra.http.request.ReissueRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignInRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignUpRequest;
-import com.github.org.todaybread.todaybread.auth.infra.persistence.AuthRepositoryImpl;
+import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenResponse;
+import com.github.org.todaybread.todaybread.auth.infra.persistence.auth.AuthRepositoryImpl;
 import com.github.org.todaybread.todaybread.file.application.file.FileServiceImpl;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,46 +25,46 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService {
 
-    private final TokenProviderImpl tokenProvider;
+    private final TokenServiceImpl tokenProvider;
+    private final OAuthServiceImpl oAuthService;
+    private final FileServiceImpl fileService;
     private final AuthRepositoryImpl authRepository;
     private final MemberRepositoryImpl memberRepository;
-    private final KakaoServiceImpl kakaoService;
-    private final FileServiceImpl fileService;
 
     @Override
     @Transactional
-    public Token signIn(SignInRequest request) {
+    public TokenResponse login(SignInRequest request) {
         Auth auth = authRepository.getByAuthTypeAndClientId(
-                request.getType(),
-                getClientId(request.getType(), request.getToken())
-            )
-            .orElseThrow(NotFoundAuthException::new);
+            request.getType(),
+            oAuthService.getClientId(request.getType(), request.getToken())
+        ).orElseThrow(NotFoundAuthException::new);
 
-        return tokenProvider.create(auth);
+        return tokenProvider.create(auth).toResponse();
     }
 
     @Override
     @Transactional
-    public Token signUp(SignUpRequest request) {
-        String clientId = getClientId(request.getType(), request.getToken());
-        Auth existingAuth = authRepository.getByAuthTypeAndClientId(request.getType(), clientId)
-            .orElse(null);
-        if (existingAuth != null) {
-            throw new ExistingAuthException();
+    public TokenResponse create(SignUpRequest request) {
+        String clientId = oAuthService.getClientId(request.getType(), request.getToken());
+        if (authRepository.getByAuthTypeAndClientId(request.getType(), clientId).isPresent()) {
+            throw new AlreadyExistingAuthException();
         }
+
+        Member member = memberRepository.save(
+            Member.builder()
+                .nickname(request.getNickname())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .address(request.getAddress())
+                .build()
+        );
 
         Auth auth = authRepository.save(
             Auth.builder()
                 .type(request.getType())
-                .clientId(getClientId(request.getType(), request.getToken()))
-                .member(
-                    memberRepository.save(
-                        Member.builder()
-                            .nickname(request.getNickname())
-                            .email(request.getEmail())
-                            .build()
-                    )
-                ).build()
+                .clientId(clientId)
+                .member(member)
+                .build()
         );
 
         if (request.getProfileImage() != null) {
@@ -79,32 +76,26 @@ public class AuthServiceImpl implements AuthService {
             auth.getMember().update(null, null, null, null, profileImage);
         }
 
-        return tokenProvider.create(auth);
+        return tokenProvider.create(auth).toResponse();
     }
 
     @Override
-    public Token reissue(ReissueRequest request) {
+    public TokenResponse reissue(ReissueRequest request) {
         if (!tokenProvider.validation(request.getRefreshToken())) {
             throw new InvalidTokenException();
         }
 
-        Auth auth = tokenProvider.parse(request.getRefreshToken());
-        return tokenProvider.create(auth);
+        Auth auth = authRepository.getByMemberId(tokenProvider.parse(request.getRefreshToken()))
+            .orElseThrow(NotFoundAuthException::new);
+
+        return tokenProvider.create(auth).toResponse();
     }
 
     @Override
-    public boolean signOut(String memberId) {
-        Auth auth = authRepository.getByMemberId(UUID.fromString(memberId))
+    public Boolean logout(String memberId) {
+        Auth auth = authRepository.getByMemberId(memberId)
             .orElseThrow(NotFoundAuthException::new);
 
         return tokenProvider.remove(auth);
-    }
-
-    private String getClientId(AuthType type, String token) {
-        if (type == AuthType.KAKAO) {
-            return kakaoService.getClientId(token);
-        } else {
-            throw new InvalidClientException();
-        }
     }
 }

@@ -1,7 +1,7 @@
 package com.github.org.todaybread.todaybread.config;
 
-import com.github.org.todaybread.todaybread.auth.application.token.TokenProviderImpl;
-import com.github.org.todaybread.todaybread.auth.infra.http.filter.AuthFilter;
+import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
+import com.github.org.todaybread.todaybread.auth.infra.filter.AuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class JwtSecurityConfig extends
     SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    private final TokenProviderImpl tokenProvider;
+    private final TokenServiceImpl tokenProvider;
 
     @Override
     public void configure(HttpSecurity http) {

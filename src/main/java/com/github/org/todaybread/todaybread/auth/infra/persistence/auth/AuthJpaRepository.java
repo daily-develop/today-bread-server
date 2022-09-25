@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.auth.infra.persistence;
+package com.github.org.todaybread.todaybread.auth.infra.persistence.auth;
 
 import com.github.org.todaybread.todaybread.auth.domain.auth.Auth;
 import com.github.org.todaybread.todaybread.auth.domain.auth.AuthType;

@@ -1,15 +1,14 @@
 package com.github.org.todaybread.todaybread.auth.domain.auth;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface AuthRepository {
+    
+    Optional<Auth> getById(String id);
 
-	Auth save(Auth auth);
+    Optional<Auth> getByMemberId(String memberId);
 
-	Optional<Auth> getById(UUID id);
+    Optional<Auth> getByAuthTypeAndClientId(AuthType type, String clientId);
 
-	Optional<Auth> getByMemberId(UUID memberId);
-
-	Optional<Auth> getByAuthTypeAndClientId(AuthType type, String clientId);
+    Auth save(Auth auth);
 }
