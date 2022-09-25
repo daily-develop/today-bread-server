@@ -28,9 +28,7 @@ public class MemberResponse {
     String profileImageUrl;
 
     @Builder
-    public MemberResponse(
-        Member member
-    ) {
+    public MemberResponse(Member member) {
         this.id = member.getId().toString();
         this.createdAt = member.getCreatedAt().toString();
         this.updatedAt = member.getUpdatedAt().toString();
@@ -38,7 +36,8 @@ public class MemberResponse {
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.address = member.getAddress();
-        this.profileImageUrl =
-            "https://kr.object.ncloudstorage.com/bread/" + member.getProfileImage().getKey();
+        this.profileImageUrl = member.getProfileImage() != null
+            ? "https://kr.object.ncloudstorage.com/bread/" + member.getProfileImage().getKey()
+            : null;
     }
 }

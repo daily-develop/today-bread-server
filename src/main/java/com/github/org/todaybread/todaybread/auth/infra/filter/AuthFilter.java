@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,10 @@ public class AuthFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(token) && tokenProvider.validation(token)) {
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else if (StringUtils.hasText(token)) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        } else {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
         }
         filterChain.doFilter(request, response);
     }

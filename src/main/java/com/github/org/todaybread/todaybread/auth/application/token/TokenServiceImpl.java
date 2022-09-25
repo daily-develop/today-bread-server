@@ -3,7 +3,9 @@ package com.github.org.todaybread.todaybread.auth.application.token;
 import com.github.org.todaybread.todaybread.auth.domain.auth.Auth;
 import com.github.org.todaybread.todaybread.auth.domain.role.Role;
 import com.github.org.todaybread.todaybread.auth.domain.token.Token;
+import com.github.org.todaybread.todaybread.auth.exceptions.NotFoundAuthException;
 import com.github.org.todaybread.todaybread.auth.exceptions.NotFoundRoleException;
+import com.github.org.todaybread.todaybread.auth.infra.persistence.auth.AuthRepositoryImpl;
 import com.github.org.todaybread.todaybread.auth.infra.persistence.token.TokenRepositoryImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -34,18 +36,21 @@ public class TokenServiceImpl implements TokenService {
     private final Long accessTokenExpiredDate;
     private final Long refreshTokenExpiredDate;
     private final TokenRepositoryImpl tokenRepository;
+    private final AuthRepositoryImpl authRepository;
 
     public TokenServiceImpl(
         @Value("${jwt.secret}") String secret,
         @Value("${jwt.expired.access}") Long accessTokenExpiredDate,
         @Value("${jwt.expired.refresh}") Long refreshTokenExpiredDate,
-        @Autowired TokenRepositoryImpl tokenRepository
+        @Autowired TokenRepositoryImpl tokenRepository,
+        @Autowired AuthRepositoryImpl authRepository
     ) {
         byte[] bytes = Decoders.BASE64.decode(secret);
         this.key = Keys.hmacShaKeyFor(bytes);
         this.accessTokenExpiredDate = accessTokenExpiredDate;
         this.refreshTokenExpiredDate = refreshTokenExpiredDate;
         this.tokenRepository = tokenRepository;
+        this.authRepository = authRepository;
     }
 
     @Override
@@ -86,7 +91,13 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Boolean validation(String token) {
-        return getClaims(token).getExpiration().after(new Date());
+        Claims claims = getClaims(token);
+
+        Auth auth = authRepository.getByMemberId(claims.get("memberId").toString()).orElseThrow(
+            NotFoundAuthException::new);
+
+        return claims.getExpiration().after(new Date())
+            && tokenRepository.getByKey(auth.getId().toString()) != null;
     }
 
     @Override
