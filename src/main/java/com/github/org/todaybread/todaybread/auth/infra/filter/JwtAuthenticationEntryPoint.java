@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.auth.infra.http.filter;
+package com.github.org.todaybread.todaybread.auth.infra.filter;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-	@Override
-	public void commence(
-		HttpServletRequest request,
-		HttpServletResponse response,
-		AuthenticationException authException
-	) throws IOException {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-	}
+    @Override
+    public void commence(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        AuthenticationException authException
+    ) throws IOException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+    }
 }

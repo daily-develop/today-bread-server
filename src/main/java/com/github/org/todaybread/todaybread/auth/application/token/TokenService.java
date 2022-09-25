@@ -4,15 +4,15 @@ import com.github.org.todaybread.todaybread.auth.domain.auth.Auth;
 import com.github.org.todaybread.todaybread.auth.domain.token.Token;
 import org.springframework.security.core.Authentication;
 
-public interface TokenProvider {
+public interface TokenService {
 
     Token create(Auth auth);
 
-    boolean remove(Auth auth);
+    Boolean remove(Auth auth);
 
-    boolean validation(String token);
+    Boolean validation(String token);
 
-    Auth parse(String token);
+    String parse(String token);
 
-    Authentication getAuthentication(String accessToken);
+    Authentication getAuthentication(String token);
 }

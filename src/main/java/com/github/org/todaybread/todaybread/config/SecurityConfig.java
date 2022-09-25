@@ -1,8 +1,8 @@
 package com.github.org.todaybread.todaybread.config;
 
-import com.github.org.todaybread.todaybread.auth.application.token.TokenProviderImpl;
-import com.github.org.todaybread.todaybread.auth.infra.http.filter.JwtAccessDeniedHandler;
-import com.github.org.todaybread.todaybread.auth.infra.http.filter.JwtAuthenticationEntryPoint;
+import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
+import com.github.org.todaybread.todaybread.auth.infra.filter.JwtAccessDeniedHandler;
+import com.github.org.todaybread.todaybread.auth.infra.filter.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final TokenProviderImpl tokenProvider;
+    private final TokenServiceImpl tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 

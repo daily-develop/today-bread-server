@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,9 +21,6 @@ import org.springframework.util.Assert;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Core {
-
-    @NotEmpty
-    private String name;
 
     @NotBlank
     private String nickname;
@@ -45,7 +41,6 @@ public class Member extends Core {
 
     @Builder
     public Member(
-        String name,
         String nickname,
         String phone,
         String email,
@@ -53,12 +48,10 @@ public class Member extends Core {
         File profileImage
     ) {
         Assert.hasText(nickname, "nickname must not be empty");
-        Assert.hasText(name, "name must not be empty");
         Assert.hasText(phone, "phone must not be empty");
         Assert.hasText(email, "email must not be empty");
         Assert.hasText(address, "address must not be empty");
 
-        this.name = name;
         this.nickname = nickname;
         this.phone = phone;
         this.email = email;

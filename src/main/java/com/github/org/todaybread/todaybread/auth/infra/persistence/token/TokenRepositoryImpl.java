@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.auth.infra.persistence;
+package com.github.org.todaybread.todaybread.auth.infra.persistence.token;
 
 import com.github.org.todaybread.todaybread.auth.domain.token.Token;
 import com.github.org.todaybread.todaybread.auth.domain.token.TokenRepository;

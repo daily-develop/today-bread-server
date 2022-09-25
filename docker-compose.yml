@@ -8,7 +8,6 @@ services:
       - ./data/mysql:/var/lib/mysql
     environment:
       - TZ=Asia/Seoul
-      - MYSQL_ROOT_HOST=localhost
       - MYSQL_USER=bread
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=bread
@@ -22,9 +21,9 @@ services:
     networks:
       - bread
 
-
   redis:
     image: redis:6
+    container_name: redis
     volumes:
       - ./data/redis:/data
     command: redis-server --requirepass password --port 6379
