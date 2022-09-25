@@ -3,7 +3,6 @@ package com.github.org.todaybread.todaybread.auth.application.token;
 import com.github.org.todaybread.todaybread.auth.domain.auth.Auth;
 import com.github.org.todaybread.todaybread.auth.domain.role.Role;
 import com.github.org.todaybread.todaybread.auth.domain.token.Token;
-import com.github.org.todaybread.todaybread.auth.exceptions.NotFoundAuthException;
 import com.github.org.todaybread.todaybread.auth.exceptions.NotFoundRoleException;
 import com.github.org.todaybread.todaybread.auth.infra.persistence.auth.AuthRepositoryImpl;
 import com.github.org.todaybread.todaybread.auth.infra.persistence.token.TokenRepositoryImpl;
@@ -93,10 +92,11 @@ public class TokenServiceImpl implements TokenService {
     public Boolean validation(String token) {
         Claims claims = getClaims(token);
 
-        Auth auth = authRepository.getByMemberId(claims.get("memberId").toString()).orElseThrow(
-            NotFoundAuthException::new);
+        Auth auth = authRepository.getByMemberId(claims.get("memberId").toString())
+            .orElse(null);
 
         return claims.getExpiration().after(new Date())
+            && auth != null
             && tokenRepository.getByKey(auth.getId().toString()) != null;
     }
 

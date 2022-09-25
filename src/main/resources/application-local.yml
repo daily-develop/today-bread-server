@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bread
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bread
     username: bread
     password: password
 

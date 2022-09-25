@@ -2,7 +2,6 @@ package com.github.org.todaybread.todaybread.common.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,8 +23,7 @@ public class Core {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    @Type(type = "uuid-char")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
     @CreatedDate
