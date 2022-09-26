@@ -1,8 +1,10 @@
 package com.github.org.todaybread.todaybread.auth.exceptions;
 
-public class NotFoundRoleException extends RuntimeException {
+import graphql.GraphQLException;
 
-	public NotFoundRoleException() {
-		super("권한 정보가 없습니다.");
-	}
+public class NotFoundRoleException extends GraphQLException {
+
+    public NotFoundRoleException() {
+        super("권한 정보가 없습니다.");
+    }
 }

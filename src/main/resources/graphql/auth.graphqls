@@ -1,0 +1,35 @@
+scalar Upload
+
+### Mutation ###
+type Mutation {
+    signIn(request: SignInRequest!): TokenResponse!
+    signUp(request: SignUpRequest!): TokenResponse!
+    reissue(request: ReissueRequest!): TokenResponse!
+    logout: Boolean!
+}
+
+### Type ###
+type TokenResponse {
+    accessToken: String!
+    refreshToken: String!
+}
+
+input SignInRequest {
+    type: String!
+    token: String!
+}
+
+input SignUpRequest {
+    type: String!
+    token: String!
+    nickname: String!
+    email: String!
+    phone: String!
+    address: String!
+    profileImage: Upload
+}
+
+input ReissueRequest {
+    accessToken: String!
+    refreshToken: String!
+}

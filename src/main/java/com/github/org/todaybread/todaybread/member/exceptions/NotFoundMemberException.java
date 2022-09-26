@@ -1,8 +1,10 @@
 package com.github.org.todaybread.todaybread.member.exceptions;
 
-public class NotFoundMemberException extends RuntimeException {
+import graphql.GraphQLException;
 
-	public NotFoundMemberException() {
-		super("유저를 찾을 수 없습니다.");
-	}
+public class NotFoundMemberException extends GraphQLException {
+
+    public NotFoundMemberException() {
+        super("유저를 찾을 수 없습니다.");
+    }
 }

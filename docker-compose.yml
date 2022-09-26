@@ -2,22 +2,17 @@ version: "3"
 
 services:
   mysql:
-    image: mysql:8
-    container_name: mysql
+    image: postgres:12
+    container_name: postgres
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data/postgres:/var/lib/postgresql/data
     environment:
       - TZ=Asia/Seoul
-      - MYSQL_USER=bread
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=bread
-      - MYSQL_ROOT_PASSWORD=password
-    command:
-      - --lower_case_table_names=1
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
+      - POSTGRES_DB=bread
+      - POSTGRES_USER=bread
+      - POSTGRES_PASSWORD=password
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - bread
 
