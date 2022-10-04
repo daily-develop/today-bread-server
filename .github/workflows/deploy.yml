@@ -7,7 +7,7 @@ on:
       - feature/ci # for test
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,32 +25,43 @@ jobs:
       - name: 3. build with gradle
         run: ./gradlew clean build
 
-      - name: 4. Docker Build, Tag, Container Registry Push
+      - name: 4. login to docker
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.CONTAINER_REGISTRY }}
+          username: ${{ secrets.NCP_ACCESS_KEY }}
+          password: ${{ secrets.NCP_SECRET_KEY }}
+
+      - name: 5. docker build, tag, container registry push
         id: image
         env:
           CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
-          ECR_REPOSITORY: today-bread-server
+          CONTAINER_REPOSITORY: today-bread-server
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -f Dockerfile -t today-bread .
-          docker tag today-bread-server:latest $CONTAINER_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $CONTAINER_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=full-name::$CONTAINER_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker build -f Dockerfile -t today-bread-server .
+          docker tag $CONTAINER_REPOSITORY:latest $CONTAINER_REGISTRY/$CONTAINER_REPOSITORY:$IMAGE_TAG
+          docker push $CONTAINER_REGISTRY/$CONTAINER_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=full-name::$CONTAINER_REGISTRY/$CONTAINER_REPOSITORY:$IMAGE_TAG"
 
-      - name: 5. Setup Kustomize
+      - name: 6. setup kustomize
         uses: imranismail/setup-kustomize@v1
 
-      - name: 6. Checkout to Argo repository
+      - name: 7. checkout to argocd repository
         uses: actions/checkout@v3
         with:
           repository: daily-develop/today-bread-argocd
+          path: today-bread-argocd
           token: ${{ secrets.ACTION_TOKEN }}
 
-      - name: 7. Image Version Change
-        run: kustomize edit set image ${{ steps.image.outputs.full-name }}
-
-      - name: 8. Argo Repository Commit & Push
+      - name: 8. image version change
         run: |
+          cd today-bread-argocd/today-bread-server
+          kustomize edit set image ${{ steps.image.outputs.full-name }}
+
+      - name: 9. argo repository commit & push
+        run: |
+          cd today-bread-argocd
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions"
           git commit -am "update image tag"
