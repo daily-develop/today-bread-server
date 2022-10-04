@@ -1,0 +1,33 @@
+scalar Upload
+scalar LocalDateTime
+
+### Input ###
+input CreateStoreRequest {
+    image: Upload
+    name: String!
+    description: String
+    location: String!
+    phone: String!
+    manager: CreateManagerRequest!
+}
+
+input UpdateStoreRequest {
+    storeId: String!
+    image: Upload
+    name: String
+    description: String
+    location: String
+    phone: String
+}
+
+### Type ###
+type StoreResponse {
+    id: ID!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
+    name: String!
+    description: String!
+    location: String!
+    phone: String!
+    manager: ManagerResponse!
+}

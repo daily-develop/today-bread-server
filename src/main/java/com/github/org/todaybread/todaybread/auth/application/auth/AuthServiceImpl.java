@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
         if (request.getProfileImage() != null) {
             File profileImage = fileService.upload(
                 auth.getMember().getId().toString(),
-                FileType.profile,
+                FileType.PROFILE,
                 request.getProfileImage()
             );
             auth.getMember().update(null, null, null, null, profileImage);

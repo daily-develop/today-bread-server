@@ -40,7 +40,7 @@ class AuthServiceTest {
     void signUp() {
         TokenResponse response = authService.create(
             SignUpRequest.builder()
-                .type(AuthType.Kakao)
+                .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
                 .nickname("test_nickname")
                 .email("test@test.com")
@@ -68,7 +68,7 @@ class AuthServiceTest {
 
         authService.create(
             SignUpRequest.builder()
-                .type(AuthType.Kakao)
+                .type(AuthType.KAKAO)
                 .token(token)
                 .nickname("test_nickname")
                 .email("test@test.com")
@@ -81,7 +81,7 @@ class AuthServiceTest {
             AlreadyExistingAuthException.class,
             () -> authService.create(
                 SignUpRequest.builder()
-                    .type(AuthType.Kakao)
+                    .type(AuthType.KAKAO)
                     .token(token)
                     .nickname("test_nickname")
                     .email("test@test.com")
@@ -95,7 +95,7 @@ class AuthServiceTest {
             AlreadyExistingAuthException.class,
             () -> authService.create(
                 SignUpRequest.builder()
-                    .type(AuthType.Kakao)
+                    .type(AuthType.KAKAO)
                     .token(token)
                     .nickname("other_test_nickname")
                     .email("other_test@test.com")
@@ -113,7 +113,7 @@ class AuthServiceTest {
 
         authService.create(
             SignUpRequest.builder()
-                .type(AuthType.Kakao)
+                .type(AuthType.KAKAO)
                 .token(token)
                 .nickname("test_nickname")
                 .email("test@test.com")
@@ -124,7 +124,7 @@ class AuthServiceTest {
 
         TokenResponse response = authService.login(
             SignInRequest.builder()
-                .type(AuthType.Kakao)
+                .type(AuthType.KAKAO)
                 .token(token)
                 .build()
         );
@@ -139,7 +139,7 @@ class AuthServiceTest {
             NotFoundAuthException.class,
             () -> authService.login(
                 SignInRequest.builder()
-                    .type(AuthType.Kakao)
+                    .type(AuthType.KAKAO)
                     .token(UUID.randomUUID().toString())
                     .build()
             )
@@ -151,7 +151,7 @@ class AuthServiceTest {
     void reissue() throws InterruptedException {
         TokenResponse token = authService.create(
             SignUpRequest.builder()
-                .type(AuthType.Kakao)
+                .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
                 .nickname("test_nickname")
                 .email("test@test.com")
