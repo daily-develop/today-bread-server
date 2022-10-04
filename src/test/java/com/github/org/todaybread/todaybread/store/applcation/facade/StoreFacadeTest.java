@@ -258,6 +258,69 @@ public class StoreFacadeTest {
         assertThat(stores.get(0)).isNotNull().isInstanceOf(StoreResponse.class);
     }
 
+
+    @Test
+    @DisplayName("search에 null을 넘겨줘도 가게 리스트를 조회할 수 있어요.")
+    public void getListContainNull() {
+        TokenResponse response = authService.create(
+            SignUpRequest.builder()
+                .type(AuthType.KAKAO)
+                .token(UUID.randomUUID().toString())
+                .nickname("test_nickname")
+                .email("test@test.com")
+                .phone("010-0000-0000")
+                .address("서울시 강남구 삼성동")
+                .build()
+        );
+        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
+            .orElse(null);
+
+        System.out.println("여기까지 실행됨");
+        storeFacade.create(
+            member.getId().toString(),
+            CreateStoreRequest.builder()
+                .name("배지의 쿠키하우스")
+                .description("배지네 쿠키하우스입니다. 놀러오세요!")
+                .location("서울시 강남구 삼성동")
+                .phone("010-9999-9999")
+                .manager(
+                    CreateManagerRequest.builder()
+                        .nickname("사장님")
+                        .build()
+                ).build());
+
+        storeFacade.create(
+            member.getId().toString(),
+            CreateStoreRequest.builder()
+                .name("배지의 식빵하우스")
+                .description("배지네 식빵하우스입니다. 놀러오세요!")
+                .location("서울시 강남구 삼성동")
+                .phone("010-9999-9999")
+                .manager(
+                    CreateManagerRequest.builder()
+                        .nickname("사장님")
+                        .build()
+                ).build());
+
+        storeFacade.create(
+            member.getId().toString(),
+            CreateStoreRequest.builder()
+                .name("베어 곰달")
+                .description("베어 곰달입니다. 놀러오세요!")
+                .location("서울시 강남구 삼성동")
+                .phone("010-9999-9999")
+                .manager(
+                    CreateManagerRequest.builder()
+                        .nickname("사장님")
+                        .build()
+                ).build());
+
+        List<StoreResponse> stores = storeFacade.getList(1, 10, null);
+
+        assertThat(stores.size()).isEqualTo(3);
+        assertThat(stores.get(0)).isNotNull().isInstanceOf(StoreResponse.class);
+    }
+    
     @Test
     @DisplayName("가게 리스트를 검색할 수 있어요.")
     public void getListContainSearch() {

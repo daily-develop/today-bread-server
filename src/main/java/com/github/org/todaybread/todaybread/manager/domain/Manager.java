@@ -30,7 +30,7 @@ public class Manager extends Core {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    private Store store = null;
+    private Store store;
 
 
     @Builder

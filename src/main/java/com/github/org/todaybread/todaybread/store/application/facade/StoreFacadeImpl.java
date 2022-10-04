@@ -17,9 +17,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class StoreFacadeImpl implements StoreFacade {
 
     private final StoreServiceImpl storeService;
@@ -28,9 +30,9 @@ public class StoreFacadeImpl implements StoreFacade {
     private final FileServiceImpl fileService;
 
     @Override
+    @Transactional
     public StoreResponse create(String memberId, CreateStoreRequest request) {
         Member member = memberService.getMember(memberId);
-
         Manager manager = managerService.save(
             Manager.builder()
                 .nickname(request.getManager().getNickname())
@@ -54,12 +56,12 @@ public class StoreFacadeImpl implements StoreFacade {
                 request.getImage());
             store.updateFile(file);
         }
-
         manager.updateStore(store);
         return store.toResponse();
     }
 
     @Override
+    @Transactional
     public StoreResponse update(String memberId, UpdateStoreRequest request) {
         Member member = memberService.getMember(memberId);
         Manager manager = managerService.getByStoreId(request.getStoreId());
@@ -73,6 +75,7 @@ public class StoreFacadeImpl implements StoreFacade {
     }
 
     @Override
+    @Transactional
     public Boolean delete(String memberId, String storeId) {
         Member member = memberService.getMember(memberId);
         managerService.checkManagerAuthentication(member, storeId);
