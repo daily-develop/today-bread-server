@@ -8,11 +8,11 @@ import com.github.org.todaybread.todaybread.auth.domain.auth.AuthType;
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignUpRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenResponse;
 import com.github.org.todaybread.todaybread.config.EmbeddedRedisConfig;
-import com.github.org.todaybread.todaybread.manager.exception.NotFoundStoreException;
 import com.github.org.todaybread.todaybread.manager.infra.http.request.CreateManagerRequest;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
 import com.github.org.todaybread.todaybread.store.application.facade.StoreFacadeImpl;
+import com.github.org.todaybread.todaybread.store.exceptions.NotFoundStoreException;
 import com.github.org.todaybread.todaybread.store.infra.http.request.CreateStoreRequest;
 import com.github.org.todaybread.todaybread.store.infra.http.request.UpdateStoreRequest;
 import com.github.org.todaybread.todaybread.store.infra.http.response.StoreResponse;
@@ -196,7 +196,7 @@ public class StoreFacadeTest {
         assertThat(store).isNotNull().isInstanceOf(StoreResponse.class);
         assertThat(resultStore).isNotNull().isInstanceOf(StoreResponse.class);
     }
-    
+
     @Test
     @DisplayName("가게 리스트를 조회할 수 있어요.")
     public void getList() {
@@ -320,7 +320,7 @@ public class StoreFacadeTest {
         assertThat(stores.size()).isEqualTo(3);
         assertThat(stores.get(0)).isNotNull().isInstanceOf(StoreResponse.class);
     }
-    
+
     @Test
     @DisplayName("가게 리스트를 검색할 수 있어요.")
     public void getListContainSearch() {

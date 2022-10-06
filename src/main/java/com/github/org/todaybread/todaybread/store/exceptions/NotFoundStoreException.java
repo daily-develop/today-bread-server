@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.manager.exception;
+package com.github.org.todaybread.todaybread.store.exceptions;
 
 import graphql.GraphQLException;
 

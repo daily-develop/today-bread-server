@@ -1,6 +1,6 @@
 package com.github.org.todaybread.todaybread.store.application.facade;
 
-import com.github.org.todaybread.todaybread.file.application.file.FileServiceImpl;
+import com.github.org.todaybread.todaybread.file.application.facade.FileFacadeImpl;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.manager.application.ManagerServiceImpl;
@@ -27,7 +27,7 @@ public class StoreFacadeImpl implements StoreFacade {
     private final StoreServiceImpl storeService;
     private final MemberServiceImpl memberService;
     private final ManagerServiceImpl managerService;
-    private final FileServiceImpl fileService;
+    private final FileFacadeImpl fileFacade;
 
     @Override
     @Transactional
@@ -50,7 +50,7 @@ public class StoreFacadeImpl implements StoreFacade {
                 .build()
         );
         if (request.getImage() != null) {
-            File file = fileService.upload(
+            File file = fileFacade.upload(
                 member.getId().toString(),
                 FileType.PROFILE,
                 request.getImage());

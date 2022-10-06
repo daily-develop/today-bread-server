@@ -1,10 +1,12 @@
 package com.github.org.todaybread.todaybread.manager.application;
 
 import com.github.org.todaybread.todaybread.manager.domain.Manager;
-import com.github.org.todaybread.todaybread.manager.exception.NotFoundStoreException;
+import com.github.org.todaybread.todaybread.manager.exception.NotFoundManagerException;
 import com.github.org.todaybread.todaybread.manager.exception.NotManagerException;
+import com.github.org.todaybread.todaybread.manager.infra.http.request.UpdateManagerRequest;
 import com.github.org.todaybread.todaybread.manager.infra.persistence.ManagerRepositoryImpl;
 import com.github.org.todaybread.todaybread.member.domain.Member;
+import com.github.org.todaybread.todaybread.store.exceptions.NotFoundStoreException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,16 @@ public class ManagerServiceImpl implements ManagerService {
     @Transactional
     public Manager save(Manager manager) {
         return managerRepository.save(manager);
+    }
+
+
+    @Override
+    @Transactional
+    public Manager update(String memberId, UpdateManagerRequest request) {
+        Manager manager = managerRepository.getById(request.getManagerId())
+            .orElseThrow(NotFoundManagerException::new);
+
+        return manager.update(request.getNickname());
     }
 
     @Override

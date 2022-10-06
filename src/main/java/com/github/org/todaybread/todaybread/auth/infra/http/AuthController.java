@@ -35,7 +35,7 @@ public class AuthController {
     }
 
     @MutationMapping
-    @PreAuthorize(value = "hasAuthority('General')")
+    @PreAuthorize(value = "hasAuthority('GENERAL')")
     Boolean logout(Authentication authentication) {
         return authService.logout(authentication.getName());
     }

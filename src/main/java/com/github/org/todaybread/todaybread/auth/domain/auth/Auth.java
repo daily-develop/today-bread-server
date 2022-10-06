@@ -49,7 +49,7 @@ public class Auth extends Core {
         this.roles.add(
             Role.builder()
                 .auth(this)
-                .type(RoleType.General)
+                .type(RoleType.GENERAL)
                 .build()
         );
     }

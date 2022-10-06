@@ -10,6 +10,8 @@ public interface ManagerRepository {
 
     List<Manager> getByMember(Member member);
 
+    Optional<Manager> getById(String managerId);
+
     Optional<Manager> getByStoreId(String storeId);
 
     Optional<Manager> getByMemberAndStoreId(Member member, String storeId);

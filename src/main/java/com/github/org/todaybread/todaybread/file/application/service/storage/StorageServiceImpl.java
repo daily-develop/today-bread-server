@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.file.application.storage;
+package com.github.org.todaybread.todaybread.file.application.service.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AccessControlList;

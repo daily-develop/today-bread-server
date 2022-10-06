@@ -30,4 +30,5 @@ type StoreResponse {
     location: String!
     phone: String!
     manager: ManagerResponse!
+    file: FileResponse
 }

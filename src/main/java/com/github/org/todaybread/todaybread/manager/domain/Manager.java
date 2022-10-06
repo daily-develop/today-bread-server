@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
+import reactor.util.annotation.Nullable;
 
 @Entity
 @Getter
@@ -42,8 +43,16 @@ public class Manager extends Core {
         this.member = member;
     }
 
-    public void updateStore(Store store) {
+    public Manager updateStore(Store store) {
         this.store = store;
+        return this;
+    }
+
+    public Manager update(@Nullable String nickname) {
+        if (nickname != null) {
+            this.nickname = nickname.strip();
+        }
+        return this;
     }
 
     public ManagerResponse toResponse() {

@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.file.application.storage;
+package com.github.org.todaybread.todaybread.file.application.service.storage;
 
 import org.springframework.web.multipart.MultipartFile;
 

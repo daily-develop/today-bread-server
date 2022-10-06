@@ -1,5 +1,6 @@
 package com.github.org.todaybread.todaybread.store.infra.http.response;
 
+import com.github.org.todaybread.todaybread.file.infra.http.response.FileResponse;
 import com.github.org.todaybread.todaybread.manager.infra.http.response.ManagerResponse;
 import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.time.LocalDateTime;
@@ -28,6 +29,8 @@ public class StoreResponse {
 
     ManagerResponse manager;
 
+    FileResponse file;
+
     @Builder
     public StoreResponse(
         Store store
@@ -40,5 +43,6 @@ public class StoreResponse {
         this.location = store.getLocation();
         this.phone = store.getPhone();
         this.manager = store.getManager().toResponse();
+        this.file = store.getImage().toResponse();
     }
 }

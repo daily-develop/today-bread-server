@@ -1,7 +1,7 @@
 package com.github.org.todaybread.todaybread.store.application.service;
 
-import com.github.org.todaybread.todaybread.manager.exception.NotFoundStoreException;
 import com.github.org.todaybread.todaybread.store.domain.Store;
+import com.github.org.todaybread.todaybread.store.exceptions.NotFoundStoreException;
 import com.github.org.todaybread.todaybread.store.infra.persistence.StoreRepositoryImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

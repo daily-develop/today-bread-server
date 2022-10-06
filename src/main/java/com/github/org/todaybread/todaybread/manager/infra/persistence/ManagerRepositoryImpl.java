@@ -26,6 +26,11 @@ public class ManagerRepositoryImpl implements ManagerRepository {
     }
 
     @Override
+    public Optional<Manager> getById(String managerId) {
+        return managerRepository.findById(UUID.fromString(managerId));
+    }
+
+    @Override
     public Optional<Manager> getByStoreId(String storeId) {
         return managerRepository.findByStoreId(UUID.fromString(storeId));
     }

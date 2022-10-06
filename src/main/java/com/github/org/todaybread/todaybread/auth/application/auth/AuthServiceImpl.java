@@ -11,7 +11,7 @@ import com.github.org.todaybread.todaybread.auth.infra.http.request.SignInReques
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignUpRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenResponse;
 import com.github.org.todaybread.todaybread.auth.infra.persistence.auth.AuthRepositoryImpl;
-import com.github.org.todaybread.todaybread.file.application.file.FileServiceImpl;
+import com.github.org.todaybread.todaybread.file.application.facade.FileFacadeImpl;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.member.domain.Member;
@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final TokenServiceImpl tokenProvider;
     private final OAuthServiceImpl oAuthService;
-    private final FileServiceImpl fileService;
+    private final FileFacadeImpl fileFacade;
     private final AuthRepositoryImpl authRepository;
     private final MemberRepositoryImpl memberRepository;
 
@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         );
 
         if (request.getProfileImage() != null) {
-            File profileImage = fileService.upload(
+            File profileImage = fileFacade.upload(
                 auth.getMember().getId().toString(),
                 FileType.PROFILE,
                 request.getProfileImage()

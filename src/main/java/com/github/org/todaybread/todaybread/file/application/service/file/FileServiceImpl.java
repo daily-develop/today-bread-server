@@ -1,12 +1,12 @@
-package com.github.org.todaybread.todaybread.file.application.file;
+package com.github.org.todaybread.todaybread.file.application.service.file;
 
-import com.github.org.todaybread.todaybread.file.application.storage.StorageServiceImpl;
+import com.github.org.todaybread.todaybread.file.application.service.storage.StorageServiceImpl;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
-import com.github.org.todaybread.todaybread.file.exceptions.FailedToFileUploadException;
 import com.github.org.todaybread.todaybread.file.exceptions.NotSupportedFileFormatException;
 import com.github.org.todaybread.todaybread.file.infra.persistence.FileRepositoryImpl;
-import com.github.org.todaybread.todaybread.member.application.service.MemberServiceImpl;
+import com.github.org.todaybread.todaybread.member.domain.Member;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,46 +18,38 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class FileServiceImpl implements FileService {
 
+    private static final List<String> FILETYPE = Arrays.asList(
+        "jpeg",
+        "png",
+        "jpg"
+    );
     private final FileRepositoryImpl fileRepository;
     private final StorageServiceImpl storageService;
-    private final MemberServiceImpl memberService;
 
     @Override
     @Transactional
-    public File upload(String memberId, FileType fileType, MultipartFile multipartFile) {
-        String mime = multipartFile.getOriginalFilename() == null
-            ? "jpeg"
-            : multipartFile.getOriginalFilename().substring(
-                multipartFile.getOriginalFilename().lastIndexOf(".") + 1
+    public File save(Member member, FileType type, MultipartFile image) {
+        String mime = image.getOriginalFilename() == null ? "jpeg" :
+            image.getOriginalFilename().substring(
+                image.getOriginalFilename().lastIndexOf(".") + 1
             ).toLowerCase();
-        if (
-            !"gif".equals(mime)
-                && !"jpg".equals(mime)
-                && !"png".equals(mime)
-                && !"jpeg".equals(mime)
-        ) {
+
+        if (!FILETYPE.contains(mime)) {
             throw new NotSupportedFileFormatException(mime);
         }
-        File file = fileRepository.save(
+
+        return fileRepository.save(
             File.builder()
-                .uploader(memberService.getMember(memberId))
-                .type(fileType)
+                .uploader(member)
                 .mime(mime)
+                .type(type)
                 .build()
         );
-        try {
-            storageService.upload(multipartFile, file.getKey());
-            return file;
-        } catch (FailedToFileUploadException e) {
-            fileRepository.delete(file.getId().toString());
-            return null;
-        }
     }
 
     @Override
     @Transactional
     public void delete(String fileId) {
-        fileRepository.getById(fileId).ifPresent(file -> storageService.delete(file.getKey()));
         fileRepository.delete(fileId);
     }
 
