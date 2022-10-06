@@ -3,7 +3,6 @@ package com.github.org.todaybread.todaybread.manager.infra.http.response;
 import com.github.org.todaybread.todaybread.manager.domain.Manager;
 import com.github.org.todaybread.todaybread.member.infra.http.response.MemberResponse;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ManagerResponse {
 
-    UUID id;
+    String id;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 
@@ -23,7 +22,7 @@ public class ManagerResponse {
     public ManagerResponse(
         Manager manager
     ) {
-        this.id = manager.getId();
+        this.id = manager.getId().toString();
         this.createdAt = manager.getCreatedAt();
         this.updatedAt = manager.getUpdatedAt();
         this.nickname = manager.getNickname();

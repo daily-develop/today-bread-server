@@ -1,5 +1,6 @@
 package com.github.org.todaybread.todaybread.store.infra.persistence;
 
+import com.github.org.todaybread.todaybread.file.domain.QFile;
 import com.github.org.todaybread.todaybread.manager.domain.QManager;
 import com.github.org.todaybread.todaybread.store.domain.QStore;
 import com.github.org.todaybread.todaybread.store.domain.Store;
@@ -21,6 +22,7 @@ public class StoreRepositoryImpl implements StoreRepository {
     private final JPAQueryFactory queryFactory;
     private final QStore store = QStore.store;
     private final QManager manager = QManager.manager;
+    private final QFile file = QFile.file;
 
     @Override
     public Store save(Store store) {
@@ -37,6 +39,7 @@ public class StoreRepositoryImpl implements StoreRepository {
         return queryFactory
             .selectFrom(store)
             .leftJoin(store.manager, manager).fetchJoin()
+            .leftJoin(store.image, file).fetchJoin()
             .where(
                 contains(search)
             )

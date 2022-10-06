@@ -4,7 +4,6 @@ import com.github.org.todaybread.todaybread.file.infra.http.response.FileRespons
 import com.github.org.todaybread.todaybread.manager.infra.http.response.ManagerResponse;
 import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StoreResponse {
 
-    UUID id;
+    String id;
 
     LocalDateTime createdAt;
 
@@ -29,13 +28,13 @@ public class StoreResponse {
 
     ManagerResponse manager;
 
-    FileResponse file;
+    FileResponse image;
 
     @Builder
     public StoreResponse(
         Store store
     ) {
-        this.id = store.getId();
+        this.id = store.getId().toString();
         this.createdAt = store.getCreatedAt();
         this.updatedAt = store.getUpdatedAt();
         this.name = store.getName();
@@ -43,6 +42,6 @@ public class StoreResponse {
         this.location = store.getLocation();
         this.phone = store.getPhone();
         this.manager = store.getManager().toResponse();
-        this.file = store.getImage().toResponse();
+        this.image = store.getImage() == null ? null : store.getImage().toResponse();
     }
 }

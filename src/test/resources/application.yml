@@ -19,6 +19,7 @@ spring:
   redis:
     host: localhost
     port: 6379
+    max-memory: 128M
 
 jwt:
   secret: I2NvbS5naXRodWIuZGFpbHktZGV2ZWxvcC50b2RheS1icmVhZC1zZXJ2ZXIjY29tLmdpdGh1Yi5kYWlseS1kZXZlbG9wLnRvZGF5LWJyZWFkLXNlcnZlciMK
