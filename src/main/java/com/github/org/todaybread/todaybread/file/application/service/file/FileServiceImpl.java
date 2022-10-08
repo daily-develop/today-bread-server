@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class FileServiceImpl implements FileService {
 
-    private static final List<String> FILETYPE = Arrays.asList(
+    private static final List<String> ALLOWED_FILE_TYPE = Arrays.asList(
         "jpeg",
         "png",
         "jpg"
@@ -34,7 +34,7 @@ public class FileServiceImpl implements FileService {
                 image.getOriginalFilename().lastIndexOf(".") + 1
             ).toLowerCase();
 
-        if (!FILETYPE.contains(mime)) {
+        if (!ALLOWED_FILE_TYPE.contains(mime)) {
             throw new NotSupportedFileFormatException(mime);
         }
 
