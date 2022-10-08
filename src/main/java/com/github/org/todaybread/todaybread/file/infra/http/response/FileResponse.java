@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class FileResponse {
 
     String id;
-
     String url;
 
     @Builder
@@ -18,6 +17,6 @@ public class FileResponse {
         File file
     ) {
         this.id = file.getId().toString();
-        this.url = "https://kr.object.ncloudstorage.com/bread/" + file.getKey();
+        this.url = "https://kr.object.ncloudstorage.com/today-bread/" + file.getKey();
     }
 }

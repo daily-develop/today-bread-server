@@ -1,9 +1,3 @@
-### Query ###
-type Query{
-    me: Member!
-    member(memberId: String!): Member!
-}
-
 ### Type ###
 type Member{
     id: ID!

@@ -33,6 +33,7 @@ dependencies {
     // graphql
     implementation 'org.springframework.boot:spring-boot-starter-graphql'
     implementation 'com.graphql-java-kickstart:playground-spring-boot-starter:11.1.0'
+    implementation("com.tailrocks.graphql:graphql-datetime-spring-boot-starter:5.0.1")
 
     // querydsl
     implementation 'com.querydsl:querydsl-jpa'
@@ -66,11 +67,11 @@ dependencies {
 
 querydsl {
     jpa = true
-    querydslSourcesDir = '$buildDir/generated/querydsl'
+    querydslSourcesDir = 'build/generated/querydsl'
 }
 
 sourceSets {
-    main.java.srcDir '$buildDir/generated/querydsl'
+    main.java.srcDir 'build/generated/querydsl'
 }
 
 compileQuerydsl {

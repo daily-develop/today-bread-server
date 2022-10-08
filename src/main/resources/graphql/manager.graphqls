@@ -1,0 +1,17 @@
+### Input ###
+input CreateManagerRequest {
+    nickname: String!
+}
+
+input UpdateManagerRequest {
+    managerId: String
+    nickname: String
+}
+
+### Type ###
+type ManagerResponse {
+    id: ID!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
+    nickname: String!
+}

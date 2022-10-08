@@ -1,0 +1,28 @@
+### Query ###
+type Query {
+    ### Member ###
+    me: Member!
+    member(memberId: String!): Member!
+
+    ### Store ###
+    store(storeId: String!): StoreResponse!
+    stores(page: Int = 1, take: Int = 10, search: String): [StoreResponse!]!
+}
+
+
+### Mutation ###
+type Mutation {
+    ### Auth ###
+    signIn(request: SignInRequest!): TokenResponse!
+    signUp(request: SignUpRequest!): TokenResponse!
+    reissue(request: ReissueRequest!): TokenResponse!
+    logout: Boolean!
+
+    ### Store ###
+    createStore(request: CreateStoreRequest!): StoreResponse!
+    updateStore(request: UpdateStoreRequest!): StoreResponse!
+    deleteStore(storeId: String!): Boolean!
+
+    ### Manager ###
+    updateManager(request: UpdateManagerRequest!): ManagerResponse!
+}

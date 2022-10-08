@@ -23,8 +23,6 @@ jwt:
     refresh: 604800000
 
 storage:
-  bucket: bread
-  end-point: end-point
-  region: region
-  access-key: access-key
-  secret-key: secret-key
+  bucket: today-bread
+  end-point: https://kr.object.ncloudstorage.com
+  region: kr-standard

@@ -1,0 +1,5 @@
+### Type ###
+type FileResponse {
+    id: String!
+    url: String!
+}

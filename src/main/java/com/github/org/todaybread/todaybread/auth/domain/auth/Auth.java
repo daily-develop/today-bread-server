@@ -33,7 +33,7 @@ public class Auth extends Core {
 
     private String clientId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(targetEntity = Member.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn()
     private Member member;
 
@@ -49,7 +49,7 @@ public class Auth extends Core {
         this.roles.add(
             Role.builder()
                 .auth(this)
-                .type(RoleType.General)
+                .type(RoleType.GENERAL)
                 .build()
         );
     }

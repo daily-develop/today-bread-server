@@ -1,13 +1,3 @@
-scalar Upload
-
-### Mutation ###
-type Mutation {
-    signIn(request: SignInRequest!): TokenResponse!
-    signUp(request: SignUpRequest!): TokenResponse!
-    reissue(request: ReissueRequest!): TokenResponse!
-    logout: Boolean!
-}
-
 ### Type ###
 type TokenResponse {
     accessToken: String!

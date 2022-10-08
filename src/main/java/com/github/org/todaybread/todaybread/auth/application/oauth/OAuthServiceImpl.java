@@ -17,7 +17,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     @Override
     public String getClientId(AuthType type, String token) {
-        if (type.equals(AuthType.Kakao)) {
+        if (type.equals(AuthType.KAKAO)) {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer" + token);
 

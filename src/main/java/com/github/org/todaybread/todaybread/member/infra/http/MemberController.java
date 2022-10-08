@@ -11,12 +11,12 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
+@PreAuthorize(value = "hasAuthority('GENERAL')")
 public class MemberController {
 
     private final MemberFacadeImpl memberFacade;
 
     @QueryMapping
-    @PreAuthorize(value = "hasAuthority('General')")
     public MemberResponse me(Authentication authentication) {
         return memberFacade.getMember(authentication.getName());
     }
