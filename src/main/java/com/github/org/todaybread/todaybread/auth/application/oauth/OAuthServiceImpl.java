@@ -19,7 +19,7 @@ public class OAuthServiceImpl implements OAuthService {
     public String getClientId(AuthType type, String token) {
         if (type.equals(AuthType.KAKAO)) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer" + token);
+            headers.set("Authorization", "Bearer " + token);
 
             ResponseEntity<KakaoTokenResponse> response = template.exchange(
                 "https://kapi.kakao.com/v1/user/access_token_info",
@@ -31,7 +31,7 @@ public class OAuthServiceImpl implements OAuthService {
             if (response.getBody() == null) {
                 throw new InvalidOAuthException();
             }
-            return response.getBody().getId();
+            return response.getBody().getId().toString();
         }
 
         return null;
