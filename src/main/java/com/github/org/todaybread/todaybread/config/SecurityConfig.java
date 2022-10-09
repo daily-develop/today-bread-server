@@ -44,6 +44,7 @@ public class SecurityConfig {
             .antMatchers("/graphql").permitAll()
             .antMatchers("/playground").permitAll()
             .antMatchers("/vendor/playground/**").permitAll()
+            .antMatchers("/api/oauth/redirect").permitAll()
             .anyRequest().authenticated()
             .and()
 
