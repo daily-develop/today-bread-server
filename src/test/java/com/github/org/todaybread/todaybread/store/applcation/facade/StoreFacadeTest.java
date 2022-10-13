@@ -107,7 +107,7 @@ public class StoreFacadeTest {
         StoreResponse updatedStore = storeFacade.update(
             member.getId().toString(),
             UpdateStoreRequest.builder()
-                .storeId(store.getId().toString())
+                .storeId(store.getId())
                 .name("배지네 식빵하우스")
                 .description("배지네 식빵하우스입니다~")
                 .build()
@@ -150,7 +150,7 @@ public class StoreFacadeTest {
                         .build()
                 ).build());
 
-        Boolean result = storeFacade.delete(member.getId().toString(), store.getId().toString());
+        Boolean result = storeFacade.delete(member.getId().toString(), store.getId());
 
         assertThat(store).isNotNull().isInstanceOf(StoreResponse.class);
         assertThat(store.getName()).isEqualTo("배지의 쿠키하우스");
@@ -158,7 +158,7 @@ public class StoreFacadeTest {
 
         Assertions.assertThrows(
             NotFoundStoreException.class,
-            () -> storeFacade.get(store.getId().toString())
+            () -> storeFacade.get(store.getId())
         );
     }
 
@@ -191,7 +191,7 @@ public class StoreFacadeTest {
                         .build()
                 ).build());
 
-        StoreResponse resultStore = storeFacade.get(store.getId().toString());
+        StoreResponse resultStore = storeFacade.get(store.getId());
 
         assertThat(store).isNotNull().isInstanceOf(StoreResponse.class);
         assertThat(resultStore).isNotNull().isInstanceOf(StoreResponse.class);
