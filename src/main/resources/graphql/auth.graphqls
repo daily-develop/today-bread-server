@@ -4,15 +4,21 @@ type TokenResponse {
     refreshToken: String!
 }
 
+enum AuthType {
+    KAKAO
+    NAVER
+}
+
+### Input ###
 input SignInRequest {
-    type: String!
+    type: AuthType!
     token: String!
 }
 
 input SignUpRequest {
-    type: String!
+    type: AuthType!
     token: String!
-    nickname: String!
+    name: String!
     email: String!
     phone: String!
     address: String!
