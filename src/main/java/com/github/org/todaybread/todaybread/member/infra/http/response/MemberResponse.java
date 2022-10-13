@@ -28,7 +28,7 @@ public class MemberResponse {
         this.email = member.getEmail();
         this.address = member.getAddress();
         this.profileImageUrl = member.getProfileImage() != null
-            ? "https://kr.object.ncloudstorage.com/bread/" + member.getProfileImage().getKey()
+            ? member.getProfileImage().toResponse().getUrl()
             : null;
     }
 }
