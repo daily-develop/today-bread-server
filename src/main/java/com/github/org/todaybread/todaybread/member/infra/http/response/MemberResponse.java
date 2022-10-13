@@ -23,6 +23,7 @@ public class MemberResponse {
         this.id = member.getId().toString();
         this.createdAt = member.getCreatedAt().toString();
         this.updatedAt = member.getUpdatedAt().toString();
+        this.name = member.getName();
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.address = member.getAddress();
