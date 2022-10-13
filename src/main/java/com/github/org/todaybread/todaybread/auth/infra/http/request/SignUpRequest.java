@@ -11,13 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class SignUpRequest {
 
     @NotNull
+    String name;
+
+    @NotNull
     AuthType type;
 
     @NotNull
     String token;
-
-    @NotNull
-    String nickname;
 
     @NotNull
     String email;

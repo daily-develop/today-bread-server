@@ -10,21 +10,12 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     String id;
-
     String createdAt;
-
     String updatedAt;
-
     String name;
-
-    String nickname;
-
     String phone;
-
     String email;
-
     String address;
-
     String profileImageUrl;
 
     @Builder
@@ -32,7 +23,6 @@ public class MemberResponse {
         this.id = member.getId().toString();
         this.createdAt = member.getCreatedAt().toString();
         this.updatedAt = member.getUpdatedAt().toString();
-        this.nickname = member.getNickname();
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.address = member.getAddress();

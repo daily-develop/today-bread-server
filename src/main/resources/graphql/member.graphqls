@@ -1,10 +1,9 @@
 ### Type ###
-type Member{
+type Member {
     id: ID!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
     name: String!
-    nickname: String!
     phone: String!
     email: String!
     address: String!
