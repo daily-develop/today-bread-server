@@ -17,7 +17,6 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreRepositoryImpl storeRepository;
 
-
     @Override
     @Transactional
     public Store save(Store store) {
@@ -27,6 +26,11 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Store getById(String storeId) {
         return storeRepository.getById(storeId).orElseThrow(NotFoundStoreException::new);
+    }
+
+    @Override
+    public Store getByManagerId(String managerId) {
+        return storeRepository.getByManagerId(managerId).orElseThrow(NotFoundStoreException::new);
     }
 
     @Override

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepositoryImpl managerRepository;
@@ -38,6 +38,11 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<Manager> getByMember(Member member) {
         return managerRepository.getByMember(member);
+    }
+
+    @Override
+    public Manager getById(String managerId) {
+        return managerRepository.getById(managerId).orElseThrow(NotFoundManagerException::new);
     }
 
     @Override

@@ -1,5 +1,5 @@
 package com.github.org.todaybread.todaybread.file.domain;
 
 public enum FileType {
-    PROFILE, POST
+    PROFILE, POST, PACKAGE
 }

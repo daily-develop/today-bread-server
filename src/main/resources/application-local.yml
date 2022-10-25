@@ -26,3 +26,7 @@ storage:
   bucket: today-bread
   end-point: https://kr.object.ncloudstorage.com
   region: kr-standard
+
+steppay:
+  end-point: https://api.steppay.kr/api/v1
+  secret: aa9940916492075b347401318e68c3437bda8dfa5259fa5914631205ccd3e868
