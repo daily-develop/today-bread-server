@@ -1,8 +1,9 @@
 package com.github.org.todaybread.todaybread.auth.application.auth;
 
-import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthServiceImpl;
+import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthService;
 import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
 import com.github.org.todaybread.todaybread.auth.domain.auth.Auth;
+import com.github.org.todaybread.todaybread.auth.domain.auth.AuthRepository;
 import com.github.org.todaybread.todaybread.auth.exceptions.AlreadyExistingAuthException;
 import com.github.org.todaybread.todaybread.auth.exceptions.InvalidTokenException;
 import com.github.org.todaybread.todaybread.auth.exceptions.NotFoundAuthException;
@@ -10,12 +11,11 @@ import com.github.org.todaybread.todaybread.auth.infra.http.request.ReissueReque
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignInRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignUpRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenResponse;
-import com.github.org.todaybread.todaybread.auth.infra.persistence.auth.AuthRepositoryImpl;
-import com.github.org.todaybread.todaybread.file.application.facade.FileFacadeImpl;
+import com.github.org.todaybread.todaybread.file.application.facade.FileFacade;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.member.domain.Member;
-import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
+import com.github.org.todaybread.todaybread.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,10 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final TokenServiceImpl tokenProvider;
-    private final OAuthServiceImpl oAuthService;
-    private final FileFacadeImpl fileFacade;
-    private final AuthRepositoryImpl authRepository;
-    private final MemberRepositoryImpl memberRepository;
+    private final OAuthService oAuthService;
+    private final FileFacade fileFacade;
+    private final AuthRepository authRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional

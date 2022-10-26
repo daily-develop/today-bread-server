@@ -21,6 +21,27 @@ public class StoreController {
 
     private final StoreFacadeImpl storeFacade;
 
+    @QueryMapping
+    public StoreResponse store(@Argument String storeId) {
+        return storeFacade.get(storeId);
+    }
+
+    @QueryMapping
+    public List<StoreResponse> stores(
+        @Argument int page,
+        @Argument int take,
+        @Argument String search
+    ) {
+        return storeFacade.getList(page, take, search);
+    }
+
+    @QueryMapping
+    public List<StoreResponse> managedStore(
+        Authentication authentication
+    ) {
+        return storeFacade.getByMemberId(authentication.getName());
+    }
+
     @MutationMapping
     public StoreResponse createStore(
         Authentication authentication,
@@ -43,19 +64,5 @@ public class StoreController {
         @Argument String storeId
     ) {
         return storeFacade.delete(authentication.getName(), storeId);
-    }
-
-    @QueryMapping
-    public StoreResponse store(@Argument String storeId) {
-        return storeFacade.get(storeId);
-    }
-
-    @QueryMapping
-    public List<StoreResponse> stores(
-        @Argument int page,
-        @Argument int take,
-        @Argument String search
-    ) {
-        return storeFacade.getList(page, take, search);
     }
 }

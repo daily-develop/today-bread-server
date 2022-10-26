@@ -5,7 +5,7 @@ import com.github.org.todaybread.todaybread.file.domain.FileType;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
-interface FileFacade {
+public interface FileFacade {
 
     File upload(String memberId, FileType type, MultipartFile image);
 

@@ -8,7 +8,7 @@ public interface ManagerRepository {
 
     Manager save(Manager manager);
 
-    List<Manager> getByMember(Member member);
+    List<Manager> getByMemberId(String memberId);
 
     Optional<Manager> getById(String managerId);
 
