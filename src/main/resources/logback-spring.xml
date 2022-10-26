@@ -7,22 +7,20 @@
       </Pattern>
     </layout>
   </appender>
-  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
+  <appender class="ch.qos.logback.more.appenders.DataFluentAppender" name="FLUENT_TEXT">
+    <label>logback</label>
+    <port>24224</port>
+    <remoteHost>localhost</remoteHost>
+    <tag>debug</tag>
+  </appender>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
   <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
   <root level="info">
     <appender-ref ref="CONSOLE"/>
-    <springProfile name="dev">
-      <appender-ref ref="FLUENT_TEXT"/>
-    </springProfile>
+    <appender-ref ref="FLUENT_TEXT"/>
   </root>
 
-  <springProfile name="dev">
-    <appender class="ch.qos.logback.more.appenders.DataFluentAppender" name="FLUENT_TEXT">
-      <label>logback</label>
-      <port>24224</port>
-      <remoteHost>localhost</remoteHost>
-      <tag>debug</tag>
-    </appender>
-  </springProfile>
 </configuration>
