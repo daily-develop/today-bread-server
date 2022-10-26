@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
 
         Member member = memberRepository.save(
             Member.builder()
-                .nickname(request.getNickname())
+                .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .address(request.getAddress())

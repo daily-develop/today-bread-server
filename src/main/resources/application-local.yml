@@ -16,10 +16,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   redis:
     host: localhost
-    password: password
     port: 6379
 
 jwt:

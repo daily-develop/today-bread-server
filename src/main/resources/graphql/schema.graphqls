@@ -1,3 +1,6 @@
+scalar Upload
+scalar LocalDateTime
+
 ### Query ###
 type Query {
     ### Member ###

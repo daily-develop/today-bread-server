@@ -44,8 +44,7 @@ public class TokenServiceImpl implements TokenService {
         @Autowired TokenRepositoryImpl tokenRepository,
         @Autowired AuthRepositoryImpl authRepository
     ) {
-        byte[] bytes = Decoders.BASE64.decode(secret);
-        this.key = Keys.hmacShaKeyFor(bytes);
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
         this.accessTokenExpiredDate = accessTokenExpiredDate;
         this.refreshTokenExpiredDate = refreshTokenExpiredDate;
         this.tokenRepository = tokenRepository;
