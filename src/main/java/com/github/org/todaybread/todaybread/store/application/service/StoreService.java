@@ -11,5 +11,7 @@ public interface StoreService {
 
     List<Store> getList(int page, int take, String search);
 
+    Store getByManagerId(String managerId);
+
     void deleteById(String storeId);
 }

@@ -35,14 +35,17 @@ public class StoreRepositoryImpl implements StoreRepository {
     }
 
     @Override
-    public List<Store> findByNameContaining(String search, Pageable pageable) {
+    public Optional<Store> getByManagerId(String managerId) {
+        return storeRepository.findByManagerId(UUID.fromString(managerId));
+    }
+
+    @Override
+    public List<Store> getByNameContaining(String search, Pageable pageable) {
         return queryFactory
             .selectFrom(store)
             .leftJoin(store.manager, manager).fetchJoin()
             .leftJoin(store.image, file).fetchJoin()
-            .where(
-                contains(search)
-            )
+            .where(contains(search))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();

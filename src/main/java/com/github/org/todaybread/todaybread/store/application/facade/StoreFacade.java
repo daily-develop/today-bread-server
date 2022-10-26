@@ -16,4 +16,6 @@ public interface StoreFacade {
     StoreResponse get(String storeId);
 
     List<StoreResponse> getList(int page, int take, String search);
+
+    List<StoreResponse> getByMemberId(String memberId);
 }

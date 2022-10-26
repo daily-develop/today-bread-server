@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ManagerJpaRepository extends JpaRepository<Manager, UUID> {
 
-    List<Manager> findByMember(Member member);
+    List<Manager> findByMemberId(UUID memberId);
 
     Optional<Manager> findByStoreId(UUID storeId);
 

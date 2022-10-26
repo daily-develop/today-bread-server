@@ -10,7 +10,9 @@ public interface StoreRepository {
 
     Optional<Store> getById(String storeId);
 
-    List<Store> findByNameContaining(String search, Pageable pageable);
+    Optional<Store> getByManagerId(String managerId);
+
+    List<Store> getByNameContaining(String search, Pageable pageable);
 
     void delete(String storeId);
 }
