@@ -389,7 +389,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_nickname")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")

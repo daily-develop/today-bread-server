@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <appender class="ch.qos.logback.more.appenders.DataFluentAppender" name="FLUENT_TEXT">
-    <label>logback</label>
-    <port>24224</port>
-    <remoteHost>localhost</remoteHost>
-    <tag>debug</tag>
-  </appender>
   <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
     <layout class="ch.qos.logback.classic.PatternLayout">
       <Pattern>
@@ -13,12 +7,22 @@
       </Pattern>
     </layout>
   </appender>
-
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
   <root level="info">
     <appender-ref ref="CONSOLE"/>
-    <appender-ref ref="FLUENT_TEXT"/>
+    <springProfile name="dev">
+      <appender-ref ref="FLUENT_TEXT"/>
+    </springProfile>
   </root>
+
+  <springProfile name="dev">
+    <appender class="ch.qos.logback.more.appenders.DataFluentAppender" name="FLUENT_TEXT">
+      <label>logback</label>
+      <port>24224</port>
+      <remoteHost>localhost</remoteHost>
+      <tag>debug</tag>
+    </appender>
+  </springProfile>
 </configuration>
