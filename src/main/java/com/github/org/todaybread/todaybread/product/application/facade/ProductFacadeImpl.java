@@ -1,17 +1,19 @@
 package com.github.org.todaybread.todaybread.product.application.facade;
 
-import com.github.org.todaybread.todaybread.file.application.facade.FileFacadeImpl;
+import com.github.org.todaybread.todaybread.file.application.facade.FileFacade;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
-import com.github.org.todaybread.todaybread.product.application.service.ProductServiceImpl;
+import com.github.org.todaybread.todaybread.product.application.service.ProductService;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
-import com.github.org.todaybread.todaybread.steppay.application.SteppayProductServiceImpl;
-import com.github.org.todaybread.todaybread.steppay.infra.request.SteppayCreateProductRequest;
-import com.github.org.todaybread.todaybread.steppay.infra.response.SteppayProductResponse;
-import com.github.org.todaybread.todaybread.store.application.service.StoreServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
+import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
+import com.github.org.todaybread.todaybread.steppay.product.infra.response.SteppayProductResponse;
+import com.github.org.todaybread.todaybread.store.application.service.StoreService;
 import com.github.org.todaybread.todaybread.store.domain.Store;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,35 +23,49 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ProductFacadeImpl implements ProductFacade {
 
-    private final FileFacadeImpl fileFacade;
+    private final FileFacade fileFacade;
 
-    private final ProductServiceImpl productService;
-    private final StoreServiceImpl storeService;
-    private final SteppayProductServiceImpl steppayProductService;
+    private final ProductService productService;
+    private final StoreService storeService;
+    private final SteppayProductService steppayProductService;
 
     @Override
-    public ProductResponse create(String memberId, CreateProductRequest request) {
-        Store store = storeService.getByManagerId(request.getManagerId());
+    public ProductResponse getById(String productId) {
+        return productService.getById(productId).toResponse();
+    }
 
-        File image = fileFacade.upload(
-            request.getManagerId(),
-            FileType.PACKAGE,
-            request.getImage()
-        );
+    @Override
+    public List<ProductResponse> getList(String storeId, int page, int take, String search) {
+        return productService.getList(storeId, page, take, search).stream()
+            .map(Product::toResponse)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public ProductResponse create(String memberId, CreateProductRequest request) {
+        Store store = storeService.getById(request.getStoreId());
+
+        File image = null;
+        if (request.getImage() != null) {
+            image = fileFacade.upload(
+                store.getManager().getMember().getId().toString(),
+                FileType.PACKAGE,
+                request.getImage()
+            );
+        }
 
         SteppayProductResponse response = steppayProductService.create(
             SteppayCreateProductRequest.builder()
                 .name(request.getName())
-                .featuredImageUrl(image.toResponse().getUrl())
+                .featuredImageUrl(image != null ? image.toResponse().getUrl() : "")
                 .description(request.getDescription())
                 .build()
         );
 
         Product product = productService.save(
             Product.builder()
-                .id(response.getId())
-                .createdAt(response.getCreatedAt())
-                .updatedAt(response.getModifiedAt())
+                .steppayId(response.getId())
                 .store(store)
                 .featureImage(image)
                 .name(response.getName())

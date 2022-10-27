@@ -4,12 +4,12 @@ input CreateManagerRequest {
 }
 
 input UpdateManagerRequest {
-    managerId: String
-    nickname: String
+    managerId: ID!
+    nickname: String!
 }
 
 ### Type ###
-type ManagerResponse {
+type Manager {
     id: ID!
     createdAt: LocalDateTime!
     updatedAt: LocalDateTime!

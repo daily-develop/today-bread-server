@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.steppay.infra.response;
+package com.github.org.todaybread.todaybread.steppay.product.infra.response;
 
 import java.time.LocalDateTime;
 import lombok.Getter;

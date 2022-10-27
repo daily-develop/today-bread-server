@@ -5,28 +5,35 @@ scalar LocalDateTime
 type Query {
     ### Member ###
     me: Member!
-    member(memberId: String!): Member!
+    member(memberId: ID!): Member!
 
     ### Store ###
-    store(storeId: String!): StoreResponse!
-    stores(page: Int = 1, take: Int = 10, search: String): [StoreResponse!]!
-    managedStore: [StoreResponse!]!
+    store(storeId: ID!): Store!
+    stores(page: Int = 1, take: Int = 10, search: String): [Store!]!
+    managedStore: [Store!]!
+
+    ### Product ###
+    product(productId: ID!): Product!
+    products(storeId: ID, page: Int = 1, take: Int = 10, search: String): [Product!]!
 }
 
 
 ### Mutation ###
 type Mutation {
     ### Auth ###
-    signIn(request: SignInRequest!): TokenResponse!
-    signUp(request: SignUpRequest!): TokenResponse!
-    reissue(request: ReissueRequest!): TokenResponse!
+    signIn(request: SignInRequest!): Token!
+    signUp(request: SignUpRequest!): Token!
+    reissue(request: ReissueRequest!): Token!
     logout: Boolean!
 
     ### Store ###
-    createStore(request: CreateStoreRequest!): StoreResponse!
-    updateStore(request: UpdateStoreRequest!): StoreResponse!
-    deleteStore(storeId: String!): Boolean!
+    createStore(request: CreateStoreRequest!): Store!
+    updateStore(request: UpdateStoreRequest!): Store!
+    deleteStore(storeId: ID!): Boolean!
 
     ### Manager ###
-    updateManager(request: UpdateManagerRequest!): ManagerResponse!
+    updateManager(request: UpdateManagerRequest!): Manager!
+
+    ### Product ###
+    createProduct(request: CreateProductRequest!): Product!
 }

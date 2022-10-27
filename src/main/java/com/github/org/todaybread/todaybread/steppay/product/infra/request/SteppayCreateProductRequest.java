@@ -1,4 +1,4 @@
-package com.github.org.todaybread.todaybread.steppay.infra.request;
+package com.github.org.todaybread.todaybread.steppay.product.infra.request;
 
 import lombok.Builder;
 import lombok.Getter;

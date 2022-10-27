@@ -1,14 +1,3 @@
-### Type ###
-type TokenResponse {
-    accessToken: String!
-    refreshToken: String!
-}
-
-enum AuthType {
-    KAKAO
-    NAVER
-}
-
 ### Input ###
 input SignInRequest {
     type: AuthType!
@@ -28,4 +17,15 @@ input SignUpRequest {
 input ReissueRequest {
     accessToken: String!
     refreshToken: String!
+}
+
+### Type ###
+type Token {
+    accessToken: String!
+    refreshToken: String!
+}
+
+enum AuthType {
+    KAKAO
+    NAVER
 }

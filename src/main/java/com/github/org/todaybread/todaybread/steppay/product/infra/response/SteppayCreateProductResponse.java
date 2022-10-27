@@ -1,14 +1,14 @@
-package com.github.org.todaybread.todaybread.steppay.infra.response;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+package com.github.org.todaybread.todaybread.steppay.product.infra.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class SteppayCreateProductResponse {
+
     int id;
     String code;
     String type;

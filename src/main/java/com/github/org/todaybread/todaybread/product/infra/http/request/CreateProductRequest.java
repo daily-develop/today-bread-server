@@ -11,9 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class CreateProductRequest {
 
     @NotBlank
-    String managerId;
+    String storeId;
 
-    @NotNull
     MultipartFile image;
 
     @NotBlank
@@ -24,21 +23,22 @@ public class CreateProductRequest {
 
     @NotBlank
     String description;
-    
-    int price;
-    int quantity;
+
+    @NotNull
+    Integer price;
+    Integer quantity;
 
     @Builder
     public CreateProductRequest(
-        String managerId,
+        String storeId,
         MultipartFile image,
         String name,
         BreadType breadType,
         String description,
-        int price,
-        int quantity
+        Integer price,
+        Integer quantity
     ) {
-        this.managerId = managerId;
+        this.storeId = storeId;
         this.image = image;
         this.name = name;
         this.breadType = breadType;

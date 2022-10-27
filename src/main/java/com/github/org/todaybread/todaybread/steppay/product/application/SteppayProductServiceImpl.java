@@ -1,7 +1,7 @@
-package com.github.org.todaybread.todaybread.steppay.application;
+package com.github.org.todaybread.todaybread.steppay.product.application;
 
-import com.github.org.todaybread.todaybread.steppay.infra.request.SteppayCreateProductRequest;
-import com.github.org.todaybread.todaybread.steppay.infra.response.SteppayProductResponse;
+import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
+import com.github.org.todaybread.todaybread.steppay.product.infra.response.SteppayProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
