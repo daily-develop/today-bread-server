@@ -1,5 +1,6 @@
 package com.github.org.todaybread.todaybread.steppay.product.application;
 
+import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCloseProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayUpdateProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.response.SteppayProductResponse;
@@ -27,11 +28,21 @@ public class SteppayProductServiceImpl implements SteppayProductService {
     }
 
     @Override
-    public SteppayProductResponse update(Integer productId, SteppayUpdateProductRequest request) {
+    public SteppayProductResponse update(int productId, SteppayUpdateProductRequest request) {
         return template.exchange(
             "/products/" + productId,
             HttpMethod.PUT,
             new HttpEntity<>(request),
+            SteppayProductResponse.class
+        ).getBody();
+    }
+
+    @Override
+    public SteppayProductResponse stop(int productId) {
+        return template.exchange(
+            "/products/" + productId,
+            HttpMethod.PUT,
+            new HttpEntity<>(new SteppayCloseProductRequest()),
             SteppayProductResponse.class
         ).getBody();
     }

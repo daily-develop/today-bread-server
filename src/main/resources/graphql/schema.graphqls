@@ -37,4 +37,5 @@ type Mutation {
     ### Product ###
     createProduct(request: CreateProductRequest!): Product!
     updateProduct(request: UpdateProductRequest!): Product!
+    stopProduct(productId: ID!): Product!
 }

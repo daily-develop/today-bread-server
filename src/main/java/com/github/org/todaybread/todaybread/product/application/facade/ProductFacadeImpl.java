@@ -83,6 +83,7 @@ public class ProductFacadeImpl implements ProductFacade {
     }
 
     @Override
+    @Transactional
     public ProductResponse update(String memberId, UpdateProductRequest request) {
         Product product = productService.getById(request.getProductId());
         if (!product.getStore().getManager().getMember().getId().toString().equals(memberId)) {
@@ -107,6 +108,20 @@ public class ProductFacadeImpl implements ProductFacade {
             .updateDescription(response.getDescription())
             .updatePrice(request.getPrice())
             .updateQuantity(request.getQuantity());
+
+        return product.toResponse();
+    }
+
+    @Override
+    @Transactional
+    public ProductResponse stop(String memberId, String productId) {
+        Product product = productService.getById(productId);
+        if (!product.getStore().getManager().getMember().getId().toString().equals(memberId)) {
+            throw new NotFoundManagerException();
+        }
+
+        steppayProductService.stop(product.getSteppayId());
+        product.updateStatus(false);
 
         return product.toResponse();
     }

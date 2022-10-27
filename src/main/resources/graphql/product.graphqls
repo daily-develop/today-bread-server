@@ -37,6 +37,7 @@ type Product {
     id: ID!
     createdAt: LocalDateTime!
     updatedAt: LocalDateTime!
+    status: Boolean!
     store: Store!
     image: File
     name: String!

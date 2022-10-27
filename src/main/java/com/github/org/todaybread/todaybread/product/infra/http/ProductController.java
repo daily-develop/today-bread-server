@@ -53,4 +53,12 @@ public class ProductController {
     ) {
         return productFacade.update(authentication.getName(), request);
     }
+
+    @MutationMapping
+    public ProductResponse stopProduct(
+        Authentication authentication,
+        @Argument String productId
+    ) {
+        return productFacade.stop(authentication.getName(), productId);
+    }
 }

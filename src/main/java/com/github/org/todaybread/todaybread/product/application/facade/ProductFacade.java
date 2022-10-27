@@ -14,4 +14,6 @@ public interface ProductFacade {
     ProductResponse create(String memberId, CreateProductRequest request);
 
     ProductResponse update(String memberId, UpdateProductRequest request);
+
+    ProductResponse stop(String memberId, String productId);
 }
