@@ -21,8 +21,8 @@ public class ManagerRepositoryImpl implements ManagerRepository {
     }
 
     @Override
-    public List<Manager> getByMember(Member member) {
-        return managerRepository.findByMember(member);
+    public List<Manager> getByMemberId(String memberId) {
+        return managerRepository.findByMemberId(UUID.fromString(memberId));
     }
 
     @Override

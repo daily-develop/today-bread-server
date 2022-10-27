@@ -1,3 +1,6 @@
+scalar Upload
+scalar LocalDateTime
+
 ### Query ###
 type Query {
     ### Member ###
@@ -7,6 +10,7 @@ type Query {
     ### Store ###
     store(storeId: String!): StoreResponse!
     stores(page: Int = 1, take: Int = 10, search: String): [StoreResponse!]!
+    managedStore: [StoreResponse!]!
 }
 
 

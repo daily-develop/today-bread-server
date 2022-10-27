@@ -1,6 +1,3 @@
-scalar Upload
-scalar LocalDateTime
-
 ### Input ###
 input CreateStoreRequest {
     image: Upload

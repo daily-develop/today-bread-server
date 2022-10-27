@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,17 +20,12 @@ import org.springframework.util.Assert;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Core {
 
-    @NotBlank
-    private String nickname;
+    private String name;
 
-    @NotBlank
     private String phone;
 
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
     private String email;
 
-    @NotBlank
     private String address;
 
     @OneToOne(targetEntity = File.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -41,18 +34,18 @@ public class Member extends Core {
 
     @Builder
     public Member(
-        String nickname,
+        String name,
         String phone,
         String email,
         String address,
         File profileImage
     ) {
-        Assert.hasText(nickname, "nickname must not be empty");
+        Assert.hasText(name, "name must not be empty");
         Assert.hasText(phone, "phone must not be empty");
         Assert.hasText(email, "email must not be empty");
         Assert.hasText(address, "address must not be empty");
 
-        this.nickname = nickname;
+        this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
@@ -60,14 +53,14 @@ public class Member extends Core {
     }
 
     public void update(
-        @Nullable String nickname,
+        @Nullable String name,
         @Nullable String phone,
         @Nullable String email,
         @Nullable String address,
         @Nullable File profileImage
     ) {
-        if (nickname != null) {
-            this.nickname = nickname;
+        if (name != null) {
+            this.name = name;
         }
         if (phone != null) {
             this.phone = phone;

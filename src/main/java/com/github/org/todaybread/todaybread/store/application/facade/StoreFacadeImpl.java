@@ -49,6 +49,7 @@ public class StoreFacadeImpl implements StoreFacade {
                 .manager(manager)
                 .build()
         );
+
         if (request.getImage() != null) {
             File file = fileFacade.upload(
                 member.getId().toString(),
@@ -56,7 +57,9 @@ public class StoreFacadeImpl implements StoreFacade {
                 request.getImage());
             store.updateFile(file);
         }
+
         manager.updateStore(store);
+
         return store.toResponse();
     }
 
@@ -70,7 +73,10 @@ public class StoreFacadeImpl implements StoreFacade {
         }
 
         return manager.getStore().update(
-            request.getName(), request.getDescription(), request.getLocation(), request.getPhone()
+            request.getName(),
+            request.getDescription(),
+            request.getLocation(),
+            request.getPhone()
         ).toResponse();
     }
 
@@ -94,5 +100,14 @@ public class StoreFacadeImpl implements StoreFacade {
         return storeService.getList(page, take, search)
             .stream().map(Store::toResponse)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StoreResponse> getByMemberId(String memberId) {
+        List<Manager> managerList = managerService.getByMemberId(memberId);
+
+        return managerList.stream().map(manager ->
+            storeService.getByManagerId(manager.getId().toString()).toResponse()
+        ).collect(Collectors.toList());
     }
 }

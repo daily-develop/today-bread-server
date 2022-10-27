@@ -42,7 +42,7 @@ class AuthServiceTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -55,7 +55,7 @@ class AuthServiceTest {
             .orElse(null);
 
         assertThat(member).isNotNull().isInstanceOf(Member.class);
-        assertThat(member.getNickname()).isInstanceOf(String.class).isEqualTo("test_nickname");
+        assertThat(member.getName()).isInstanceOf(String.class).isEqualTo("test_name");
         assertThat(member.getEmail()).isInstanceOf(String.class).isEqualTo("test@test.com");
         assertThat(member.getPhone()).isInstanceOf(String.class).isEqualTo("010-0000-0000");
         assertThat(member.getAddress()).isInstanceOf(String.class).isEqualTo("서울시 강남구 삼성동");
@@ -70,7 +70,7 @@ class AuthServiceTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(token)
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -83,7 +83,7 @@ class AuthServiceTest {
                 SignUpRequest.builder()
                     .type(AuthType.KAKAO)
                     .token(token)
-                    .nickname("test_nickname")
+                    .name("test_name")
                     .email("test@test.com")
                     .phone("010-0000-0000")
                     .address("서울시 강남구 삼성동")
@@ -97,7 +97,7 @@ class AuthServiceTest {
                 SignUpRequest.builder()
                     .type(AuthType.KAKAO)
                     .token(token)
-                    .nickname("other_test_nickname")
+                    .name("other_test_name")
                     .email("other_test@test.com")
                     .phone("010-1111-1111")
                     .address("서울시 강남구 청담동")
@@ -115,7 +115,7 @@ class AuthServiceTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(token)
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -153,7 +153,7 @@ class AuthServiceTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")

@@ -8,7 +8,7 @@ plugins {
 
 group = 'com.github.org.today-bread'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -60,7 +60,11 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     // aws
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.322'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.315'
+
+    // logging
+    implementation 'org.fluentd:fluent-logger:0.3.4'
+    implementation 'com.sndyuk:logback-more-appenders:1.8.7'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework:spring-webflux'

@@ -47,7 +47,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -82,7 +82,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -107,7 +107,7 @@ public class StoreFacadeTest {
         StoreResponse updatedStore = storeFacade.update(
             member.getId().toString(),
             UpdateStoreRequest.builder()
-                .storeId(store.getId().toString())
+                .storeId(store.getId())
                 .name("배지네 식빵하우스")
                 .description("배지네 식빵하우스입니다~")
                 .build()
@@ -128,7 +128,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -150,7 +150,7 @@ public class StoreFacadeTest {
                         .build()
                 ).build());
 
-        Boolean result = storeFacade.delete(member.getId().toString(), store.getId().toString());
+        Boolean result = storeFacade.delete(member.getId().toString(), store.getId());
 
         assertThat(store).isNotNull().isInstanceOf(StoreResponse.class);
         assertThat(store.getName()).isEqualTo("배지의 쿠키하우스");
@@ -158,7 +158,7 @@ public class StoreFacadeTest {
 
         Assertions.assertThrows(
             NotFoundStoreException.class,
-            () -> storeFacade.get(store.getId().toString())
+            () -> storeFacade.get(store.getId())
         );
     }
 
@@ -169,7 +169,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -191,7 +191,7 @@ public class StoreFacadeTest {
                         .build()
                 ).build());
 
-        StoreResponse resultStore = storeFacade.get(store.getId().toString());
+        StoreResponse resultStore = storeFacade.get(store.getId());
 
         assertThat(store).isNotNull().isInstanceOf(StoreResponse.class);
         assertThat(resultStore).isNotNull().isInstanceOf(StoreResponse.class);
@@ -204,7 +204,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -266,7 +266,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -275,7 +275,6 @@ public class StoreFacadeTest {
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
             .orElse(null);
 
-        System.out.println("여기까지 실행됨");
         storeFacade.create(
             member.getId().toString(),
             CreateStoreRequest.builder()
@@ -328,7 +327,7 @@ public class StoreFacadeTest {
             SignUpRequest.builder()
                 .type(AuthType.KAKAO)
                 .token(UUID.randomUUID().toString())
-                .nickname("test_nickname")
+                .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
                 .address("서울시 강남구 삼성동")
@@ -348,7 +347,8 @@ public class StoreFacadeTest {
                     CreateManagerRequest.builder()
                         .nickname("사장님")
                         .build()
-                ).build());
+                ).build()
+        );
 
         storeFacade.create(
             member.getId().toString(),
@@ -380,5 +380,41 @@ public class StoreFacadeTest {
 
         assertThat(stores.size()).isEqualTo(2);
         assertThat(stores.get(0)).isNotNull().isInstanceOf(StoreResponse.class);
+    }
+
+    @Test
+    @DisplayName("관리하고 있는 가게 목록을 조회할 수 있어요.")
+    public void getManagedStore() {
+        TokenResponse response = authService.create(
+            SignUpRequest.builder()
+                .type(AuthType.KAKAO)
+                .token(UUID.randomUUID().toString())
+                .name("test_nickname")
+                .email("test@test.com")
+                .phone("010-0000-0000")
+                .address("서울시 강남구 삼성동")
+                .build()
+        );
+        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
+            .orElse(null);
+
+        storeFacade.create(
+            member.getId().toString(),
+            CreateStoreRequest.builder()
+                .name("배지의 쿠키하우스")
+                .description("배지네 쿠키하우스입니다. 놀러오세요!")
+                .location("서울시 강남구 삼성동")
+                .phone("010-0000-0000")
+                .manager(
+                    CreateManagerRequest.builder()
+                        .nickname("사장님")
+                        .build()
+                ).build()
+        );
+
+        List<StoreResponse> stores = storeFacade.getByMemberId(member.getId().toString());
+
+        assertThat(stores).isNotNull();
+        assertThat(stores.size()).isEqualTo(1);
     }
 }

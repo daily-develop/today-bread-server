@@ -1,9 +1,8 @@
 package com.github.org.todaybread.todaybread.store.domain;
 
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 public interface StoreRepository {
 
@@ -13,7 +12,7 @@ public interface StoreRepository {
 
     Optional<Store> getByManagerId(String managerId);
 
-    List<Store> findByNameContaining(String search, Pageable pageable);
+    List<Store> getByNameContaining(String search, Pageable pageable);
 
     void delete(String storeId);
 }

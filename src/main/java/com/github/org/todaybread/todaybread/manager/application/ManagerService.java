@@ -12,7 +12,7 @@ public interface ManagerService {
 
     Manager update(String memberId, UpdateManagerRequest request);
 
-    List<Manager> getByMember(Member member);
+    List<Manager> getByMemberId(String memberId);
 
     Manager getById(String managerId);
 

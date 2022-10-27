@@ -36,8 +36,8 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public List<Manager> getByMember(Member member) {
-        return managerRepository.getByMember(member);
+    public List<Manager> getByMemberId(String memberId) {
+        return managerRepository.getByMemberId(memberId);
     }
 
     @Override

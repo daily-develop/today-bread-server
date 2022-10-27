@@ -20,7 +20,7 @@ public class StoreRepositoryImpl implements StoreRepository {
 
     private final StoreJpaRepository storeRepository;
     private final JPAQueryFactory queryFactory;
-    
+
     private final QStore store = QStore.store;
     private final QManager manager = QManager.manager;
     private final QFile file = QFile.file;
@@ -41,7 +41,7 @@ public class StoreRepositoryImpl implements StoreRepository {
     }
 
     @Override
-    public List<Store> findByNameContaining(String search, Pageable pageable) {
+    public List<Store> getByNameContaining(String search, Pageable pageable) {
         return queryFactory
             .selectFrom(store)
             .leftJoin(store.manager, manager).fetchJoin()

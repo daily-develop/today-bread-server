@@ -10,21 +10,12 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     String id;
-
     String createdAt;
-
     String updatedAt;
-
     String name;
-
-    String nickname;
-
     String phone;
-
     String email;
-
     String address;
-
     String profileImageUrl;
 
     @Builder
@@ -32,12 +23,12 @@ public class MemberResponse {
         this.id = member.getId().toString();
         this.createdAt = member.getCreatedAt().toString();
         this.updatedAt = member.getUpdatedAt().toString();
-        this.nickname = member.getNickname();
+        this.name = member.getName();
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.address = member.getAddress();
         this.profileImageUrl = member.getProfileImage() != null
-            ? "https://kr.object.ncloudstorage.com/bread/" + member.getProfileImage().getKey()
+            ? member.getProfileImage().toResponse().getUrl()
             : null;
     }
 }
