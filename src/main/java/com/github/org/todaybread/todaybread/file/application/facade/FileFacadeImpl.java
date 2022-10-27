@@ -24,6 +24,11 @@ public class FileFacadeImpl implements FileFacade {
 
 
     @Override
+    public File getById(String fileId) {
+        return fileId != null ? fileService.getById(fileId) : null;
+    }
+
+    @Override
     @Transactional
     public File upload(String memberId, FileType type, MultipartFile image) {
         Member member = memberService.getMember(memberId);

@@ -27,6 +27,11 @@ public class FileServiceImpl implements FileService {
     private final StorageServiceImpl storageService;
 
     @Override
+    public File getById(String fileId) {
+        return fileRepository.getById(fileId).orElse(null);
+    }
+
+    @Override
     @Transactional
     public File save(Member member, FileType type, MultipartFile image) {
         String mime = image.getOriginalFilename() == null ? "jpeg" :

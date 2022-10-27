@@ -17,7 +17,6 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreRepositoryImpl storeRepository;
 
-
     @Override
     @Transactional
     public Store save(Store store) {

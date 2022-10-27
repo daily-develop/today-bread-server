@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileFacade {
 
+    File getById(String fileId);
+
     File upload(String memberId, FileType type, MultipartFile image);
 
     List<File> uploads(String memberId, FileType type, List<MultipartFile> images);

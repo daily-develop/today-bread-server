@@ -1,0 +1,48 @@
+### Input ###
+input CreateProductRequest {
+    storeId: ID!
+    image: Upload
+    name: String!
+    breadType: BreadType!
+    description: String
+    price: Int!
+    quantity: Int
+}
+
+input UpdateProductRequest {
+    productId: ID!
+    imageId: ID
+    name: String!
+    breadType: BreadType!
+    description: String
+    price: Int!
+    quantity: Int
+}
+
+### Type ###
+enum BreadType {
+    BREAD
+    COOKIES
+    DONUTS
+    CAKES
+    TARTS
+    CROISSANTS
+    PASTRIES
+    SANDWICHES
+    PETIT_FOUR
+    ETC
+}
+
+type Product {
+    id: ID!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
+    status: Boolean!
+    store: Store!
+    image: File
+    name: String!
+    description: String
+    breadType: BreadType!
+    price: Int!
+    quantity: Int
+}

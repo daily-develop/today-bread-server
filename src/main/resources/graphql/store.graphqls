@@ -18,7 +18,7 @@ input UpdateStoreRequest {
 }
 
 ### Type ###
-type StoreResponse {
+type Store {
     id: ID!
     createdAt: LocalDateTime!
     updatedAt: LocalDateTime!
@@ -26,6 +26,6 @@ type StoreResponse {
     description: String!
     location: String!
     phone: String!
-    manager: ManagerResponse!
-    image: FileResponse
+    manager: Manager!
+    image: File
 }

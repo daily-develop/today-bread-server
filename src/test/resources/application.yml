@@ -33,3 +33,7 @@ storage:
   region: region
   access-key: access-key
   secret-key: secret-key
+
+steppay:
+  end-point: https://api.steppay.kr/api/v1
+  secret: aa9940916492075b347401318e68c3437bda8dfa5259fa5914631205ccd3e868
