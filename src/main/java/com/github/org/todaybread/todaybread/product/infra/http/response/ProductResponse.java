@@ -14,6 +14,7 @@ public class ProductResponse {
     String id;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+    boolean status;
     StoreResponse store;
     FileResponse image;
     String name;
@@ -27,6 +28,7 @@ public class ProductResponse {
         this.id = product.getId().toString();
         this.createdAt = product.getCreatedAt();
         this.updatedAt = product.getUpdatedAt();
+        this.status = product.isStatus();
         this.store = product.getStore().toResponse();
         this.image = product.getImage() != null ? product.getImage().toResponse() : null;
         this.name = product.getName();

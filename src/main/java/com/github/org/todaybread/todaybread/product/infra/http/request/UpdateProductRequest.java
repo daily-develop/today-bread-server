@@ -5,15 +5,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-public class CreateProductRequest {
+public class UpdateProductRequest {
 
     @NotBlank
-    String storeId;
+    String productId;
 
-    MultipartFile image;
+    String imageId;
 
     @NotBlank
     String name;
@@ -28,17 +27,17 @@ public class CreateProductRequest {
     Integer quantity;
 
     @Builder
-    public CreateProductRequest(
-        String storeId,
-        MultipartFile image,
+    public UpdateProductRequest(
+        String productId,
+        String imageId,
         String name,
         BreadType breadType,
         String description,
         Integer price,
         Integer quantity
     ) {
-        this.storeId = storeId;
-        this.image = image;
+        this.productId = productId;
+        this.imageId = imageId;
         this.name = name;
         this.breadType = breadType;
         this.description = description;

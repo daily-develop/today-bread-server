@@ -3,12 +3,15 @@ package com.github.org.todaybread.todaybread.product.application.facade;
 import com.github.org.todaybread.todaybread.file.application.facade.FileFacade;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
+import com.github.org.todaybread.todaybread.manager.exception.NotFoundManagerException;
 import com.github.org.todaybread.todaybread.product.application.service.ProductService;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
+import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
+import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayUpdateProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.response.SteppayProductResponse;
 import com.github.org.todaybread.todaybread.store.application.service.StoreService;
 import com.github.org.todaybread.todaybread.store.domain.Store;
@@ -75,6 +78,35 @@ public class ProductFacadeImpl implements ProductFacade {
                 .quantity(request.getQuantity())
                 .build()
         );
+
+        return product.toResponse();
+    }
+
+    @Override
+    public ProductResponse update(String memberId, UpdateProductRequest request) {
+        Product product = productService.getById(request.getProductId());
+        if (!product.getStore().getManager().getMember().getId().toString().equals(memberId)) {
+            throw new NotFoundManagerException();
+        }
+
+        File file = fileFacade.getById(request.getImageId());
+
+        SteppayProductResponse response = steppayProductService.update(
+            product.getSteppayId(),
+            SteppayUpdateProductRequest.builder()
+                .name(request.getName())
+                .featuredImageUrl(file != null ? file.toResponse().getUrl() : "")
+                .description(request.getDescription())
+                .build()
+        );
+
+        product
+            .updateImage(file)
+            .updateName(response.getName())
+            .updateBreadType(request.getBreadType())
+            .updateDescription(response.getDescription())
+            .updatePrice(request.getPrice())
+            .updateQuantity(request.getQuantity());
 
         return product.toResponse();
     }

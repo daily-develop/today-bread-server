@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
 
+    File getById(String fileId);
+
     File save(Member member, FileType type, MultipartFile image);
 
     void delete(String fileId);

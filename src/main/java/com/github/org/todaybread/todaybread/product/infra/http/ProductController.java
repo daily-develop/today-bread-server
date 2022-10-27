@@ -2,6 +2,7 @@ package com.github.org.todaybread.todaybread.product.infra.http;
 
 import com.github.org.todaybread.todaybread.product.application.facade.ProductFacade;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
+import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
 import java.util.List;
 import javax.validation.Valid;
@@ -43,5 +44,13 @@ public class ProductController {
         @Valid @Argument CreateProductRequest request
     ) {
         return productFacade.create(authentication.getName(), request);
+    }
+
+    @MutationMapping
+    public ProductResponse updateProduct(
+        Authentication authentication,
+        @Valid @Argument UpdateProductRequest request
+    ) {
+        return productFacade.update(authentication.getName(), request);
     }
 }

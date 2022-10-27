@@ -2,10 +2,13 @@ package com.github.org.todaybread.todaybread.steppay.product.infra.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SteppayProductResponse {
 
     Integer id;
