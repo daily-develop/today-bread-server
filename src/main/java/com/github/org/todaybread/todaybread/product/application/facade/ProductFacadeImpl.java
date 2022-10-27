@@ -72,6 +72,7 @@ public class ProductFacadeImpl implements ProductFacade {
                 .description(response.getDescription())
                 .breadType(request.getBreadType())
                 .price(request.getPrice())
+                .quantity(request.getQuantity())
                 .build()
         );
 

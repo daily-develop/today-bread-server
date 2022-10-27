@@ -19,8 +19,8 @@ public class ProductResponse {
     String name;
     String description;
     BreadType breadType;
-    int price;
-    int quantity;
+    Integer price;
+    Integer quantity;
 
     @Builder
     public ProductResponse(Product product) {

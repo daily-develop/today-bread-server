@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Product extends Core {
 
     @Column(unique = true, nullable = false)
-    private int steppayId;
+    private Integer steppayId;
 
     @ManyToOne(targetEntity = Store.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
@@ -41,20 +41,20 @@ public class Product extends Core {
     @Enumerated(EnumType.STRING)
     private BreadType breadType;
 
-    private int price;
+    private Integer price;
 
-    private int quantity;
+    private Integer quantity;
 
     @Builder
     public Product(
-        int steppayId,
+        Integer steppayId,
         Store store,
         File featureImage,
         String name,
         String description,
         BreadType breadType,
-        int price,
-        int quantity
+        Integer price,
+        Integer quantity
     ) {
         this.steppayId = steppayId;
         this.store = store;
