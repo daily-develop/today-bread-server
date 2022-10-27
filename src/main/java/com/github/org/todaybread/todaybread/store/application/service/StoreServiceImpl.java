@@ -29,11 +29,6 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store getByManagerId(String managerId) {
-        return storeRepository.getByManagerId(managerId).orElseThrow(NotFoundStoreException::new);
-    }
-
-    @Override
     public List<Store> getList(int page, int take, String search) {
         Pageable pageable = PageRequest.of(page - 1, take);
         return storeRepository.getByNameContaining(search, pageable);
