@@ -22,10 +22,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getList(String storeId, int page, int take, String search) {
+    public List<Product> getList(String storeId, int page, int take) {
         return productRepository.getList(
             storeId,
-            search,
             PageRequest.of(page - 1, take)
         );
     }

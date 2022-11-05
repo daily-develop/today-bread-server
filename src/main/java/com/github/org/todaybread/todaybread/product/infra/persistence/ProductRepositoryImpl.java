@@ -31,7 +31,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> getList(String storeId, String search, Pageable pageable) {
+    public List<Product> getList(String storeId, Pageable pageable) {
         JPAQuery<Product> query = queryFactory
             .selectFrom(product)
             .leftJoin(product.image, file).fetchJoin()
@@ -39,13 +39,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         if (!(storeId == null || storeId.isBlank())) {
             query = query.where(product.store.id.eq(UUID.fromString(storeId)));
-        }
-        if (!(search == null || search.isBlank())) {
-            query = query.where(
-                product.name.contains(search)
-                    .or(product.description.contains(search))
-                    .or(product.store.name.contains(search))
-            );
         }
 
         return query

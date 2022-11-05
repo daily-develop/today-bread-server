@@ -14,12 +14,16 @@ type Query {
 
     ### Product ###
     product(productId: ID!): Product!
-    products(storeId: ID, page: Int = 1, take: Int = 10, search: String): [Product!]!
+    products(storeId: ID, page: Int = 1, take: Int = 10): [Product!]!
 }
 
 
 ### Mutation ###
 type Mutation {
+    ### Upload ###
+    upload(file: Upload!, type: FileType!): File!
+    uploads(files: [Upload!]!, type: FileType!): [File!]!
+
     ### Auth ###
     signIn(request: SignInRequest!): Token!
     signUp(request: SignUpRequest!): Token!

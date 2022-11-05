@@ -8,16 +8,13 @@ public class SteppayUpdateProductRequest {
 
     String name;
     String featuredImageUrl;
-    String description;
 
     @Builder
     public SteppayUpdateProductRequest(
         String name,
-        String featuredImageUrl,
-        String description
+        String featuredImageUrl
     ) {
         this.name = name;
         this.featuredImageUrl = featuredImageUrl;
-        this.description = description;
     }
 }

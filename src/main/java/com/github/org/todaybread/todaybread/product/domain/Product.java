@@ -2,8 +2,10 @@ package com.github.org.todaybread.todaybread.product.domain;
 
 import com.github.org.todaybread.todaybread.common.domain.Core;
 import com.github.org.todaybread.todaybread.file.domain.File;
+import com.github.org.todaybread.todaybread.product.attachment.domain.ProductAttachment;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
 import com.github.org.todaybread.todaybread.store.domain.Store;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,7 +43,8 @@ public class Product extends Core {
 
     private String name;
 
-    private String description;
+    @OneToMany(targetEntity = ProductAttachment.class, mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ProductAttachment> description;
 
     @Enumerated(EnumType.STRING)
     private BreadType breadType;
@@ -55,7 +59,7 @@ public class Product extends Core {
         Store store,
         File featureImage,
         String name,
-        String description,
+        List<ProductAttachment> description,
         BreadType breadType,
         Integer price,
         Integer quantity
@@ -89,7 +93,7 @@ public class Product extends Core {
         return this;
     }
 
-    public Product updateDescription(String description) {
+    public Product updateDescription(List<ProductAttachment> description) {
         this.description = description;
 
         return this;
