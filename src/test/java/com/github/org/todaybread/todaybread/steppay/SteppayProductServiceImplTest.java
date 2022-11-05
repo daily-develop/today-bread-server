@@ -2,7 +2,6 @@ package com.github.org.todaybread.todaybread.steppay;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.github.org.todaybread.todaybread.config.RestTemplateConfig;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductServiceImpl;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.response.SteppayProductResponse;
@@ -10,12 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
-@Import(value = RestTemplateConfig.class)
 @SpringBootTest
-@Transactional
 class SteppayProductServiceImplTest {
 
     @Autowired

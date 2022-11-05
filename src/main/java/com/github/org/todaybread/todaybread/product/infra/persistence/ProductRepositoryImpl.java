@@ -48,7 +48,9 @@ public class ProductRepositoryImpl implements ProductRepository {
             );
         }
 
-        return query.offset(pageable.getOffset())
+        return query
+            .orderBy(product.createdAt.desc())
+            .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
     }
