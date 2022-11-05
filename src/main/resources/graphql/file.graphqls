@@ -3,3 +3,9 @@ type File {
     id: String!
     url: String!
 }
+
+enum FileType {
+    PROFILE
+    POST
+    PACKAGE
+}

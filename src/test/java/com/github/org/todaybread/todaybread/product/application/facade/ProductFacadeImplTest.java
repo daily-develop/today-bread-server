@@ -19,6 +19,7 @@ import com.github.org.todaybread.todaybread.steppay.product.infra.response.Stepp
 import com.github.org.todaybread.todaybread.store.application.facade.StoreFacade;
 import com.github.org.todaybread.todaybread.store.infra.http.request.CreateStoreRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -89,7 +90,6 @@ class ProductFacadeImplTest {
                     .status("SALE")
                     .name("test_product")
                     .featuredImageUrl("test_featured_image_url")
-                    .description("test_description")
                     .prices(null)
                     .build()
             );
@@ -100,7 +100,7 @@ class ProductFacadeImplTest {
                 .storeId(storeId)
                 .name("test_product")
                 .breadType(BreadType.BREAD)
-                .description("test_description")
+                .description(List.of())
                 .price(10_000)
                 .quantity(null)
                 .build()
@@ -109,7 +109,6 @@ class ProductFacadeImplTest {
         assertThat(response).isNotNull().isInstanceOf(ProductResponse.class);
 
         assertThat(response.getName()).isEqualTo("test_product");
-        assertThat(response.getDescription()).isEqualTo("test_description");
         assertThat(response.getBreadType()).isEqualTo(BreadType.BREAD);
         assertThat(response.getPrice()).isEqualTo(10000);
         assertThat(response.getQuantity()).isEqualTo(null);
@@ -129,7 +128,6 @@ class ProductFacadeImplTest {
                     .status("SALE")
                     .name("test_product")
                     .featuredImageUrl("test_featured_image_url")
-                    .description("test_description")
                     .prices(null)
                     .build()
             );
@@ -140,7 +138,7 @@ class ProductFacadeImplTest {
                 .storeId(storeId)
                 .name("test_product")
                 .breadType(BreadType.BREAD)
-                .description("test_description")
+                .description(List.of())
                 .price(10_000)
                 .quantity(null)
                 .build()
@@ -167,7 +165,6 @@ class ProductFacadeImplTest {
                     .status("SALE")
                     .name("test_product")
                     .featuredImageUrl("test_featured_image_url")
-                    .description("test_description")
                     .prices(null)
                     .build()
             );
@@ -178,7 +175,7 @@ class ProductFacadeImplTest {
                 .storeId(storeId)
                 .name("test_product")
                 .breadType(BreadType.BREAD)
-                .description("test_description")
+                .description(List.of())
                 .price(10_000)
                 .quantity(null)
                 .build()
@@ -195,7 +192,6 @@ class ProductFacadeImplTest {
                     .status("SALE")
                     .name("updated_test_product")
                     .featuredImageUrl("updated_test_featured_image_url")
-                    .description("updated_test_description")
                     .prices(null)
                     .build()
             );
@@ -206,7 +202,7 @@ class ProductFacadeImplTest {
                 .productId(response.getId())
                 .name("updated_test_product")
                 .breadType(BreadType.CAKES)
-                .description("updated_test_description")
+                .description(List.of())
                 .price(20_000)
                 .quantity(100)
                 .build()
@@ -216,7 +212,6 @@ class ProductFacadeImplTest {
 
         assertThat(result.getId()).isEqualTo(result.getId());
         assertThat(result.getName()).isEqualTo("updated_test_product");
-        assertThat(result.getDescription()).isEqualTo("updated_test_description");
     }
 
     @Test
@@ -233,7 +228,6 @@ class ProductFacadeImplTest {
                     .status("SALE")
                     .name("test_product")
                     .featuredImageUrl("test_featured_image_url")
-                    .description("test_description")
                     .prices(null)
                     .build()
             );
@@ -244,7 +238,7 @@ class ProductFacadeImplTest {
                 .storeId(storeId)
                 .name("test_product")
                 .breadType(BreadType.BREAD)
-                .description("test_description")
+                .description(List.of())
                 .price(10_000)
                 .quantity(null)
                 .build()
@@ -261,7 +255,6 @@ class ProductFacadeImplTest {
                     .status("UN_SOLD")
                     .name("test_product")
                     .featuredImageUrl("test_featured_image_url")
-                    .description("test_description")
                     .prices(null)
                     .build()
             );
