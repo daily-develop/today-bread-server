@@ -26,7 +26,13 @@ public class SignUpRequest {
     String phone;
 
     @NotNull
-    String address;
+    String postcode;
+
+    @NotNull
+    String address1;
+
+    @NotNull
+    String address2;
 
     MultipartFile profileImage;
 }

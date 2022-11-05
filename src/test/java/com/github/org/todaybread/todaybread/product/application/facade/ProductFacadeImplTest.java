@@ -12,6 +12,9 @@ import com.github.org.todaybread.todaybread.product.domain.BreadType;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
+import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayUpdateProductRequest;
@@ -48,14 +51,31 @@ class ProductFacadeImplTest {
     @MockBean
     private SteppayProductService steppayProductService;
 
+    @MockBean
+    private SteppayCustomerServiceImpl steppayCustomerService;
+
     @BeforeEach
     public void beforeEach() {
+        when(steppayCustomerService.createCustomer(any(SteppayCreateCustomerRequest.class)))
+            .thenReturn(
+                SteppayCustomerResponse.builder()
+                    .id(1000)
+                    .createdAt(LocalDateTime.now())
+                    .modifiedAt(LocalDateTime.now())
+                    .name("test_name")
+                    .email("email@email.com")
+                    .phone("01012345678")
+                    .build()
+            );
+
         memberId = memberRepository.save(
             Member.builder()
                 .name("test_name")
                 .email("test@email.com")
                 .phone("010-0000-0000")
-                .address("경기도 성남시 분당구")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         ).getId().toString();
 

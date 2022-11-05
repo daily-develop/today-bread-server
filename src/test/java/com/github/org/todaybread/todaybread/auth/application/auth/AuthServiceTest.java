@@ -1,6 +1,8 @@
 package com.github.org.todaybread.todaybread.auth.application.auth;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
 import com.github.org.todaybread.todaybread.auth.domain.auth.AuthType;
@@ -13,16 +15,24 @@ import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenRespon
 import com.github.org.todaybread.todaybread.config.EmbeddedRedisConfig;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
-
+@ExtendWith(MockitoExtension.class)
 @Import(value = EmbeddedRedisConfig.class)
 @SpringBootTest
 @Transactional
@@ -35,6 +45,24 @@ class AuthServiceTest {
     @Autowired
     private MemberRepositoryImpl memberRepository;
 
+    @MockBean
+    private SteppayCustomerServiceImpl steppayCustomerService;
+
+    @BeforeEach
+    public void beforeEach() {
+        when(steppayCustomerService.createCustomer(any(SteppayCreateCustomerRequest.class)))
+            .thenReturn(
+                SteppayCustomerResponse.builder()
+                    .id(1000)
+                    .createdAt(LocalDateTime.now())
+                    .modifiedAt(LocalDateTime.now())
+                    .name("test_name")
+                    .email("email@email.com")
+                    .phone("01012345678")
+                    .build()
+            );
+    }
+
     @Test
     @DisplayName("회원가입을 할 수 있어요.")
     void signUp() {
@@ -45,7 +73,9 @@ class AuthServiceTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
 
@@ -58,7 +88,6 @@ class AuthServiceTest {
         assertThat(member.getName()).isInstanceOf(String.class).isEqualTo("test_name");
         assertThat(member.getEmail()).isInstanceOf(String.class).isEqualTo("test@test.com");
         assertThat(member.getPhone()).isInstanceOf(String.class).isEqualTo("010-0000-0000");
-        assertThat(member.getAddress()).isInstanceOf(String.class).isEqualTo("서울시 강남구 삼성동");
     }
 
     @Test
@@ -73,7 +102,9 @@ class AuthServiceTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
 
@@ -86,7 +117,9 @@ class AuthServiceTest {
                     .name("test_name")
                     .email("test@test.com")
                     .phone("010-0000-0000")
-                    .address("서울시 강남구 삼성동")
+                    .postcode("12345")
+                    .address1("서울시 강남구")
+                    .address2("삼성동 134번지 52호")
                     .build()
             )
         );
@@ -100,7 +133,9 @@ class AuthServiceTest {
                     .name("other_test_name")
                     .email("other_test@test.com")
                     .phone("010-1111-1111")
-                    .address("서울시 강남구 청담동")
+                    .postcode("12345")
+                    .address1("서울시 강남구")
+                    .address2("삼성동 134번지 52호")
                     .build()
             )
         );
@@ -118,7 +153,9 @@ class AuthServiceTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
 
@@ -156,7 +193,9 @@ class AuthServiceTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
 

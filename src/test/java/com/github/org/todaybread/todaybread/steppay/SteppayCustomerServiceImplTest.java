@@ -8,7 +8,6 @@ import com.github.org.todaybread.todaybread.steppay.customer.infra.request.Stepp
 import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayShippingRequest;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -22,7 +21,6 @@ class SteppayCustomerServiceImplTest {
     @Autowired
     private SteppayCustomerServiceImpl steppayCustomerService;
 
-    @Test
     @DisplayName("스텝페이 고객을 생성할 수 있어요.")
     public void create() {
         SteppayCustomerResponse response = steppayCustomerService.createCustomer(

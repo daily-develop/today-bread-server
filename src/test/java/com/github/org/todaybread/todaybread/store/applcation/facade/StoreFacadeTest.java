@@ -1,6 +1,8 @@
 package com.github.org.todaybread.todaybread.store.applcation.facade;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.github.org.todaybread.todaybread.auth.application.auth.AuthServiceImpl;
 import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
@@ -11,21 +13,30 @@ import com.github.org.todaybread.todaybread.config.EmbeddedRedisConfig;
 import com.github.org.todaybread.todaybread.manager.infra.http.request.CreateManagerRequest;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
 import com.github.org.todaybread.todaybread.store.application.facade.StoreFacadeImpl;
 import com.github.org.todaybread.todaybread.store.exceptions.NotFoundStoreException;
 import com.github.org.todaybread.todaybread.store.infra.http.request.CreateStoreRequest;
 import com.github.org.todaybread.todaybread.store.infra.http.request.UpdateStoreRequest;
 import com.github.org.todaybread.todaybread.store.infra.http.response.StoreResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
+@ExtendWith(MockitoExtension.class)
 @Import(value = EmbeddedRedisConfig.class)
 @SpringBootTest
 @Transactional
@@ -40,6 +51,25 @@ public class StoreFacadeTest {
     @Autowired
     private MemberRepositoryImpl memberRepository;
 
+    @MockBean
+    private SteppayCustomerServiceImpl steppayCustomerService;
+
+    @BeforeEach
+    public void beforeEach() {
+        when(steppayCustomerService.createCustomer(any(SteppayCreateCustomerRequest.class)))
+            .thenReturn(
+                SteppayCustomerResponse.builder()
+                    .id(1000)
+                    .createdAt(LocalDateTime.now())
+                    .modifiedAt(LocalDateTime.now())
+                    .name("test_name")
+                    .email("email@email.com")
+                    .phone("01012345678")
+                    .build()
+            );
+    }
+
+
     @Test
     @DisplayName("가게를 등록할 수 있어요.")
     public void create() {
@@ -50,7 +80,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -85,7 +117,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -131,7 +165,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -172,7 +208,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -207,7 +245,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -269,7 +309,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -330,7 +372,9 @@ public class StoreFacadeTest {
                 .name("test_name")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
@@ -392,7 +436,9 @@ public class StoreFacadeTest {
                 .name("test_nickname")
                 .email("test@test.com")
                 .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         );
         Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
