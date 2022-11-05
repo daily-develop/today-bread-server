@@ -9,7 +9,7 @@ public interface ProductFacade {
 
     ProductResponse getById(String productId);
 
-    List<ProductResponse> getList(String storeId, int page, int take, String search);
+    List<ProductResponse> getList(String storeId, int page, int take);
 
     ProductResponse create(String memberId, CreateProductRequest request);
 

@@ -7,7 +7,7 @@ public interface ProductService {
 
     Product getById(String productId);
 
-    List<Product> getList(String storeId, int page, int take, String search);
+    List<Product> getList(String storeId, int page, int take);
 
     Product save(Product product);
 }

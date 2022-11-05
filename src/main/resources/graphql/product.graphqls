@@ -4,7 +4,7 @@ input CreateProductRequest {
     image: Upload
     name: String!
     breadType: BreadType!
-    description: String
+    description: [ID!]!
     price: Int!
     quantity: Int
 }
@@ -14,7 +14,7 @@ input UpdateProductRequest {
     imageId: ID
     name: String!
     breadType: BreadType!
-    description: String
+    description: [ID!]!
     price: Int!
     quantity: Int
 }
@@ -41,7 +41,7 @@ type Product {
     store: Store!
     image: File
     name: String!
-    description: String
+    description: [File!]
     breadType: BreadType!
     price: Int!
     quantity: Int
