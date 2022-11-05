@@ -23,7 +23,6 @@ class SteppayProductServiceImplTest {
             SteppayCreateProductRequest.builder()
                 .name("test_package")
                 .featuredImageUrl("featured_image_url")
-                .description("test_package_description")
                 .build()
         );
 
@@ -34,6 +33,5 @@ class SteppayProductServiceImplTest {
         assertThat(response.getStatus()).isEqualTo("SALE");
         assertThat(response.getName()).isEqualTo("test_package");
         assertThat(response.getFeaturedImageUrl()).isEqualTo("featured_image_url");
-        assertThat(response.getDescription()).isEqualTo("test_package_description");
     }
 }

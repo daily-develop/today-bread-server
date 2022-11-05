@@ -19,7 +19,6 @@ public class SteppayProductResponse {
     String status;
     String name;
     String featuredImageUrl;
-    String description;
     List<SteppayPricePlanResponse> prices;
 
     @Builder
@@ -32,7 +31,6 @@ public class SteppayProductResponse {
         String status,
         String name,
         String featuredImageUrl,
-        String description,
         List<SteppayPricePlanResponse> prices
     ) {
         this.id = id;
@@ -43,7 +41,6 @@ public class SteppayProductResponse {
         this.status = status;
         this.name = name;
         this.featuredImageUrl = featuredImageUrl;
-        this.description = description;
         this.prices = prices;
     }
 }
