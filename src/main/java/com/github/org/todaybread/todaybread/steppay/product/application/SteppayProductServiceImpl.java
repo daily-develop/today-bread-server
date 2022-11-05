@@ -19,6 +19,7 @@ public class SteppayProductServiceImpl implements SteppayProductService {
 
     private final RestTemplate template;
 
+    @Override
     public SteppayProductResponse create(SteppayCreateProductRequest request) {
         return template.postForObject(
             "/products",
