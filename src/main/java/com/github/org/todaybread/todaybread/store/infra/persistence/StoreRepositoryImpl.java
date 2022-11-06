@@ -47,6 +47,7 @@ public class StoreRepositoryImpl implements StoreRepository {
             .leftJoin(store.manager, manager).fetchJoin()
             .leftJoin(store.image, file).fetchJoin()
             .where(contains(search))
+            .orderBy(store.updatedAt.desc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();

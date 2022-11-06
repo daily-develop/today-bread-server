@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewJpaRepository extends JpaRepository<Review, UUID> {
 
-    Page<Review> findByProduct(Product product, Pageable pageable);
+    Page<Review> findByProductOrderByCreatedAtDesc(Product product, Pageable pageable);
 }
