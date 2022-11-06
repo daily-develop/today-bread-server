@@ -26,11 +26,7 @@ public class ReviewResponse {
         this.id = review.getId().toString();
         this.createdAt = review.getCreatedAt();
         this.updatedAt = review.getUpdatedAt();
-        this.attachment = review.getAttachments() != null ?
-            review.getAttachments().stream()
-                .map(it -> it.getFile().toResponse())
-                .toList()
-            : List.of();
+        this.attachment = List.of();
         this.score = review.getScore();
         this.content = review.getContent();
     }

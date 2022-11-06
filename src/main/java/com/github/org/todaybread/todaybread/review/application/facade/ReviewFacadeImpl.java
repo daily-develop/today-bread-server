@@ -3,18 +3,23 @@ package com.github.org.todaybread.todaybread.review.application.facade;
 import com.github.org.todaybread.todaybread.file.application.facade.FileFacadeImpl;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
+import com.github.org.todaybread.todaybread.file.infra.http.response.FileResponse;
 import com.github.org.todaybread.todaybread.member.application.service.MemberServiceImpl;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.product.application.service.ProductServiceImpl;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.review.application.service.ReviewServiceImpl;
 import com.github.org.todaybread.todaybread.review.attachment.application.service.ReviewAttachmentServiceImpl;
+import com.github.org.todaybread.todaybread.review.attachment.domain.ReviewAttachment;
 import com.github.org.todaybread.todaybread.review.domain.Review;
 import com.github.org.todaybread.todaybread.review.exception.NotWriterException;
 import com.github.org.todaybread.todaybread.review.infra.http.request.CreateReviewRequest;
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewListResponse;
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewResponse;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -90,4 +95,26 @@ public class ReviewFacadeImpl implements ReviewFacade {
         reviewService.delete(review);
         return true;
     }
+
+    @Override
+    public Map<ReviewResponse, List<FileResponse>> attachmentsForReview(
+        List<ReviewResponse> reviews
+    ) {
+        List<UUID> reviewsIds = reviews.stream()
+            .map(review -> UUID.fromString(review.getId()))
+            .toList();
+        List<ReviewAttachment> attachments = reviewAttachmentService.getByReviewIds(reviewsIds);
+
+        return reviews.stream()
+            .collect(
+                Collectors.toMap(
+                    Function.identity(),
+                    review -> attachments.stream()
+                        .filter(it -> it.getReview().getId().toString().equals(review.getId()))
+                        .map(it -> it.getFile().toResponse())
+                        .collect(Collectors.toList())
+                )
+            );
+    }
+
 }

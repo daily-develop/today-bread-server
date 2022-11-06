@@ -4,6 +4,8 @@ import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.review.attachment.domain.ReviewAttachment;
 import com.github.org.todaybread.todaybread.review.attachment.infra.persistence.ReviewAttachmentRepositoryImpl;
 import com.github.org.todaybread.todaybread.review.domain.Review;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +26,10 @@ public class ReviewAttachmentServiceImpl implements ReviewAttachmentService {
                 .file(file)
                 .build()
         );
+    }
+
+    @Override
+    public List<ReviewAttachment> getByReviewIds(List<UUID> reviewIds) {
+        return reviewAttachmentRepository.getByReviewIds(reviewIds);
     }
 }

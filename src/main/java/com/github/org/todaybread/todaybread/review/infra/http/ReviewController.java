@@ -1,12 +1,16 @@
 package com.github.org.todaybread.todaybread.review.infra.http;
 
+import com.github.org.todaybread.todaybread.file.infra.http.response.FileResponse;
 import com.github.org.todaybread.todaybread.review.application.facade.ReviewFacadeImpl;
 import com.github.org.todaybread.todaybread.review.infra.http.request.CreateReviewRequest;
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewListResponse;
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewResponse;
+import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +31,13 @@ public class ReviewController {
         @Argument int take
     ) {
         return reviewFacade.getList(productId, page, take);
+    }
+
+    @BatchMapping(field = "attachment", typeName = "Review")
+    public Map<ReviewResponse, List<FileResponse>> attachment(
+        List<ReviewResponse> reviews
+    ) {
+        return reviewFacade.attachmentsForReview(reviews);
     }
 
     @MutationMapping
