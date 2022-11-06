@@ -32,10 +32,9 @@ public class ProductController {
     public List<ProductResponse> products(
         @Argument String storeId,
         @Argument int page,
-        @Argument int take,
-        @Argument String search
+        @Argument int take
     ) {
-        return productFacade.getList(storeId, page, take, search);
+        return productFacade.getList(storeId, page, take);
     }
 
     @MutationMapping

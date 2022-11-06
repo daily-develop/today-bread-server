@@ -8,7 +8,7 @@ public interface ProductRepository {
 
     Optional<Product> getById(String productId);
 
-    List<Product> getList(String storeId, String search, Pageable pageable);
+    List<Product> getList(String storeId, Pageable pageable);
 
     Product save(Product product);
 }

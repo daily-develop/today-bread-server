@@ -4,7 +4,10 @@ import com.github.org.todaybread.todaybread.file.application.facade.FileFacade;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.manager.exception.NotFoundManagerException;
+import com.github.org.todaybread.todaybread.manager.exception.NotManagerException;
 import com.github.org.todaybread.todaybread.product.application.service.ProductService;
+import com.github.org.todaybread.todaybread.product.attachment.application.ProductAttachmentService;
+import com.github.org.todaybread.todaybread.product.attachment.domain.ProductAttachment;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
@@ -29,6 +32,7 @@ public class ProductFacadeImpl implements ProductFacade {
     private final FileFacade fileFacade;
 
     private final ProductService productService;
+    private final ProductAttachmentService productAttachmentService;
     private final StoreService storeService;
     private final SteppayProductService steppayProductService;
 
@@ -38,8 +42,8 @@ public class ProductFacadeImpl implements ProductFacade {
     }
 
     @Override
-    public List<ProductResponse> getList(String storeId, int page, int take, String search) {
-        return productService.getList(storeId, page, take, search).stream()
+    public List<ProductResponse> getList(String storeId, int page, int take) {
+        return productService.getList(storeId, page, take).stream()
             .map(Product::toResponse)
             .collect(Collectors.toList());
     }
@@ -48,12 +52,15 @@ public class ProductFacadeImpl implements ProductFacade {
     @Transactional
     public ProductResponse create(String memberId, CreateProductRequest request) {
         Store store = storeService.getById(request.getStoreId());
+        if (!store.getManager().getMember().getId().toString().equals(memberId)) {
+            throw new NotManagerException();
+        }
 
         File image = null;
         if (request.getImage() != null) {
             image = fileFacade.upload(
                 store.getManager().getMember().getId().toString(),
-                FileType.PACKAGE,
+                FileType.PRODUCT,
                 request.getImage()
             );
         }
@@ -62,7 +69,6 @@ public class ProductFacadeImpl implements ProductFacade {
             SteppayCreateProductRequest.builder()
                 .name(request.getName())
                 .featuredImageUrl(image != null ? image.toResponse().getUrl() : "")
-                .description(request.getDescription())
                 .build()
         );
 
@@ -72,11 +78,17 @@ public class ProductFacadeImpl implements ProductFacade {
                 .store(store)
                 .featureImage(image)
                 .name(response.getName())
-                .description(response.getDescription())
                 .breadType(request.getBreadType())
                 .price(request.getPrice())
                 .quantity(request.getQuantity())
                 .build()
+        );
+
+        product.updateDescription(
+            request.getDescription()
+                .stream()
+                .map(it -> productAttachmentService.save(memberId, product, it))
+                .collect(Collectors.toList())
         );
 
         return product.toResponse();
@@ -97,7 +109,6 @@ public class ProductFacadeImpl implements ProductFacade {
             SteppayUpdateProductRequest.builder()
                 .name(request.getName())
                 .featuredImageUrl(file != null ? file.toResponse().getUrl() : "")
-                .description(request.getDescription())
                 .build()
         );
 
@@ -105,9 +116,21 @@ public class ProductFacadeImpl implements ProductFacade {
             .updateImage(file)
             .updateName(response.getName())
             .updateBreadType(request.getBreadType())
-            .updateDescription(response.getDescription())
             .updatePrice(request.getPrice())
             .updateQuantity(request.getQuantity());
+
+        product.updateDescription(
+            request.getDescription()
+                .stream()
+                .map(it -> {
+                    ProductAttachment attachment = productAttachmentService.getByFileId(it);
+                    if (attachment == null) {
+                        attachment = productAttachmentService.saveByFileId(product, it);
+                    }
+                    return attachment;
+                })
+                .toList()
+        );
 
         return product.toResponse();
     }

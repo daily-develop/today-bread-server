@@ -1,6 +1,7 @@
 package com.github.org.todaybread.todaybread.product.infra.http.request;
 
 import com.github.org.todaybread.todaybread.product.domain.BreadType;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class UpdateProductRequest {
     @NotNull
     BreadType breadType;
 
-    String description;
+    List<String> description;
 
     @NotNull
     Integer price;
@@ -32,7 +33,7 @@ public class UpdateProductRequest {
         String imageId,
         String name,
         BreadType breadType,
-        String description,
+        List<String> description,
         Integer price,
         Integer quantity
     ) {

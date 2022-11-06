@@ -8,13 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class SteppayProductServiceImpl implements SteppayProductService {
 
     private final RestTemplate template;
