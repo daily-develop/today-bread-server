@@ -9,8 +9,7 @@ public interface ReviewService {
     Review save(Review review);
 
     Review getById(String reviewId);
-
-
+    
     Page<Review> getByProduct(Product product, int page, int take);
 
     void delete(Review review);

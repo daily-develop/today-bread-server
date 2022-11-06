@@ -18,7 +18,6 @@ import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewLis
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewResponse;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -96,14 +95,10 @@ public class ReviewFacadeImpl implements ReviewFacade {
         return true;
     }
 
-    @Override
     public Map<ReviewResponse, List<FileResponse>> attachmentsForReview(
         List<ReviewResponse> reviews
     ) {
-        List<UUID> reviewsIds = reviews.stream()
-            .map(review -> UUID.fromString(review.getId()))
-            .toList();
-        List<ReviewAttachment> attachments = reviewAttachmentService.getByReviewIds(reviewsIds);
+        List<ReviewAttachment> attachments = reviewAttachmentService.getByReviews(reviews);
 
         return reviews.stream()
             .collect(

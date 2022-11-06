@@ -33,13 +33,6 @@ public class ReviewController {
         return reviewFacade.getList(productId, page, take);
     }
 
-    @BatchMapping(field = "attachment", typeName = "Review")
-    public Map<ReviewResponse, List<FileResponse>> attachment(
-        List<ReviewResponse> reviews
-    ) {
-        return reviewFacade.attachmentsForReview(reviews);
-    }
-
     @MutationMapping
     public ReviewResponse createReview(
         Authentication authentication,
@@ -56,5 +49,10 @@ public class ReviewController {
         return reviewFacade.delete(authentication.getName(), reviewId);
     }
 
-
+    @BatchMapping(field = "attachment", typeName = "Review")
+    public Map<ReviewResponse, List<FileResponse>> attachment(
+        List<ReviewResponse> reviews
+    ) {
+        return reviewFacade.attachmentsForReview(reviews);
+    }
 }

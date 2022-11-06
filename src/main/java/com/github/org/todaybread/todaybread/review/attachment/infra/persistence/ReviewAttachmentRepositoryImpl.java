@@ -5,6 +5,7 @@ import com.github.org.todaybread.todaybread.review.attachment.domain.ReviewAttac
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,10 +24,14 @@ public class ReviewAttachmentRepositoryImpl implements ReviewAttachmentRepositor
     }
 
     @Override
-    public List<ReviewAttachment> getByReviewIds(List<UUID> reviewIds) {
+    public List<ReviewAttachment> getByReviewsIds(List<String> reviewIds) {
+        List<UUID> ids = reviewIds.stream()
+            .map(UUID::fromString)
+            .collect(Collectors.toList());
+
         return queryFactory
             .selectFrom(reviewAttachment)
-            .where(reviewAttachment.review.id.in(reviewIds))
+            .where(reviewAttachment.review.id.in(ids))
             .fetch();
     }
 }
