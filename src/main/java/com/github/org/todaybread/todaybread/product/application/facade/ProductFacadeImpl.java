@@ -60,7 +60,7 @@ public class ProductFacadeImpl implements ProductFacade {
         if (request.getImage() != null) {
             image = fileFacade.upload(
                 store.getManager().getMember().getId().toString(),
-                FileType.PACKAGE,
+                FileType.PRODUCT,
                 request.getImage()
             );
         }
@@ -84,7 +84,12 @@ public class ProductFacadeImpl implements ProductFacade {
                 .build()
         );
 
-        product.updateDescription(productAttachmentService.save(product, request.getDescription()));
+        product.updateDescription(
+            request.getDescription()
+                .stream()
+                .map(it -> productAttachmentService.save(memberId, product, it))
+                .collect(Collectors.toList())
+        );
 
         return product.toResponse();
     }
@@ -120,7 +125,7 @@ public class ProductFacadeImpl implements ProductFacade {
                 .map(it -> {
                     ProductAttachment attachment = productAttachmentService.getByFileId(it);
                     if (attachment == null) {
-                        attachment = productAttachmentService.save(product, List.of(it)).get(0);
+                        attachment = productAttachmentService.saveByFileId(product, it);
                     }
                     return attachment;
                 })

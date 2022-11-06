@@ -22,7 +22,7 @@ public class CreateProductRequest {
     @NotNull
     BreadType breadType;
 
-    List<String> description;
+    List<MultipartFile> description;
 
     @NotNull
     Integer price;
@@ -34,7 +34,7 @@ public class CreateProductRequest {
         MultipartFile image,
         String name,
         BreadType breadType,
-        List<String> description,
+        List<MultipartFile> description,
         Integer price,
         Integer quantity
     ) {

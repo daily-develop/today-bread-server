@@ -4,7 +4,7 @@ input CreateProductRequest {
     image: Upload
     name: String!
     breadType: BreadType!
-    description: [ID!]!
+    description: [Upload!]!
     price: Int!
     quantity: Int
 }
