@@ -35,7 +35,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public Float getScoreByScore(Product product) {
+    public Float getScoreByProduct(Product product) {
         return queryFactory
             .select(review.score.avg().floatValue())
             .from(review)
