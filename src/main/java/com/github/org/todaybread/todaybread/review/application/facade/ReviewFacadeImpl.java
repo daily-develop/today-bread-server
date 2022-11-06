@@ -50,6 +50,9 @@ public class ReviewFacadeImpl implements ReviewFacade {
                 .score(request.getScore())
                 .build()
         );
+        product.updateScore(
+            reviewService.getScoreByProduct(product)
+        );
 
         if (request.getImages() != null) {
             List<File> files = fileFacade.uploads(
@@ -92,6 +95,9 @@ public class ReviewFacadeImpl implements ReviewFacade {
             throw new NotWriterException();
         }
         reviewService.delete(review);
+        review.getProduct().updateScore(
+            reviewService.getScoreByProduct(review.getProduct())
+        );
         return true;
     }
 

@@ -14,5 +14,7 @@ public interface ReviewRepository {
 
     Page<Review> getByProduct(Product product, Pageable pageable);
 
+    Float getScoreByProduct(Product product);
+
     void delete(Review review);
 }

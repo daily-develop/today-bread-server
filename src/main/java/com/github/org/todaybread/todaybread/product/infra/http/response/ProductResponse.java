@@ -24,6 +24,8 @@ public class ProductResponse {
     Integer price;
     Integer quantity;
 
+    Float score;
+
     @Builder
     public ProductResponse(Product product) {
         this.id = product.getId().toString();
@@ -42,5 +44,6 @@ public class ProductResponse {
         this.breadType = product.getBreadType();
         this.price = product.getPrice();
         this.quantity = product.getQuantity();
+        this.score = product.getScore();
     }
 }

@@ -53,6 +53,9 @@ public class Product extends Core {
 
     private Integer quantity;
 
+    private Float score = 0.0F;
+
+
     @Builder
     public Product(
         Integer steppayId,
@@ -113,6 +116,12 @@ public class Product extends Core {
 
     public Product updateQuantity(Integer quantity) {
         this.quantity = quantity;
+
+        return this;
+    }
+
+    public Product updateScore(Float score) {
+        this.score = score;
 
         return this;
     }

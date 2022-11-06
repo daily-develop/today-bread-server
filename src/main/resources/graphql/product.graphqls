@@ -45,4 +45,5 @@ type Product {
     breadType: BreadType!
     price: Int!
     quantity: Int
+    score: Float!
 }

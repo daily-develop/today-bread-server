@@ -12,5 +12,7 @@ public interface ReviewService {
     
     Page<Review> getByProduct(Product product, int page, int take);
 
+    Float getScoreByProduct(Product product);
+
     void delete(Review review);
 }
