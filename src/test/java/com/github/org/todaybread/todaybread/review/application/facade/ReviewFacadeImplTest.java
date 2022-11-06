@@ -192,4 +192,62 @@ class ReviewFacadeImplTest {
         Boolean response = reviewFacade.delete(memberId, review.getId());
         assertThat(response).isTrue();
     }
+
+    @Test
+    @DisplayName("리뷰를 생성하면 패키지 스코어를 업데이트 할 수 있어요.")
+    public void createReviewWithScore() {
+        reviewFacade.create(memberId, CreateReviewRequest.builder()
+            .productId(productId)
+            .content("test_content")
+            .score(2.0F)
+            .build());
+
+        Float avgExpect2 = productFacade.getById(productId).getScore();
+        assertThat(avgExpect2).isEqualTo(2.0F);
+
+        reviewFacade.create(memberId, CreateReviewRequest.builder()
+            .productId(productId)
+            .content("test_content")
+            .score(4.0F)
+            .build());
+
+        Float avgExpect3 = productFacade.getById(productId).getScore();
+        assertThat(avgExpect3).isEqualTo(3.0F);
+    }
+
+    @Test
+    @DisplayName("리뷰를 삭제하면 패키지 스코어를 업데이트 할 수 있어요.")
+    public void deleteReviewWithScore() {
+        reviewFacade.create(memberId, CreateReviewRequest.builder()
+            .productId(productId)
+            .content("test_content")
+            .score(1.0F)
+            .build());
+
+        Float avgExpect1 = productFacade.getById(productId).getScore();
+        assertThat(avgExpect1).isEqualTo(1.0F);
+
+        reviewFacade.create(memberId, CreateReviewRequest.builder()
+            .productId(productId)
+            .content("test_content")
+            .score(3.0F)
+            .build());
+
+        Float avgExpect2 = productFacade.getById(productId).getScore();
+        assertThat(avgExpect2).isEqualTo(2.0F);
+
+        ReviewResponse review = reviewFacade.create(memberId, CreateReviewRequest.builder()
+            .productId(productId)
+            .content("test_content")
+            .score(5.0F)
+            .build());
+
+        Float avgExpect3 = productFacade.getById(productId).getScore();
+        assertThat(avgExpect3).isEqualTo(3.0F);
+
+        reviewFacade.delete(memberId, review.getId());
+
+        Float deletedReview = productFacade.getById(productId).getScore();
+        assertThat(deletedReview).isEqualTo(2.0F);
+    }
 }

@@ -36,6 +36,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Float getScoreByProduct(Product product) {
+        return reviewRepository.getScoreByScore(product);
+    }
+
+    @Override
     @Transactional
     public void delete(Review review) {
         reviewRepository.delete(review);
