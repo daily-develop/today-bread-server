@@ -57,7 +57,9 @@ class ReviewFacadeImplTest {
                 .name("test_name")
                 .email("test@email.com")
                 .phone("010-0000-0000")
-                .address("경기도 성남시 분당구")
+                .postcode("12345")
+                .address1("서울시")
+                .address2("특별시 ")
                 .build()
         ).getId().toString();
 
