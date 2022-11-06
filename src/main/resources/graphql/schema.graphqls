@@ -15,6 +15,9 @@ type Query {
     ### Product ###
     product(productId: ID!): Product!
     products(storeId: ID, page: Int = 1, take: Int = 10): [Product!]!
+
+    ### Review ###
+    reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewListResponse!
 }
 
 
@@ -42,4 +45,8 @@ type Mutation {
     createProduct(request: CreateProductRequest!): Product!
     updateProduct(request: UpdateProductRequest!): Product!
     stopProduct(productId: ID!): Product!
+
+    ### Review ###
+    createReview(request: CreateReviewRequest!): Review!
+    deleteReview(reviewId: ID!): Boolean!
 }

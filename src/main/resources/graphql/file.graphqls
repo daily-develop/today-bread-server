@@ -8,4 +8,5 @@ enum FileType {
     PROFILE
     POST
     PACKAGE
+    REVIEW
 }
