@@ -117,7 +117,6 @@ class ReviewFacadeImplTest {
 
         assertThat(review.getScore()).isEqualTo(4.5F);
         assertThat(review.getContent()).isEqualTo("test_content");
-        assertThat(review.getAttachment()).isNull();
     }
 
     @Test
