@@ -31,7 +31,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public Page<Review> getByProduct(Product product, Pageable pageable) {
-        return reviewRepository.findByProduct(product, pageable);
+        return reviewRepository.findByProductOrderByCreatedAtDesc(product, pageable);
     }
 
     @Override
