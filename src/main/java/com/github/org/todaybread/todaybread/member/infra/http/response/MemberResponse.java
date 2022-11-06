@@ -15,7 +15,9 @@ public class MemberResponse {
     String name;
     String phone;
     String email;
-    String address;
+    String postcode;
+    String address1;
+    String address2;
     String profileImageUrl;
 
     @Builder
@@ -26,7 +28,9 @@ public class MemberResponse {
         this.name = member.getName();
         this.phone = member.getPhone();
         this.email = member.getEmail();
-        this.address = member.getAddress();
+        this.postcode = member.getPostcode();
+        this.address1 = member.getAddress1();
+        this.address2 = member.getAddress2();
         this.profileImageUrl = member.getProfileImage() != null
             ? member.getProfileImage().toResponse().getUrl()
             : null;

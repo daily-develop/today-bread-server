@@ -2,12 +2,6 @@ package com.github.org.todaybread.todaybread.store.applcation.facade;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.github.org.todaybread.todaybread.auth.application.auth.AuthServiceImpl;
-import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
-import com.github.org.todaybread.todaybread.auth.domain.auth.AuthType;
-import com.github.org.todaybread.todaybread.auth.infra.http.request.SignUpRequest;
-import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenResponse;
-import com.github.org.todaybread.todaybread.config.EmbeddedRedisConfig;
 import com.github.org.todaybread.todaybread.manager.infra.http.request.CreateManagerRequest;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
@@ -17,47 +11,46 @@ import com.github.org.todaybread.todaybread.store.infra.http.request.CreateStore
 import com.github.org.todaybread.todaybread.store.infra.http.request.UpdateStoreRequest;
 import com.github.org.todaybread.todaybread.store.infra.http.response.StoreResponse;
 import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
-@Import(value = EmbeddedRedisConfig.class)
 @SpringBootTest
 @Transactional
 public class StoreFacadeTest {
 
+    private String memberId;
+
     @Autowired
     private StoreFacadeImpl storeFacade;
     @Autowired
-    private AuthServiceImpl authService;
-    @Autowired
-    private TokenServiceImpl tokenService;
-    @Autowired
     private MemberRepositoryImpl memberRepository;
+
+    @BeforeEach
+    public void beforeEach() {
+        memberId = memberRepository.save(
+            Member.builder()
+                .steppayId(1000)
+                .name("test_name")
+                .email("test@email.com")
+                .phone("010-0000-0000")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
+                .build()
+        ).getId().toString();
+    }
+
 
     @Test
     @DisplayName("가게를 등록할 수 있어요.")
     public void create() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         StoreResponse store = storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -78,21 +71,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("가게를 수정할 수 있어요.")
     public void update() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         StoreResponse store = storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -105,7 +85,7 @@ public class StoreFacadeTest {
                 ).build());
 
         StoreResponse updatedStore = storeFacade.update(
-            member.getId().toString(),
+            memberId,
             UpdateStoreRequest.builder()
                 .storeId(store.getId())
                 .name("배지네 식빵하우스")
@@ -124,21 +104,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("가게를 삭제할 수 있어요.")
     public void delete() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         StoreResponse store = storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -150,7 +117,7 @@ public class StoreFacadeTest {
                         .build()
                 ).build());
 
-        Boolean result = storeFacade.delete(member.getId().toString(), store.getId());
+        Boolean result = storeFacade.delete(memberId, store.getId());
 
         assertThat(store).isNotNull().isInstanceOf(StoreResponse.class);
         assertThat(store.getName()).isEqualTo("배지의 쿠키하우스");
@@ -165,21 +132,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("가게를 조회할 수 있어요.")
     public void get() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         StoreResponse store = storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -200,21 +154,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("가게 리스트를 조회할 수 있어요.")
     public void getList() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -227,7 +168,7 @@ public class StoreFacadeTest {
                 ).build());
 
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 식빵하우스")
                 .description("배지네 식빵하우스입니다. 놀러오세요!")
@@ -240,7 +181,7 @@ public class StoreFacadeTest {
                 ).build());
 
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("베어 곰달")
                 .description("베어 곰달입니다. 놀러오세요!")
@@ -262,21 +203,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("search에 null을 넘겨줘도 가게 리스트를 조회할 수 있어요.")
     public void getListContainNull() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -289,7 +217,7 @@ public class StoreFacadeTest {
                 ).build());
 
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 식빵하우스")
                 .description("배지네 식빵하우스입니다. 놀러오세요!")
@@ -302,7 +230,7 @@ public class StoreFacadeTest {
                 ).build());
 
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("베어 곰달")
                 .description("베어 곰달입니다. 놀러오세요!")
@@ -323,21 +251,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("가게 리스트를 검색할 수 있어요.")
     public void getListContainSearch() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_name")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -351,7 +266,7 @@ public class StoreFacadeTest {
         );
 
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 식빵하우스")
                 .description("배지네 식빵하우스입니다. 놀러오세요!")
@@ -364,7 +279,7 @@ public class StoreFacadeTest {
                 ).build());
 
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("베어 곰달")
                 .description("베어 곰달입니다. 놀러오세요!")
@@ -385,21 +300,8 @@ public class StoreFacadeTest {
     @Test
     @DisplayName("관리하고 있는 가게 목록을 조회할 수 있어요.")
     public void getManagedStore() {
-        TokenResponse response = authService.create(
-            SignUpRequest.builder()
-                .type(AuthType.KAKAO)
-                .token(UUID.randomUUID().toString())
-                .name("test_nickname")
-                .email("test@test.com")
-                .phone("010-0000-0000")
-                .address("서울시 강남구 삼성동")
-                .build()
-        );
-        Member member = memberRepository.getById(tokenService.parse(response.getAccessToken()))
-            .orElse(null);
-
         storeFacade.create(
-            member.getId().toString(),
+            memberId,
             CreateStoreRequest.builder()
                 .name("배지의 쿠키하우스")
                 .description("배지네 쿠키하우스입니다. 놀러오세요!")
@@ -412,7 +314,7 @@ public class StoreFacadeTest {
                 ).build()
         );
 
-        List<StoreResponse> stores = storeFacade.getByMemberId(member.getId().toString());
+        List<StoreResponse> stores = storeFacade.getByMemberId(memberId);
 
         assertThat(stores).isNotNull();
         assertThat(stores.size()).isEqualTo(1);

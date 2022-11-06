@@ -16,6 +16,10 @@ import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.domain.MemberRepository;
+import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayShippingRequest;
+import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final FileFacade fileFacade;
     private final AuthRepository authRepository;
     private final MemberRepository memberRepository;
+    private final SteppayCustomerServiceImpl steppayCustomerService;
 
     @Override
     @Transactional
@@ -50,12 +55,30 @@ public class AuthServiceImpl implements AuthService {
             throw new AlreadyExistingAuthException();
         }
 
-        Member member = memberRepository.save(
-            Member.builder()
+        SteppayCustomerResponse response = steppayCustomerService.createCustomer(
+            SteppayCreateCustomerRequest.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
-                .address(request.getAddress())
+                .shipping(
+                    SteppayShippingRequest.builder()
+                        .postcode(request.getPostcode())
+                        .address1(request.getAddress1())
+                        .address2(request.getAddress2())
+                        .build()
+                )
+                .build()
+        );
+
+        Member member = memberRepository.save(
+            Member.builder()
+                .steppayId(response.getId())
+                .name(request.getName())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .postcode(request.getPostcode())
+                .address1(request.getAddress1())
+                .address2(request.getAddress2())
                 .build()
         );
 
@@ -73,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
                 FileType.PROFILE,
                 request.getProfileImage()
             );
-            auth.getMember().update(null, null, null, null, profileImage);
+            auth.getMember().updateProfileImage(profileImage);
         }
 
         return tokenProvider.create(auth).toResponse();

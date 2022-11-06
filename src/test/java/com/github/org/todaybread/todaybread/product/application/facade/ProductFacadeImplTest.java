@@ -53,10 +53,13 @@ class ProductFacadeImplTest {
     public void beforeEach() {
         memberId = memberRepository.save(
             Member.builder()
+                .steppayId(1000)
                 .name("test_name")
                 .email("test@email.com")
                 .phone("010-0000-0000")
-                .address("경기도 성남시 분당구")
+                .postcode("12345")
+                .address1("서울시 강남구")
+                .address2("삼성동 134번지 52호")
                 .build()
         ).getId().toString();
 
