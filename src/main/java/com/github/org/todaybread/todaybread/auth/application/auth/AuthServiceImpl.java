@@ -96,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
                 FileType.PROFILE,
                 request.getProfileImage()
             );
-            auth.getMember().update(null, null, null, null, null, null, profileImage);
+            auth.getMember().updateProfileImage(profileImage);
         }
 
         return tokenProvider.create(auth).toResponse();

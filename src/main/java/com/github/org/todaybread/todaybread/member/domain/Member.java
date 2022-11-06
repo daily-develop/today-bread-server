@@ -74,8 +74,7 @@ public class Member extends Core {
         @Nullable String email,
         @Nullable String postcode,
         @Nullable String address1,
-        @Nullable String address2,
-        @Nullable File profileImage
+        @Nullable String address2
     ) {
         if (name != null) {
             this.name = name;
@@ -95,9 +94,10 @@ public class Member extends Core {
         if (address2 != null) {
             this.address2 = address2;
         }
-        if (profileImage != null) {
-            this.profileImage = profileImage;
-        }
+    }
+
+    public void updateProfileImage(File profileImage) {
+        this.profileImage = profileImage;
     }
 
     public MemberResponse toResponse() {
