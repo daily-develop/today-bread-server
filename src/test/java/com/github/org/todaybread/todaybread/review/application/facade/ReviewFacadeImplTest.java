@@ -54,6 +54,7 @@ class ReviewFacadeImplTest {
     public void beforeEach() {
         memberId = memberRepository.save(
             Member.builder()
+                .steppayId(1000)
                 .name("test_name")
                 .email("test@email.com")
                 .phone("010-0000-0000")
