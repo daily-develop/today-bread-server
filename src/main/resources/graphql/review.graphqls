@@ -1,0 +1,24 @@
+### Input ###
+input CreateReviewRequest {
+    productId: ID!
+    score: Float!
+    content: String!
+    images: [Upload!]!
+}
+
+### Type ###
+type Review {
+    id: ID!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
+    member: Member!
+    product: Product!
+    score: Float!
+    content: String!
+    attachment: [File!]!
+}
+
+type ReviewListResponse {
+    content: [Review!]!
+    totalElement: Int
+}
