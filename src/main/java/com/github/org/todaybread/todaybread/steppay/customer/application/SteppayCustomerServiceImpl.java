@@ -3,13 +3,9 @@ package com.github.org.todaybread.todaybread.steppay.customer.application;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-@Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class SteppayCustomerServiceImpl implements SteppayCustomerService {
 
     private final RestTemplate template;

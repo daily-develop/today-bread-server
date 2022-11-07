@@ -24,8 +24,8 @@ public class UpdateProductRequest {
     List<String> description;
 
     @NotNull
-    Integer price;
-    Integer quantity;
+    Long price;
+    Long quantity;
 
     @Builder
     public UpdateProductRequest(
@@ -34,8 +34,8 @@ public class UpdateProductRequest {
         String name,
         BreadType breadType,
         List<String> description,
-        Integer price,
-        Integer quantity
+        Long price,
+        Long quantity
     ) {
         this.productId = productId;
         this.imageId = imageId;

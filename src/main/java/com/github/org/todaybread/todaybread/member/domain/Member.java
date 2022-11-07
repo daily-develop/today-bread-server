@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 public class Member extends Core {
 
     @Column(unique = true, nullable = false)
-    private Integer steppayId;
+    private Long steppayId;
 
     private String name;
 
@@ -42,7 +42,7 @@ public class Member extends Core {
 
     @Builder
     public Member(
-        Integer steppayId,
+        Long steppayId,
         String name,
         String phone,
         String email,

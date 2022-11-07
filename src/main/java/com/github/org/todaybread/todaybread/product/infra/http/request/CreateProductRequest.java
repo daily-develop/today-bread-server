@@ -25,8 +25,8 @@ public class CreateProductRequest {
     List<MultipartFile> description;
 
     @NotNull
-    Integer price;
-    Integer quantity;
+    Long price;
+    Long quantity;
 
     @Builder
     public CreateProductRequest(
@@ -35,8 +35,8 @@ public class CreateProductRequest {
         String name,
         BreadType breadType,
         List<MultipartFile> description,
-        Integer price,
-        Integer quantity
+        Long price,
+        Long quantity
     ) {
         this.storeId = storeId;
         this.image = image;

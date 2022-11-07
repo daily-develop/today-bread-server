@@ -1,8 +1,6 @@
 package com.github.org.todaybread.todaybread.review.application.facade;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import com.github.org.todaybread.todaybread.manager.infra.http.request.CreateManagerRequest;
 import com.github.org.todaybread.todaybread.member.domain.Member;
@@ -13,14 +11,9 @@ import com.github.org.todaybread.todaybread.product.infra.http.request.CreatePro
 import com.github.org.todaybread.todaybread.review.infra.http.request.CreateReviewRequest;
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewListResponse;
 import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewResponse;
-import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
-import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
-import com.github.org.todaybread.todaybread.steppay.product.infra.response.SteppayProductResponse;
 import com.github.org.todaybread.todaybread.store.application.facade.StoreFacadeImpl;
 import com.github.org.todaybread.todaybread.store.infra.http.request.CreateStoreRequest;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,8 +35,6 @@ class ReviewFacadeImplTest {
     private ReviewFacadeImpl reviewFacade;
     @Autowired
     private ProductFacadeImpl productFacade;
-    @MockBean
-    private SteppayProductService steppayProductService;
     @Autowired
     private StoreFacadeImpl storeFacade;
     @Autowired
@@ -54,7 +44,7 @@ class ReviewFacadeImplTest {
     public void beforeEach() {
         memberId = memberRepository.save(
             Member.builder()
-                .steppayId(1000)
+                .steppayId(1000L)
                 .name("test_name")
                 .email("test@email.com")
                 .phone("010-0000-0000")
@@ -79,21 +69,6 @@ class ReviewFacadeImplTest {
                 .build()
         ).getId();
 
-        when(steppayProductService.create(any(SteppayCreateProductRequest.class)))
-            .thenReturn(
-                SteppayProductResponse.builder()
-                    .id(1000)
-                    .createdAt(LocalDateTime.now())
-                    .modifiedAt(LocalDateTime.now())
-                    .code(UUID.randomUUID().toString().replaceAll("-", ""))
-                    .type("BOX")
-                    .status("SALE")
-                    .name("test_product")
-                    .featuredImageUrl("test_featured_image_url")
-                    .prices(null)
-                    .build()
-            );
-
         productId = productFacade.create(
             memberId,
             CreateProductRequest.builder()
@@ -101,7 +76,7 @@ class ReviewFacadeImplTest {
                 .name("test_product")
                 .breadType(BreadType.BREAD)
                 .description(List.of())
-                .price(10_000)
+                .price(10_000L)
                 .quantity(null)
                 .build()
         ).getId();

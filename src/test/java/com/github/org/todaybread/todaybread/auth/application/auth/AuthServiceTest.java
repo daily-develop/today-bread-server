@@ -1,8 +1,6 @@
 package com.github.org.todaybread.todaybread.auth.application.auth;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import com.github.org.todaybread.todaybread.auth.application.token.TokenServiceImpl;
 import com.github.org.todaybread.todaybread.auth.domain.auth.AuthType;
@@ -15,20 +13,14 @@ import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenRespon
 import com.github.org.todaybread.todaybread.config.EmbeddedRedisConfig;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.persistence.MemberRepositoryImpl;
-import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
-import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
-import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
-import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,24 +36,6 @@ class AuthServiceTest {
     private TokenServiceImpl tokenService;
     @Autowired
     private MemberRepositoryImpl memberRepository;
-
-    @MockBean
-    private SteppayCustomerServiceImpl steppayCustomerService;
-
-    @BeforeEach
-    public void beforeEach() {
-        when(steppayCustomerService.createCustomer(any(SteppayCreateCustomerRequest.class)))
-            .thenReturn(
-                SteppayCustomerResponse.builder()
-                    .id(1000)
-                    .createdAt(LocalDateTime.now())
-                    .modifiedAt(LocalDateTime.now())
-                    .name("test_name")
-                    .email("email@email.com")
-                    .phone("01012345678")
-                    .build()
-            );
-    }
 
     @Test
     @DisplayName("회원가입을 할 수 있어요.")

@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 public class SteppayPricePlanResponse {
 
-    Integer id;
+    Long id;
     LocalDateTime createdAt;
     LocalDateTime modifiedAt;
     String code;
-    Integer price;
+    Long price;
     String type;
     String claimMethodType;
 }

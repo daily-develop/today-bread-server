@@ -7,11 +7,9 @@ import com.github.org.todaybread.todaybread.steppay.product.infra.response.Stepp
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
-@Service
 @RequiredArgsConstructor
 public class SteppayProductServiceImpl implements SteppayProductService {
 
@@ -27,7 +25,7 @@ public class SteppayProductServiceImpl implements SteppayProductService {
     }
 
     @Override
-    public SteppayProductResponse update(int productId, SteppayUpdateProductRequest request) {
+    public SteppayProductResponse update(Long productId, SteppayUpdateProductRequest request) {
         return template.exchange(
             "/products/" + productId,
             HttpMethod.PUT,
@@ -37,7 +35,7 @@ public class SteppayProductServiceImpl implements SteppayProductService {
     }
 
     @Override
-    public SteppayProductResponse stop(int productId) {
+    public SteppayProductResponse stop(Long productId) {
         return template.exchange(
             "/products/" + productId,
             HttpMethod.PUT,
