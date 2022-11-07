@@ -37,7 +37,7 @@ public class Store extends Core {
     @NotEmpty
     private String phone;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(targetEntity = Manager.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "manager_id")
     private Manager manager;
 
