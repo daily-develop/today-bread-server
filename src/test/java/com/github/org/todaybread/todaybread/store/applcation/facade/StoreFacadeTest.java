@@ -34,7 +34,7 @@ public class StoreFacadeTest {
     public void beforeEach() {
         memberId = memberRepository.save(
             Member.builder()
-                .steppayId(1000)
+                .steppayId(1000L)
                 .name("test_name")
                 .email("test@email.com")
                 .phone("010-0000-0000")

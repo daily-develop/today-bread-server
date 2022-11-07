@@ -16,7 +16,7 @@ import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.domain.MemberRepository;
-import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerService;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayShippingRequest;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final FileFacade fileFacade;
     private final AuthRepository authRepository;
     private final MemberRepository memberRepository;
-    private final SteppayCustomerServiceImpl steppayCustomerService;
+    private final SteppayCustomerService steppayCustomerService;
 
     @Override
     @Transactional

@@ -3,7 +3,7 @@ package com.github.org.todaybread.todaybread.steppay;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.github.org.todaybread.todaybread.config.RestTemplateConfig;
-import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerService;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayCreateCustomerRequest;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.request.SteppayShippingRequest;
 import com.github.org.todaybread.todaybread.steppay.customer.infra.response.SteppayCustomerResponse;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 class SteppayCustomerServiceImplTest {
 
     @Autowired
-    private SteppayCustomerServiceImpl steppayCustomerService;
+    private SteppayCustomerService steppayCustomerService;
 
     @DisplayName("스텝페이 고객을 생성할 수 있어요.")
     public void create() {

@@ -7,11 +7,9 @@ import com.github.org.todaybread.todaybread.steppay.product.infra.response.Stepp
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
-@Service
 @RequiredArgsConstructor
 public class SteppayProductServiceImpl implements SteppayProductService {
 
