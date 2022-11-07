@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 public class SteppayCustomerServiceMock implements SteppayCustomerService {
 
-
     @Override
     public SteppayCustomerResponse createCustomer(SteppayCreateCustomerRequest request) {
         return SteppayCustomerResponse.builder()

@@ -12,6 +12,10 @@ import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
+import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanService;
+import com.github.org.todaybread.todaybread.steppay.plan.domain.SteppayPlanInfo;
+import com.github.org.todaybread.todaybread.steppay.plan.infra.request.SteppayCreatePlanRequest;
+import com.github.org.todaybread.todaybread.steppay.plan.infra.response.SteppayPlanResponse;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayCreateProductRequest;
 import com.github.org.todaybread.todaybread.steppay.product.infra.request.SteppayUpdateProductRequest;
@@ -35,6 +39,7 @@ public class ProductFacadeImpl implements ProductFacade {
     private final ProductAttachmentService productAttachmentService;
     private final StoreService storeService;
     private final SteppayProductService steppayProductService;
+    private final SteppayPlanService steppayPlanService;
 
     @Override
     public ProductResponse getById(String productId) {
@@ -65,22 +70,36 @@ public class ProductFacadeImpl implements ProductFacade {
             );
         }
 
-        SteppayProductResponse response = steppayProductService.create(
+        SteppayProductResponse productResponse = steppayProductService.create(
             SteppayCreateProductRequest.builder()
                 .name(request.getName())
                 .featuredImageUrl(image != null ? image.toResponse().getUrl() : "")
+                .quantity(request.getQuantity())
+                .build()
+        );
+
+        SteppayPlanResponse planResponse = steppayPlanService.create(
+            productResponse.getId(),
+            SteppayCreatePlanRequest.builder()
+                .price(request.getPrice())
+                .plan(
+                    SteppayPlanInfo.builder()
+                        .name(request.getName())
+                        .description(store.getName())
+                        .build()
+                )
                 .build()
         );
 
         Product product = productService.save(
             Product.builder()
-                .steppayId(response.getId())
+                .steppayId(productResponse.getId())
                 .store(store)
                 .featureImage(image)
-                .name(response.getName())
+                .name(productResponse.getName())
                 .breadType(request.getBreadType())
-                .price(request.getPrice())
-                .quantity(request.getQuantity())
+                .price(planResponse.getPrice())
+                .quantity(productResponse.getQuantity())
                 .build()
         );
 
@@ -109,6 +128,7 @@ public class ProductFacadeImpl implements ProductFacade {
             SteppayUpdateProductRequest.builder()
                 .name(request.getName())
                 .featuredImageUrl(file != null ? file.toResponse().getUrl() : "")
+                .quantity(request.getQuantity())
                 .build()
         );
 
@@ -117,7 +137,7 @@ public class ProductFacadeImpl implements ProductFacade {
             .updateName(response.getName())
             .updateBreadType(request.getBreadType())
             .updatePrice(request.getPrice())
-            .updateQuantity(request.getQuantity());
+            .updateQuantity(response.getQuantity());
 
         product.updateDescription(
             request.getDescription()
