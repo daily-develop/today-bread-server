@@ -22,6 +22,7 @@ type Store {
     id: ID!
     createdAt: LocalDateTime!
     updatedAt: LocalDateTime!
+    isManager: Boolean!
     name: String!
     description: String!
     location: String!
