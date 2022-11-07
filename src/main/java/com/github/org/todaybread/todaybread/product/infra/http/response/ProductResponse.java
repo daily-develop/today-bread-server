@@ -21,8 +21,8 @@ public class ProductResponse {
     String name;
     List<FileResponse> description;
     BreadType breadType;
-    Integer price;
-    Integer quantity;
+    Long price;
+    Long quantity;
 
     Float score;
 

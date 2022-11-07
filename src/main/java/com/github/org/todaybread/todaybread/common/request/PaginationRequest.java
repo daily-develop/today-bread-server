@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PaginationRequest {
 
-	protected Integer page;
-	protected Integer take;
+    protected Long page;
+    protected Long take;
 
-	public PaginationRequest(Integer page, Integer take) {
-		this.page = page;
-		this.take = take;
-	}
+    public PaginationRequest(Long page, Long take) {
+        this.page = page;
+        this.take = take;
+    }
 }

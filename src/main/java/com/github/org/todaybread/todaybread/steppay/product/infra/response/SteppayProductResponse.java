@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SteppayProductResponse {
 
-    Integer id;
+    Long id;
     LocalDateTime createdAt;
     LocalDateTime modifiedAt;
     String code;
@@ -23,7 +23,7 @@ public class SteppayProductResponse {
 
     @Builder
     public SteppayProductResponse(
-        Integer id,
+        Long id,
         LocalDateTime createdAt,
         LocalDateTime modifiedAt,
         String code,

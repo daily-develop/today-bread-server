@@ -27,7 +27,7 @@ public class SteppayProductServiceImpl implements SteppayProductService {
     }
 
     @Override
-    public SteppayProductResponse update(int productId, SteppayUpdateProductRequest request) {
+    public SteppayProductResponse update(Long productId, SteppayUpdateProductRequest request) {
         return template.exchange(
             "/products/" + productId,
             HttpMethod.PUT,
@@ -37,7 +37,7 @@ public class SteppayProductServiceImpl implements SteppayProductService {
     }
 
     @Override
-    public SteppayProductResponse stop(int productId) {
+    public SteppayProductResponse stop(Long productId) {
         return template.exchange(
             "/products/" + productId,
             HttpMethod.PUT,

@@ -28,7 +28,7 @@ import org.hibernate.annotations.ColumnDefault;
 public class Product extends Core {
 
     @Column(unique = true, nullable = false)
-    private Integer steppayId;
+    private Long steppayId;
 
     @ColumnDefault("true")
     private boolean status;
@@ -49,23 +49,23 @@ public class Product extends Core {
     @Enumerated(EnumType.STRING)
     private BreadType breadType;
 
-    private Integer price;
+    private Long price;
 
-    private Integer quantity;
+    private Long quantity;
 
     private Float score = 0.0F;
 
 
     @Builder
     public Product(
-        Integer steppayId,
+        Long steppayId,
         Store store,
         File featureImage,
         String name,
         List<ProductAttachment> description,
         BreadType breadType,
-        Integer price,
-        Integer quantity
+        Long price,
+        Long quantity
     ) {
         this.steppayId = steppayId;
         this.status = true;
@@ -108,13 +108,13 @@ public class Product extends Core {
         return this;
     }
 
-    public Product updatePrice(Integer price) {
+    public Product updatePrice(Long price) {
         this.price = price;
 
         return this;
     }
 
-    public Product updateQuantity(Integer quantity) {
+    public Product updateQuantity(Long quantity) {
         this.quantity = quantity;
 
         return this;

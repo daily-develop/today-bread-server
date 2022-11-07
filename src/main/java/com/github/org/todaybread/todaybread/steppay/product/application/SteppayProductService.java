@@ -9,7 +9,7 @@ public interface SteppayProductService {
 
     SteppayProductResponse create(SteppayCreateProductRequest request);
 
-    SteppayProductResponse update(int productId, SteppayUpdateProductRequest request);
+    SteppayProductResponse update(Long productId, SteppayUpdateProductRequest request);
 
-    SteppayProductResponse stop(int productId);
+    SteppayProductResponse stop(Long productId);
 }
