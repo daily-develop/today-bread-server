@@ -8,6 +8,7 @@ import com.github.org.todaybread.todaybread.manager.exception.NotManagerExceptio
 import com.github.org.todaybread.todaybread.product.application.service.ProductService;
 import com.github.org.todaybread.todaybread.product.attachment.application.ProductAttachmentService;
 import com.github.org.todaybread.todaybread.product.attachment.domain.ProductAttachment;
+import com.github.org.todaybread.todaybread.product.domain.BreadType;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
@@ -42,8 +43,15 @@ public class ProductFacadeImpl implements ProductFacade {
     }
 
     @Override
-    public List<ProductResponse> getList(String storeId, int page, int take) {
-        return productService.getList(storeId, page, take).stream()
+    public List<ProductResponse> getList(String storeId, BreadType breadType, int page, int take) {
+        return productService.getList(storeId, breadType, page, take).stream()
+            .map(Product::toResponse)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponse> getRecommended(int take) {
+        return productService.getRecommended(take).stream()
             .map(Product::toResponse)
             .collect(Collectors.toList());
     }

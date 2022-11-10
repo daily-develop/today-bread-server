@@ -9,6 +9,7 @@ import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.store.exceptions.NotFoundStoreException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,10 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public List<Manager> getByMemberId(String memberId) {
-        return managerRepository.getByMemberId(memberId);
+    public List<Manager> getByMemberId(String memberId, int page, int take) {
+        return managerRepository.getByMemberId(
+            memberId, PageRequest.of(page - 1, take)
+        ).getContent();
     }
 
     @Override

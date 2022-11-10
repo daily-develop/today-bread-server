@@ -1,5 +1,6 @@
 package com.github.org.todaybread.todaybread.product.application.service;
 
+import com.github.org.todaybread.todaybread.product.domain.BreadType;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.domain.ProductRepository;
 import com.github.org.todaybread.todaybread.product.exception.NotFoundProductException;
@@ -22,10 +23,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getList(String storeId, int page, int take) {
+    public List<Product> getList(String storeId, BreadType breadType, int page, int take) {
         return productRepository.getList(
             storeId,
+            breadType,
             PageRequest.of(page - 1, take)
+        );
+    }
+
+    @Override
+    public List<Product> getRecommended(int take) {
+        return productRepository.getList(
+            null,
+            null,
+            PageRequest.of(0, take)
         );
     }
 
