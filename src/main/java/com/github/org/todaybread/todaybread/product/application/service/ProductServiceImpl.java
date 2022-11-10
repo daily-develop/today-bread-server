@@ -32,6 +32,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getRecommended(int take) {
+        return productRepository.getList(
+            null,
+            null,
+            PageRequest.of(0, take)
+        );
+    }
+
+    @Override
     @Transactional
     public Product save(Product product) {
         return productRepository.save(product);

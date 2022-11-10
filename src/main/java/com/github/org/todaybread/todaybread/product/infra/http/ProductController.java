@@ -39,6 +39,13 @@ public class ProductController {
         return productFacade.getList(storeId, breadType, page, take);
     }
 
+    @QueryMapping
+    public List<ProductResponse> recommendedProducts(
+        @Argument int take
+    ) {
+        return productFacade.getRecommended(take);
+    }
+
     @MutationMapping
     public ProductResponse createProduct(
         Authentication authentication,

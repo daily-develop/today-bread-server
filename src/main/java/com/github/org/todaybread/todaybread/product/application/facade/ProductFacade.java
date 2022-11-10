@@ -12,6 +12,8 @@ public interface ProductFacade {
 
     List<ProductResponse> getList(String storeId, BreadType breadType, int page, int take);
 
+    List<ProductResponse> getRecommended(int take);
+
     ProductResponse create(String memberId, CreateProductRequest request);
 
     ProductResponse update(String memberId, UpdateProductRequest request);
