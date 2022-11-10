@@ -1,0 +1,9 @@
+### Type ###
+type Order{
+    id: ID!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
+    paidAmount: Int!
+    product: Product!
+    member: Member!
+}

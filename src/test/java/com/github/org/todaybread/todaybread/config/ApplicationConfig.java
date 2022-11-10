@@ -4,6 +4,8 @@ import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthService;
 import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthServiceMock;
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerService;
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceMock;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderService;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderServiceMock;
 import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanService;
 import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanServiceMock;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
@@ -32,5 +34,10 @@ public class ApplicationConfig {
     @Bean
     public SteppayPlanService steppayPlanService() {
         return new SteppayPlanServiceMock();
+    }
+
+    @Bean
+    public SteppayOrderService steppayOrderService() {
+        return new SteppayOrderServiceMock();
     }
 }

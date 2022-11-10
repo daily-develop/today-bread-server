@@ -11,6 +11,8 @@ import com.github.org.todaybread.todaybread.auth.infra.http.request.ReissueReque
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignInRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.request.SignUpRequest;
 import com.github.org.todaybread.todaybread.auth.infra.http.response.TokenResponse;
+import com.github.org.todaybread.todaybread.customer.application.service.CustomerServiceImpl;
+import com.github.org.todaybread.todaybread.customer.domain.Customer;
 import com.github.org.todaybread.todaybread.file.application.facade.FileFacade;
 import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
@@ -35,6 +37,8 @@ public class AuthServiceImpl implements AuthService {
     private final AuthRepository authRepository;
     private final MemberRepository memberRepository;
     private final SteppayCustomerService steppayCustomerService;
+    private final CustomerServiceImpl customerService;
+
 
     @Override
     @Transactional
@@ -79,6 +83,13 @@ public class AuthServiceImpl implements AuthService {
                 .postcode(request.getPostcode())
                 .address1(request.getAddress1())
                 .address2(request.getAddress2())
+                .build()
+        );
+
+        customerService.save(
+            Customer.builder()
+                .steppayId(response.getId())
+                .member(member)
                 .build()
         );
 

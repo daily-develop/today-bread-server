@@ -16,6 +16,10 @@ type Query {
     product(productId: ID!): Product!
     products(storeId: ID, page: Int = 1, take: Int = 10): [Product!]!
 
+    ### Order ###
+    order(orderId: ID!): Order!
+    orders(page: Int = 1, take: Int = 10): [Order!]!
+
     ### Review ###
     reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewListResponse!
 }
@@ -45,6 +49,9 @@ type Mutation {
     createProduct(request: CreateProductRequest!): Product!
     updateProduct(request: UpdateProductRequest!): Product!
     stopProduct(productId: ID!): Product!
+
+    ### Order ###
+    createOrder(productId: ID!): Order!
 
     ### Review ###
     createReview(request: CreateReviewRequest!): Review!

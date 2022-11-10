@@ -94,11 +94,13 @@ public class ProductFacadeImpl implements ProductFacade {
         Product product = productService.save(
             Product.builder()
                 .steppayId(productResponse.getId())
+                .steppayCode(productResponse.getCode())
                 .store(store)
                 .featureImage(image)
                 .name(productResponse.getName())
                 .breadType(request.getBreadType())
                 .price(planResponse.getPrice())
+                .steppayPlanCode(planResponse.getCode())
                 .quantity(productResponse.getQuantity())
                 .build()
         );

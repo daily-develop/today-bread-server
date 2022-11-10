@@ -6,6 +6,9 @@ import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthServiceM
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerService;
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceMock;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderService;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderServiceMock;
 import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanService;
 import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanServiceImpl;
 import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanServiceMock;
@@ -24,13 +27,13 @@ public class ApplicationConfig {
 
     private final RestTemplate restTemplate;
 
-    @Profile({"internal"})
+    @Profile({"internal", "local"})
     @Bean(name = "OAuthService")
     public OAuthService oAuthServiceMock() {
         return new OAuthServiceMock();
     }
 
-    @Profile({"dev", "local"})
+    @Profile({"dev"})
     @Bean(name = "OAuthService")
     public OAuthService oAuthServiceImpl() {
         return new OAuthServiceImpl();
@@ -70,5 +73,17 @@ public class ApplicationConfig {
     @Bean(name = "SteppayPlanService")
     public SteppayPlanService steppayPlanServiceImpl() {
         return new SteppayPlanServiceImpl(restTemplate);
+    }
+
+    @Profile({"internal"})
+    @Bean(name = "SteppayOrderService")
+    public SteppayOrderService steppayOrderServiceMock() {
+        return new SteppayOrderServiceMock();
+    }
+
+    @Profile({"dev", "local"})
+    @Bean(name = "SteppayOrderService")
+    public SteppayOrderService steppayOrderServiceImpl() {
+        return new SteppayOrderServiceImpl(restTemplate);
     }
 }
