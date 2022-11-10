@@ -1,5 +1,6 @@
 package com.github.org.todaybread.todaybread.product.application.facade;
 
+import com.github.org.todaybread.todaybread.product.domain.BreadType;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
@@ -9,7 +10,7 @@ public interface ProductFacade {
 
     ProductResponse getById(String productId);
 
-    List<ProductResponse> getList(String storeId, int page, int take);
+    List<ProductResponse> getList(String storeId, BreadType breadType, int page, int take);
 
     ProductResponse create(String memberId, CreateProductRequest request);
 

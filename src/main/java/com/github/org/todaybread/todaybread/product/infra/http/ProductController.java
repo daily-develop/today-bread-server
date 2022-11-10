@@ -1,6 +1,7 @@
 package com.github.org.todaybread.todaybread.product.infra.http;
 
 import com.github.org.todaybread.todaybread.product.application.facade.ProductFacade;
+import com.github.org.todaybread.todaybread.product.domain.BreadType;
 import com.github.org.todaybread.todaybread.product.infra.http.request.CreateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.request.UpdateProductRequest;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
@@ -31,10 +32,11 @@ public class ProductController {
     @QueryMapping
     public List<ProductResponse> products(
         @Argument String storeId,
+        @Argument BreadType breadType,
         @Argument int page,
         @Argument int take
     ) {
-        return productFacade.getList(storeId, page, take);
+        return productFacade.getList(storeId, breadType, page, take);
     }
 
     @MutationMapping

@@ -1,6 +1,7 @@
 package com.github.org.todaybread.todaybread.product.infra.persistence;
 
 import com.github.org.todaybread.todaybread.file.domain.QFile;
+import com.github.org.todaybread.todaybread.product.domain.BreadType;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.domain.ProductRepository;
 import com.github.org.todaybread.todaybread.product.domain.QProduct;
@@ -31,7 +32,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> getList(String storeId, Pageable pageable) {
+    public List<Product> getList(String storeId, BreadType breadType, Pageable pageable) {
         JPAQuery<Product> query = queryFactory
             .selectFrom(product)
             .leftJoin(product.image, file).fetchJoin()
@@ -39,6 +40,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         if (!(storeId == null || storeId.isBlank())) {
             query = query.where(product.store.id.eq(UUID.fromString(storeId)));
+        }
+
+        if (breadType != null) {
+            query = query.where(product.breadType.eq(breadType));
         }
 
         return query
