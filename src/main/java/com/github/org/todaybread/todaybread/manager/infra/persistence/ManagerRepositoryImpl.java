@@ -3,10 +3,11 @@ package com.github.org.todaybread.todaybread.manager.infra.persistence;
 import com.github.org.todaybread.todaybread.manager.domain.Manager;
 import com.github.org.todaybread.todaybread.manager.domain.ManagerRepository;
 import com.github.org.todaybread.todaybread.member.domain.Member;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,8 +22,8 @@ public class ManagerRepositoryImpl implements ManagerRepository {
     }
 
     @Override
-    public List<Manager> getByMemberId(String memberId) {
-        return managerRepository.findByMemberId(UUID.fromString(memberId));
+    public Page<Manager> getByMemberId(String memberId, Pageable pageable) {
+        return managerRepository.findByMemberId(UUID.fromString(memberId), pageable);
     }
 
     @Override

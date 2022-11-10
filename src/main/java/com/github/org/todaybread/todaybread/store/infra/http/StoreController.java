@@ -38,9 +38,11 @@ public class StoreController {
 
     @QueryMapping
     public List<StoreResponse> managedStore(
-        Authentication authentication
+        Authentication authentication,
+        @Argument int page,
+        @Argument int take
     ) {
-        return storeFacade.getByMemberId(authentication.getName());
+        return storeFacade.getByMemberId(authentication.getName(), page, take);
     }
 
     @MutationMapping
