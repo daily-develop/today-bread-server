@@ -7,6 +7,7 @@ import com.github.org.todaybread.todaybread.product.infra.http.request.UpdatePro
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -33,15 +34,15 @@ public class ProductController {
     public List<ProductResponse> products(
         @Argument String storeId,
         @Argument BreadType breadType,
-        @Argument int page,
-        @Argument int take
+        @Valid @Min(1) @Argument int page,
+        @Valid @Min(1) @Argument int take
     ) {
         return productFacade.getList(storeId, breadType, page, take);
     }
 
     @QueryMapping
     public List<ProductResponse> recommendedProducts(
-        @Argument int take
+        @Valid @Min(1) @Argument int take
     ) {
         return productFacade.getRecommended(take);
     }

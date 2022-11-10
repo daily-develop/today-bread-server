@@ -8,6 +8,7 @@ import com.github.org.todaybread.todaybread.review.infra.http.response.ReviewRes
 import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
@@ -27,8 +28,8 @@ public class ReviewController {
     @QueryMapping
     public ReviewListResponse reviews(
         @Argument String productId,
-        @Argument int page,
-        @Argument int take
+        @Valid @Min(1) @Argument int page,
+        @Valid @Min(1) @Argument int take
     ) {
         return reviewFacade.getList(productId, page, take);
     }
