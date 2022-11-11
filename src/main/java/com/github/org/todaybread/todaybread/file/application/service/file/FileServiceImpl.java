@@ -21,7 +21,8 @@ public class FileServiceImpl implements FileService {
     private static final List<String> ALLOWED_FILE_TYPE = Arrays.asList(
         "jpeg",
         "png",
-        "jpg"
+        "jpg",
+        "heic"
     );
     private final FileRepositoryImpl fileRepository;
     private final StorageServiceImpl storageService;
