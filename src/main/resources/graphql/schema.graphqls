@@ -15,6 +15,7 @@ type Query {
     ### Product ###
     product(productId: ID!): Product!
     products(storeId: ID, breadType: BreadType, page: Int = 1, take: Int = 10): [Product!]!
+    productsRanking(page: Int = 1, take: Int = 10): [Product!]!
     recommendedProducts(take: Int = 3): [Product!]!
 
     ### Order ###

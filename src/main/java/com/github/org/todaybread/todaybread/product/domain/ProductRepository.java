@@ -10,5 +10,8 @@ public interface ProductRepository {
 
     List<Product> getList(String storeId, BreadType breadType, Pageable pageable);
 
+    List<Product> getRanking(Pageable pageable);
+
     Product save(Product product);
+
 }

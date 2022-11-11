@@ -14,6 +14,8 @@ public interface ProductFacade {
 
     List<ProductResponse> getRecommended(int take);
 
+    List<ProductResponse> getRanking(int page, int take);
+
     ProductResponse create(String memberId, CreateProductRequest request);
 
     ProductResponse update(String memberId, UpdateProductRequest request);

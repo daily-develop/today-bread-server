@@ -14,6 +14,7 @@ import lombok.Getter;
 public class OrderResponse {
 
     String id;
+    String steppayOrderCode;
     Long paidAmount;
     ProductResponse product;
     MemberResponse member;
@@ -22,6 +23,7 @@ public class OrderResponse {
 
     public OrderResponse(
         UUID id,
+        String steppayOrderCode,
         Long paidAmount,
         Product product,
         Member member,
@@ -29,6 +31,7 @@ public class OrderResponse {
         LocalDateTime updatedAt
     ) {
         this.id = id.toString();
+        this.steppayOrderCode = steppayOrderCode;
         this.paidAmount = paidAmount;
         this.product = product.toResponse();
         this.member = member.toResponse();
@@ -39,6 +42,7 @@ public class OrderResponse {
     @Builder
     public OrderResponse(Order order) {
         this.id = order.getId().toString();
+        this.steppayOrderCode = order.getSteepayOrderCode();
         this.paidAmount = order.getPaidAmount();
         this.product = order.getProduct().toResponse();
         this.member = order.getMember().toResponse();

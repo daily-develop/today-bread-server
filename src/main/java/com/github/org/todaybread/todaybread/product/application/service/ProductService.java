@@ -12,5 +12,7 @@ public interface ProductService {
 
     List<Product> getRecommended(int take);
 
+    List<Product> getRanking(int page, int take);
+
     Product save(Product product);
 }
