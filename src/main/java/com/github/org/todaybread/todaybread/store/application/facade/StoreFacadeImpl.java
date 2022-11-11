@@ -103,11 +103,9 @@ public class StoreFacadeImpl implements StoreFacade {
     }
 
     @Override
-    public List<StoreResponse> getByMemberId(String memberId) {
-        List<Manager> managerList = managerService.getByMemberId(memberId);
-
-        return managerList.stream().map(manager ->
-            storeService.getByManagerId(manager.getId().toString()).toResponse()
-        ).collect(Collectors.toList());
+    public List<StoreResponse> getByMemberId(String memberId, int page, int take) {
+        return managerService.getByMemberId(memberId, page, take).stream()
+            .map(manager -> storeService.getByManagerId(manager.getId().toString()).toResponse())
+            .collect(Collectors.toList());
     }
 }

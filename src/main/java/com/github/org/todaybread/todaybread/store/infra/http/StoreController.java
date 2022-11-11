@@ -6,6 +6,8 @@ import com.github.org.todaybread.todaybread.store.infra.http.request.UpdateStore
 import com.github.org.todaybread.todaybread.store.infra.http.response.StoreResponse;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -23,14 +25,16 @@ public class StoreController {
     private final StoreFacadeImpl storeFacade;
 
     @QueryMapping
-    public StoreResponse store(@Argument String storeId) {
+    public StoreResponse store(
+        @Valid @NotBlank @Argument String storeId
+    ) {
         return storeFacade.get(storeId);
     }
 
     @QueryMapping
     public List<StoreResponse> stores(
-        @Argument int page,
-        @Argument int take,
+        @Valid @Min(1) @Argument int page,
+        @Valid @Min(1) @Argument int take,
         @Argument String search
     ) {
         return storeFacade.getList(page, take, search);
@@ -38,9 +42,11 @@ public class StoreController {
 
     @QueryMapping
     public List<StoreResponse> managedStore(
-        Authentication authentication
+        Authentication authentication,
+        @Valid @Min(1) @Argument int page,
+        @Valid @Min(1) @Argument int take
     ) {
-        return storeFacade.getByMemberId(authentication.getName());
+        return storeFacade.getByMemberId(authentication.getName(), page, take);
     }
 
     @MutationMapping
@@ -62,7 +68,7 @@ public class StoreController {
     @MutationMapping
     public Boolean deleteStore(
         Authentication authentication,
-        @Argument String storeId
+        @Valid @NotBlank @Argument String storeId
     ) {
         return storeFacade.delete(authentication.getName(), storeId);
     }

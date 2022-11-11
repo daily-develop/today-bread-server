@@ -5,6 +5,7 @@ import graphql.GraphQLError;
 import graphql.GraphQLException;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
+import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.stereotype.Component;
@@ -30,8 +31,20 @@ public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter
                 .message(ex.getMessage())
                 .errorType(ErrorType.ValidationError)
                 .build();
+        } else if (ex instanceof ConstraintViolationException) {
+            log.error("[Validation Error] {}", ex.getMessage());
+
+            return GraphqlErrorBuilder.newError()
+                .message(ex.getMessage())
+                .errorType(ErrorType.ValidationError)
+                .build();
         } else {
-            return super.resolveToSingleError(ex, env);
+            log.error("[Error] {}", ex.getMessage());
+
+            return GraphqlErrorBuilder.newError()
+                .message(ex.getMessage())
+                .errorType(ErrorType.ExecutionAborted)
+                .build();
         }
     }
 }

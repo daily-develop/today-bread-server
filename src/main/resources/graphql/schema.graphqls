@@ -10,12 +10,13 @@ type Query {
     ### Store ###
     store(storeId: ID!): Store!
     stores(page: Int = 1, take: Int = 10, search: String): [Store!]!
-    managedStore: [Store!]!
+    managedStore(page: Int = 1, take: Int = 10): [Store!]!
 
     ### Product ###
     product(productId: ID!): Product!
-    products(storeId: ID, page: Int = 1, take: Int = 10): [Product!]!
+    products(storeId: ID, breadType: BreadType, page: Int = 1, take: Int = 10): [Product!]!
     productsRanking(page: Int = 1, take: Int = 10): [Product!]!
+    recommendedProducts(take: Int = 3): [Product!]!
 
     ### Order ###
     order(orderId: ID!): Order!

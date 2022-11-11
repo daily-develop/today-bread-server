@@ -314,7 +314,7 @@ public class StoreFacadeTest {
                 ).build()
         );
 
-        List<StoreResponse> stores = storeFacade.getByMemberId(memberId);
+        List<StoreResponse> stores = storeFacade.getByMemberId(memberId, 1, 10);
 
         assertThat(stores).isNotNull();
         assertThat(stores.size()).isEqualTo(1);
