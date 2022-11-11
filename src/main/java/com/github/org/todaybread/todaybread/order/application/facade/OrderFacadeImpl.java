@@ -2,6 +2,7 @@ package com.github.org.todaybread.todaybread.order.application.facade;
 
 import com.github.org.todaybread.todaybread.customer.application.service.CustomerServiceImpl;
 import com.github.org.todaybread.todaybread.customer.domain.Customer;
+import com.github.org.todaybread.todaybread.manager.exception.NotManagerException;
 import com.github.org.todaybread.todaybread.member.application.service.MemberServiceImpl;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.application.service.OrderServiceImpl;
@@ -14,6 +15,8 @@ import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrd
 import com.github.org.todaybread.todaybread.steppay.order.infra.request.SteppayCreateOrderRequest;
 import com.github.org.todaybread.todaybread.steppay.order.infra.request.SteppayItemRequest;
 import com.github.org.todaybread.todaybread.steppay.order.infra.response.SteppayOrderResponse;
+import com.github.org.todaybread.todaybread.store.application.service.StoreServiceImpl;
+import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,7 @@ public class OrderFacadeImpl implements OrderFacade {
     private final SteppayOrderService steppayOrderService;
     private final MemberServiceImpl memberService;
     private final CustomerServiceImpl customerService;
+    private final StoreServiceImpl storeService;
     private final ProductServiceImpl productService;
 
     @Override
@@ -79,5 +83,22 @@ public class OrderFacadeImpl implements OrderFacade {
         }
 
         return order.toResponse();
+    }
+
+    @Override
+    public List<OrderResponse> getListByStoreId(
+        String memberId,
+        String storeId,
+        int page,
+        int take
+    ) {
+        Member member = memberService.getMember(memberId);
+        Store store = storeService.getById(storeId);
+
+        if (!member.getId().equals(store.getManager().getMember().getId())) {
+            throw new NotManagerException();
+        }
+
+        return orderService.getListByStore(store, page, take);
     }
 }

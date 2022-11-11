@@ -10,4 +10,11 @@ public interface OrderFacade {
     List<OrderResponse> getList(String memberId, int page, int take);
 
     OrderResponse getById(String memberId, String orderId);
+
+    List<OrderResponse> getListByStoreId(
+        String memberId,
+        String storeId,
+        int page,
+        int take
+    );
 }

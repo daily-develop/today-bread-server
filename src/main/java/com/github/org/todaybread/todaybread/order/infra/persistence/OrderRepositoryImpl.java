@@ -1,6 +1,13 @@
 package com.github.org.todaybread.todaybread.order.infra.persistence;
 
 import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.domain.QOrder;
+import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
+import com.github.org.todaybread.todaybread.product.domain.QProduct;
+import com.github.org.todaybread.todaybread.store.domain.QStore;
+import com.github.org.todaybread.todaybread.store.domain.Store;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +20,11 @@ import org.springframework.stereotype.Repository;
 public class OrderRepositoryImpl implements OrderRepository {
 
     private final OrderJpaRepository orderRepository;
+    private final JPAQueryFactory queryFactory;
+
+    private final QStore store = QStore.store;
+    private final QProduct product = QProduct.product;
+    private final QOrder order = QOrder.order;
 
     @Override
     public Order save(Order order) {
@@ -27,5 +39,26 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Optional<Order> getById(String orderId) {
         return orderRepository.findById(UUID.fromString(orderId));
+    }
+
+    @Override
+    public List<OrderResponse> getByStore(Store findStore, Pageable pageable) {
+        return queryFactory
+            .select(Projections.constructor(OrderResponse.class,
+                order.id,
+                order.paidAmount,
+                order.product,
+                order.member,
+                order.createdAt,
+                order.updatedAt
+            ))
+            .from(order)
+            .leftJoin(order.product, product)
+            .leftJoin(product.store, store)
+            .where(order.product.store.eq(findStore))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(order.createdAt.desc())
+            .fetch();
     }
 }

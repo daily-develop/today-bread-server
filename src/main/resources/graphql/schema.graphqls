@@ -18,7 +18,8 @@ type Query {
 
     ### Order ###
     order(orderId: ID!): Order!
-    orders(page: Int = 1, take: Int = 10): [Order!]!
+    ordersWithMember(page: Int = 1, take: Int = 10): [Order!]!
+    ordersWithManager(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
 
     ### Review ###
     reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewListResponse!

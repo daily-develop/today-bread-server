@@ -27,12 +27,27 @@ public class OrderController {
     }
 
     @QueryMapping
-    public List<OrderResponse> orders(
+    public List<OrderResponse> ordersWithMember(
         Authentication authentication,
         @Argument int page,
         @Argument int take
     ) {
         return orderFacade.getList(authentication.getName(), page, take);
+    }
+
+    @QueryMapping
+    public List<OrderResponse> ordersWithManager(
+        Authentication authentication,
+        @Argument String storeId,
+        @Argument int page,
+        @Argument int take
+    ) {
+        return orderFacade.getListByStoreId(
+            authentication.getName(),
+            storeId,
+            page,
+            take
+        );
     }
 
     @MutationMapping

@@ -7,7 +7,8 @@ import com.github.org.todaybread.todaybread.product.domain.Product;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,10 +30,12 @@ public class Order extends Core {
     @Column(nullable = false)
     private Long paidAmount;
 
-    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
