@@ -23,7 +23,7 @@ public class TokenRepositoryImpl implements TokenRepository {
 
     @Override
     public void delete(String key) {
-        getOperations().getAndDelete(key);
+        getOperations().set(key, new Token(null, null), Duration.ofMillis(0));
     }
 
     @Override
