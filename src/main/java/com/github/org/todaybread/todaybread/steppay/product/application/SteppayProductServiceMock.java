@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class SteppayProductServiceMock implements SteppayProductService {
 
-    Map<Long, SteppayProductResponse> cache = new HashMap<>();
+    private final Map<Long, SteppayProductResponse> cache = new HashMap<>();
 
     @Override
     public SteppayProductResponse create(SteppayCreateProductRequest request) {
@@ -24,6 +24,7 @@ public class SteppayProductServiceMock implements SteppayProductService {
             .status(request.getStatus())
             .name(request.getName())
             .featuredImageUrl(request.getFeaturedImageUrl())
+            .quantity(request.getQuantity())
             .prices(List.of())
             .build();
 
@@ -47,6 +48,7 @@ public class SteppayProductServiceMock implements SteppayProductService {
                 .status(cached.getStatus())
                 .name(request.getName())
                 .featuredImageUrl(request.getFeaturedImageUrl())
+                .quantity(request.getQuantity())
                 .prices(List.of())
                 .build()
         );
@@ -69,6 +71,7 @@ public class SteppayProductServiceMock implements SteppayProductService {
                 .status("UNSOLD")
                 .name(cached.getName())
                 .featuredImageUrl(cached.getFeaturedImageUrl())
+                .quantity(cached.getQuantity())
                 .prices(List.of())
                 .build()
         );

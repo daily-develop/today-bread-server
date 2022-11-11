@@ -10,15 +10,18 @@ public class SteppayCreateProductRequest {
     String status;
     String name;
     String featuredImageUrl;
+    Long quantity;
 
     @Builder
     public SteppayCreateProductRequest(
         String name,
-        String featuredImageUrl
+        String featuredImageUrl,
+        Long quantity
     ) {
         this.type = "BOX";
         this.status = "SALE";
         this.name = name;
         this.featuredImageUrl = featuredImageUrl;
+        this.quantity = quantity;
     }
 }

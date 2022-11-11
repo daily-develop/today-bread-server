@@ -21,7 +21,7 @@ public class SteppayCreateCustomerRequest {
     ) {
         this.name = name;
         this.email = email;
-        this.phone = phone;
+        this.phone = phone.replaceAll("-", "").trim();
         this.shipping = shipping;
     }
 }

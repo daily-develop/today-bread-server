@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 1024MB
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bread
+    username: bread
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  redis:
+    host: localhost
+    port: 6379
+
+jwt:
+  secret: I2NvbS5naXRodWIuZGFpbHktZGV2ZWxvcC50b2RheS1icmVhZC1zZXJ2ZXIjY29tLmdpdGh1Yi5kYWlseS1kZXZlbG9wLnRvZGF5LWJyZWFkLXNlcnZlciMK
+  expired:
+    access: 86400000
+    refresh: 604800000
+
+storage:
+  bucket: today-bread-local
+  end-point: https://kr.object.ncloudstorage.com
+  region: kr-standard
+
+steppay:
+  end-point: https://api.steppay.kr/api/v1
+  secret: aa9940916492075b347401318e68c3437bda8dfa5259fa5914631205ccd3e868

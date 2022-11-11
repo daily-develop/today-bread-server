@@ -30,6 +30,9 @@ public class Product extends Core {
     @Column(unique = true, nullable = false)
     private Long steppayId;
 
+    @Column(unique = true, nullable = false)
+    private String steppayCode;
+
     @ColumnDefault("true")
     private boolean status;
 
@@ -51,6 +54,9 @@ public class Product extends Core {
 
     private Long price;
 
+    @Column(unique = true, nullable = false)
+    private String steppayPlanCode;
+
     private Long quantity;
 
     private Float score = 0.0F;
@@ -59,15 +65,18 @@ public class Product extends Core {
     @Builder
     public Product(
         Long steppayId,
+        String steppayCode,
         Store store,
         File featureImage,
         String name,
         List<ProductAttachment> description,
         BreadType breadType,
         Long price,
+        String steppayPlanCode,
         Long quantity
     ) {
         this.steppayId = steppayId;
+        this.steppayCode = steppayCode;
         this.status = true;
         this.store = store;
         this.image = featureImage;
@@ -75,6 +84,7 @@ public class Product extends Core {
         this.description = description;
         this.breadType = breadType;
         this.price = price;
+        this.steppayPlanCode = steppayPlanCode;
         this.quantity = quantity;
     }
 

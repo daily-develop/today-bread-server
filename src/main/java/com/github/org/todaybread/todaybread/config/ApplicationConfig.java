@@ -6,6 +6,12 @@ import com.github.org.todaybread.todaybread.auth.application.oauth.OAuthServiceM
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerService;
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceImpl;
 import com.github.org.todaybread.todaybread.steppay.customer.application.SteppayCustomerServiceMock;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderService;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.order.application.SteppayOrderServiceMock;
+import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanService;
+import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanServiceImpl;
+import com.github.org.todaybread.todaybread.steppay.plan.application.SteppayPlanServiceMock;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductService;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductServiceImpl;
 import com.github.org.todaybread.todaybread.steppay.product.application.SteppayProductServiceMock;
@@ -21,7 +27,7 @@ public class ApplicationConfig {
 
     private final RestTemplate restTemplate;
 
-    @Profile({"local"})
+    @Profile({"internal", "local"})
     @Bean(name = "OAuthService")
     public OAuthService oAuthServiceMock() {
         return new OAuthServiceMock();
@@ -33,27 +39,51 @@ public class ApplicationConfig {
         return new OAuthServiceImpl();
     }
 
-    @Profile({"local"})
+    @Profile({"internal"})
     @Bean(name = "SteppayCustomerService")
     public SteppayCustomerService steppayCustomerServiceMock() {
         return new SteppayCustomerServiceMock();
     }
 
-    @Profile({"dev"})
+    @Profile({"dev", "local"})
     @Bean(name = "SteppayCustomerService")
     public SteppayCustomerService steppayCustomerServiceImpl() {
         return new SteppayCustomerServiceImpl(restTemplate);
     }
 
-    @Profile({"local"})
+    @Profile({"internal"})
     @Bean(name = "SteppayProductService")
     public SteppayProductService steppayProductServiceMock() {
         return new SteppayProductServiceMock();
     }
 
-    @Profile({"dev"})
+    @Profile({"dev", "local"})
     @Bean(name = "SteppayProductService")
     public SteppayProductService steppayProductServiceImpl() {
         return new SteppayProductServiceImpl(restTemplate);
+    }
+
+    @Profile({"internal"})
+    @Bean(name = "SteppayPlanService")
+    public SteppayPlanService steppayPlanServiceMock() {
+        return new SteppayPlanServiceMock();
+    }
+
+    @Profile({"dev", "local"})
+    @Bean(name = "SteppayPlanService")
+    public SteppayPlanService steppayPlanServiceImpl() {
+        return new SteppayPlanServiceImpl(restTemplate);
+    }
+
+    @Profile({"internal"})
+    @Bean(name = "SteppayOrderService")
+    public SteppayOrderService steppayOrderServiceMock() {
+        return new SteppayOrderServiceMock();
+    }
+
+    @Profile({"dev", "local"})
+    @Bean(name = "SteppayOrderService")
+    public SteppayOrderService steppayOrderServiceImpl() {
+        return new SteppayOrderServiceImpl(restTemplate);
     }
 }
