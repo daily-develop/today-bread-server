@@ -46,6 +46,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         return queryFactory
             .select(Projections.constructor(OrderResponse.class,
                 order.id,
+                order.steepayOrderCode,
                 order.paidAmount,
                 order.product,
                 order.member,

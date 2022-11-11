@@ -37,6 +37,14 @@ public class ProductController {
         return productFacade.getList(storeId, page, take);
     }
 
+    @QueryMapping
+    public List<ProductResponse> productsRanking(
+        @Argument int page,
+        @Argument int take
+    ) {
+        return productFacade.getRanking(page, take);
+    }
+
     @MutationMapping
     public ProductResponse createProduct(
         Authentication authentication,

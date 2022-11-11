@@ -54,6 +54,13 @@ public class ProductFacadeImpl implements ProductFacade {
     }
 
     @Override
+    public List<ProductResponse> getRanking(int page, int take) {
+        return productService.getRanking(page, take).stream()
+            .map(Product::toResponse)
+            .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public ProductResponse create(String memberId, CreateProductRequest request) {
         Store store = storeService.getById(request.getStoreId());

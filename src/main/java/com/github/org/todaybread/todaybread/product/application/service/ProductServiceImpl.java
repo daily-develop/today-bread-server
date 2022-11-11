@@ -30,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getRanking(int page, int take) {
+        return productRepository.getRanking(PageRequest.of(page - 1, take));
+    }
+
+    @Override
     @Transactional
     public Product save(Product product) {
         return productRepository.save(product);

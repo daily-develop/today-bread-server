@@ -1,9 +1,10 @@
 ### Type ###
 type Order{
     id: ID!
-    createdAt: LocalDateTime!
-    updatedAt: LocalDateTime!
+    steppayOrderCode: String!
     paidAmount: Int!
     product: Product!
     member: Member!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
 }

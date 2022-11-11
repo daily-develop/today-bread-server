@@ -11,6 +11,8 @@ public interface ProductFacade {
 
     List<ProductResponse> getList(String storeId, int page, int take);
 
+    List<ProductResponse> getRanking(int page, int take);
+
     ProductResponse create(String memberId, CreateProductRequest request);
 
     ProductResponse update(String memberId, UpdateProductRequest request);

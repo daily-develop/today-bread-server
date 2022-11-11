@@ -9,5 +9,7 @@ public interface ProductService {
 
     List<Product> getList(String storeId, int page, int take);
 
+    List<Product> getRanking(int page, int take);
+
     Product save(Product product);
 }
