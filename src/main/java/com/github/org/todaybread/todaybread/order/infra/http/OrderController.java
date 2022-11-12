@@ -20,6 +20,14 @@ public class OrderController {
     private final OrderFacadeImpl orderFacade;
 
     @QueryMapping
+    public Boolean hasOrder(
+        Authentication authentication,
+        @Argument String productId
+    ) {
+        return orderFacade.hasOrder(authentication.getName(), productId);
+    }
+
+    @QueryMapping
     public OrderResponse order(
         Authentication authentication,
         @Argument String orderId

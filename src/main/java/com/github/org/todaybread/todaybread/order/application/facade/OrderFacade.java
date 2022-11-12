@@ -9,6 +9,8 @@ public interface OrderFacade {
 
     String getOrderSecret();
 
+    Boolean hasOrder(String memberId, String productId);
+
     OrderResponse create(String memberId, String productId);
 
     List<OrderResponse> getList(String memberId, int page, int take);

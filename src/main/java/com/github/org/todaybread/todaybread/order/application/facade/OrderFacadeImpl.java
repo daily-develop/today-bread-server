@@ -47,6 +47,11 @@ public class OrderFacadeImpl implements OrderFacade {
     }
 
     @Override
+    public Boolean hasOrder(String memberId, String productId) {
+        return orderService.getByMemberIdAndProductId(memberId, productId) != null;
+    }
+
+    @Override
     @Transactional
     public OrderResponse create(String memberId, String productId) {
         Member member = memberService.getMember(memberId);
@@ -58,7 +63,7 @@ public class OrderFacadeImpl implements OrderFacade {
         }
 
         Order order = orderService.getByMemberIdAndProductId(memberId, productId);
-        if (orderService.getByMemberIdAndProductId(memberId, productId) != null) {
+        if (order != null) {
             return order.toResponse();
         }
 
