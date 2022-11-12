@@ -6,6 +6,9 @@ import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.file.infra.http.response.FileResponse;
 import com.github.org.todaybread.todaybread.member.application.service.MemberServiceImpl;
 import com.github.org.todaybread.todaybread.member.domain.Member;
+import com.github.org.todaybread.todaybread.order.application.service.OrderServiceImpl;
+import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.exception.NotFoundOrderException;
 import com.github.org.todaybread.todaybread.product.application.service.ProductServiceImpl;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.review.application.service.ReviewServiceImpl;
@@ -35,12 +38,18 @@ public class ReviewFacadeImpl implements ReviewFacade {
     private final ProductServiceImpl productService;
     private final FileFacadeImpl fileFacade;
     private final ReviewAttachmentServiceImpl reviewAttachmentService;
+    private final OrderServiceImpl orderService;
 
     @Override
     @Transactional
     public ReviewResponse create(String memberId, CreateReviewRequest request) {
         Member member = memberService.getMember(memberId);
         Product product = productService.getById(request.getProductId());
+
+        Order order = orderService.getByMemberIdAndProductId(memberId, request.getProductId());
+        if (!member.getId().equals(order.getMember().getId())) {
+            throw new NotFoundOrderException();
+        }
 
         Review review = reviewService.save(
             Review.builder()
