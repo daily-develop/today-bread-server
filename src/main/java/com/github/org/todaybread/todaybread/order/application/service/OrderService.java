@@ -13,9 +13,11 @@ public interface OrderService {
 
     Order save(Order order);
 
-    List<Order> getList(String memberId, int page, int take);
-
     Order getById(String orderId);
+
+    Order getByMemberIdAndProductId(String memberId, String productId);
+
+    List<Order> getList(String memberId, int page, int take);
 
     List<OrderResponse> getListByStore(Store store, int page, int take);
 }

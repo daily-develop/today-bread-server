@@ -11,9 +11,11 @@ public interface OrderRepository {
 
     Order save(Order order);
 
-    List<Order> getByMemberId(String memberId, Pageable pageable);
+    Optional<Order> getByMemberIdAndProductId(String memberId, String productId);
 
     Optional<Order> getById(String orderId);
+
+    List<Order> getByMemberId(String memberId, Pageable pageable);
 
     List<OrderResponse> getByStore(Store findStore, Pageable pageable);
 }

@@ -8,6 +8,7 @@ import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.application.service.OrderServiceImpl;
 import com.github.org.todaybread.todaybread.order.domain.Order;
 import com.github.org.todaybread.todaybread.order.exception.NotFoundOrderAuthorityException;
+import com.github.org.todaybread.todaybread.order.exception.OrderNotAcceptedException;
 import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
 import com.github.org.todaybread.todaybread.product.application.service.ProductServiceImpl;
 import com.github.org.todaybread.todaybread.product.domain.Product;
@@ -51,6 +52,15 @@ public class OrderFacadeImpl implements OrderFacade {
         Member member = memberService.getMember(memberId);
         Customer customer = customerService.getByMember(member);
         Product product = productService.getById(productId);
+
+        if (member.getId().equals(product.getStore().getManager().getMember().getId())) {
+            throw new OrderNotAcceptedException();
+        }
+
+        Order order = orderService.getByMemberIdAndProductId(memberId, productId);
+        if (orderService.getByMemberIdAndProductId(memberId, productId) != null) {
+            return order.toResponse();
+        }
 
         SteppayOrderResponse response = steppayOrderService.create(
             SteppayCreateOrderRequest.builder()

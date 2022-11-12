@@ -39,16 +39,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getById(String orderId) {
+        return orderRepository.getById(orderId).orElseThrow(NotFoundOrderException::new);
+    }
+
+    @Override
+    public Order getByMemberIdAndProductId(String memberId, String productId) {
+        return orderRepository.getByMemberIdAndProductId(memberId, productId).orElse(null);
+    }
+
+    @Override
     public List<Order> getList(String memberId, int page, int take) {
         return orderRepository.getByMemberId(
             memberId,
             PageRequest.of(page - 1, take)
         );
-    }
-
-    @Override
-    public Order getById(String orderId) {
-        return orderRepository.getById(orderId).orElseThrow(NotFoundOrderException::new);
     }
 
     @Override
