@@ -8,6 +8,7 @@ import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.application.service.OrderServiceImpl;
 import com.github.org.todaybread.todaybread.order.domain.Order;
 import com.github.org.todaybread.todaybread.order.exception.NotFoundOrderAuthorityException;
+import com.github.org.todaybread.todaybread.order.exception.OrderNotAcceptedException;
 import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
 import com.github.org.todaybread.todaybread.product.application.service.ProductServiceImpl;
 import com.github.org.todaybread.todaybread.product.domain.Product;
@@ -36,11 +37,35 @@ public class OrderFacadeImpl implements OrderFacade {
     private final ProductServiceImpl productService;
 
     @Override
+    public String getOrderUrl(String orderCode) {
+        return orderService.getOrderUrl(orderCode);
+    }
+
+    @Override
+    public String getOrderSecret() {
+        return orderService.getOrderSecret();
+    }
+
+    @Override
+    public Boolean hasOrder(String memberId, String productId) {
+        return orderService.getByMemberIdAndProductId(memberId, productId) != null;
+    }
+
+    @Override
     @Transactional
     public OrderResponse create(String memberId, String productId) {
         Member member = memberService.getMember(memberId);
         Customer customer = customerService.getByMember(member);
         Product product = productService.getById(productId);
+
+        if (member.getId().equals(product.getStore().getManager().getMember().getId())) {
+            throw new OrderNotAcceptedException();
+        }
+
+        Order order = orderService.getByMemberIdAndProductId(memberId, productId);
+        if (order != null) {
+            return order.toResponse();
+        }
 
         SteppayOrderResponse response = steppayOrderService.create(
             SteppayCreateOrderRequest.builder()

@@ -19,12 +19,13 @@ type Query {
     recommendedProducts(take: Int = 3): [Product!]!
 
     ### Order ###
+    hasOrder(productId: ID!): Boolean!
     order(orderId: ID!): Order!
     ordersWithMember(page: Int = 1, take: Int = 10): [Order!]!
     ordersWithManager(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
 
     ### Review ###
-    reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewListResponse!
+    reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewList!
 }
 
 

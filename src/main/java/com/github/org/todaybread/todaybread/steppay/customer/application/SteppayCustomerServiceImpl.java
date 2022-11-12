@@ -18,5 +18,4 @@ public class SteppayCustomerServiceImpl implements SteppayCustomerService {
             SteppayCustomerResponse.class
         );
     }
-
 }

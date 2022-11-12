@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class OrderRepositoryImpl implements OrderRepository {
 
-    private final OrderJpaRepository orderRepository;
+    private final OrderJpaRepository orderJpaRepository;
     private final JPAQueryFactory queryFactory;
 
     private final QStore store = QStore.store;
@@ -28,17 +28,26 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order save(Order order) {
-        return orderRepository.save(order);
+        return orderJpaRepository.save(order);
     }
 
     @Override
-    public List<Order> getByMemberId(String memberId, Pageable pageable) {
-        return orderRepository.findByMemberIdOrderByCreatedAt(UUID.fromString(memberId), pageable);
+    public Optional<Order> getByMemberIdAndProductId(String memberId, String productId) {
+        return orderJpaRepository.findByMemberIdAndProductId(
+            UUID.fromString(memberId),
+            UUID.fromString(productId)
+        );
     }
 
     @Override
     public Optional<Order> getById(String orderId) {
-        return orderRepository.findById(UUID.fromString(orderId));
+        return orderJpaRepository.findById(UUID.fromString(orderId));
+    }
+
+    @Override
+    public List<Order> getByMemberId(String memberId, Pageable pageable) {
+        return orderJpaRepository.findByMemberIdOrderByCreatedAt(UUID.fromString(memberId),
+            pageable);
     }
 
     @Override
@@ -46,12 +55,12 @@ public class OrderRepositoryImpl implements OrderRepository {
         return queryFactory
             .select(Projections.constructor(OrderResponse.class,
                 order.id,
+                order.createdAt,
+                order.updatedAt,
                 order.steepayOrderCode,
                 order.paidAmount,
                 order.product,
-                order.member,
-                order.createdAt,
-                order.updatedAt
+                order.member
             ))
             .from(order)
             .leftJoin(order.product, product)
