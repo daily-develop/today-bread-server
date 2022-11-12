@@ -1,10 +1,11 @@
 ### Type ###
-type Order{
+type Order {
     id: ID!
-    steppayOrderCode: String!
+    createdAt: LocalDateTime!
+    updatedAt: LocalDateTime!
+    orderUrl: String!
+    orderSecret: String!
     paidAmount: Int!
     product: Product!
     member: Member!
-    createdAt: LocalDateTime!
-    updatedAt: LocalDateTime!
 }

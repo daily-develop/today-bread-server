@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -56,5 +57,15 @@ public class OrderController {
         @Argument String productId
     ) {
         return orderFacade.create(authentication.getName(), productId);
+    }
+
+    @SchemaMapping(typeName = "Order", field = "orderUrl")
+    public String orderUrl(OrderResponse order) {
+        return orderFacade.getOrderUrl(order.getSteppayOrderCode());
+    }
+
+    @SchemaMapping(typeName = "Order", field = "orderSecret")
+    public String orderSecret() {
+        return orderFacade.getOrderSecret();
     }
 }

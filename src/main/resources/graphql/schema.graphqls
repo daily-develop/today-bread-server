@@ -24,7 +24,7 @@ type Query {
     ordersWithManager(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
 
     ### Review ###
-    reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewListResponse!
+    reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewList!
 }
 
 

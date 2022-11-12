@@ -7,6 +7,7 @@ import com.github.org.todaybread.todaybread.order.infra.persistence.OrderReposit
 import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepositoryImpl orderRepository;
+
+    @Value("${steppay.secret}")
+    private String secretKey;
+
+    @Override
+    public String getOrderUrl(String orderCode) {
+        return "https://api.steppay.kr/api/v1/orders/" + orderCode + "/pay";
+    }
+
+    @Override
+    public String getOrderSecret() {
+        return secretKey;
+    }
 
     @Override
     @Transactional

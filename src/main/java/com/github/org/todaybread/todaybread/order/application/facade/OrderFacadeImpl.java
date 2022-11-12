@@ -36,6 +36,16 @@ public class OrderFacadeImpl implements OrderFacade {
     private final ProductServiceImpl productService;
 
     @Override
+    public String getOrderUrl(String orderCode) {
+        return orderService.getOrderUrl(orderCode);
+    }
+
+    @Override
+    public String getOrderSecret() {
+        return orderService.getOrderSecret();
+    }
+
+    @Override
     @Transactional
     public OrderResponse create(String memberId, String productId) {
         Member member = memberService.getMember(memberId);

@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface OrderService {
 
+    String getOrderUrl(String orderCode);
+
+    String getOrderSecret();
+
     Order save(Order order);
 
     List<Order> getList(String memberId, int page, int take);

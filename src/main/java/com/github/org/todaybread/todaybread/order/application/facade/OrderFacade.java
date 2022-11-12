@@ -5,16 +5,15 @@ import java.util.List;
 
 public interface OrderFacade {
 
+    String getOrderUrl(String orderCode);
+
+    String getOrderSecret();
+
     OrderResponse create(String memberId, String productId);
 
     List<OrderResponse> getList(String memberId, int page, int take);
 
     OrderResponse getById(String memberId, String orderId);
 
-    List<OrderResponse> getListByStoreId(
-        String memberId,
-        String storeId,
-        int page,
-        int take
-    );
+    List<OrderResponse> getListByStoreId(String memberId, String storeId, int page, int take);
 }

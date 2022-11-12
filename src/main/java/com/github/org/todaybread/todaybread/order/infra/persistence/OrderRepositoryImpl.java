@@ -46,12 +46,12 @@ public class OrderRepositoryImpl implements OrderRepository {
         return queryFactory
             .select(Projections.constructor(OrderResponse.class,
                 order.id,
+                order.createdAt,
+                order.updatedAt,
                 order.steepayOrderCode,
                 order.paidAmount,
                 order.product,
-                order.member,
-                order.createdAt,
-                order.updatedAt
+                order.member
             ))
             .from(order)
             .leftJoin(order.product, product)
