@@ -1,15 +1,15 @@
-package com.github.org.todaybread.todaybread.auth.infra.http;
+package com.github.org.todaybread.todaybread.order.infra.http;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/oauth")
-public class OAuthController {
+@RequestMapping("/api/order")
+public class OrderRedirectController {
 
     @GetMapping("/redirect")
-    String oauthRedirect() {
+    String orderRedirect() {
         return """
             <!doctype html>
             <html lang="kr">
