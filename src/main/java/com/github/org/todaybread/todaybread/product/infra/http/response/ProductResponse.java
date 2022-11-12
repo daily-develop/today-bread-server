@@ -23,7 +23,6 @@ public class ProductResponse {
     BreadType breadType;
     Long price;
     Long quantity;
-
     Float score;
 
     @Builder

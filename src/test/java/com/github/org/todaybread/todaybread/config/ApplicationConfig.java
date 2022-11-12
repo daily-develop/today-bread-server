@@ -38,6 +38,8 @@ public class ApplicationConfig {
 
     @Bean
     public SteppayOrderService steppayOrderService() {
-        return new SteppayOrderServiceMock();
+        return new SteppayOrderServiceMock(
+            (SteppayCustomerServiceMock) steppayCustomerService()
+        );
     }
 }

@@ -78,7 +78,8 @@ public class ApplicationConfig {
     @Profile({"internal"})
     @Bean(name = "SteppayOrderService")
     public SteppayOrderService steppayOrderServiceMock() {
-        return new SteppayOrderServiceMock();
+        return new SteppayOrderServiceMock(
+            (SteppayCustomerServiceMock) steppayCustomerServiceMock());
     }
 
     @Profile({"dev", "local"})
