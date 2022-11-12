@@ -24,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String getOrderUrl(String orderCode) {
-        return "https://api.steppay.kr/api/v1/orders/" + orderCode + "/pay";
+        return "https://api.steppay.kr/api/public/orders/" + orderCode + "/pay";
     }
 
     @Override
