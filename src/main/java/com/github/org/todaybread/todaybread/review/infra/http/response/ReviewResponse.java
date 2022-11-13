@@ -31,8 +31,10 @@ public class ReviewResponse {
         this.product = review.getProduct().toResponse();
         this.score = review.getScore();
         this.content = review.getContent();
-        this.attachment = review.getAttachments().stream()
-            .map(it -> it.getFile().toResponse())
-            .collect(Collectors.toList());
+        this.attachment = review.getAttachments() != null ?
+            review.getAttachments().stream()
+                .map(it -> it.getFile().toResponse())
+                .collect(Collectors.toList())
+            : List.of();
     }
 }
