@@ -12,6 +12,8 @@ public interface ReviewRepository {
 
     Optional<Review> getById(String reviewId);
 
+    Optional<Review> getByMemberIdAndProductId(String memberId, String productId);
+
     Page<Review> getByProduct(Product product, Pageable pageable);
 
     Float getScoreByProduct(Product product);

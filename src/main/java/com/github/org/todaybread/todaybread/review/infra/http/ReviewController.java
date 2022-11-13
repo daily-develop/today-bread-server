@@ -26,6 +26,14 @@ public class ReviewController {
     private final ReviewFacadeImpl reviewFacade;
 
     @QueryMapping
+    public Boolean hasReview(
+        Authentication authentication,
+        @Argument String productId
+    ) {
+        return reviewFacade.hasOrder(authentication.getName(), productId);
+    }
+
+    @QueryMapping
     public ReviewListResponse reviews(
         @Argument String productId,
         @Valid @Min(1) @Argument int page,

@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface ReviewFacade {
 
+    Boolean hasOrder(String memberId, String productId);
+
     ReviewResponse create(String memberId, CreateReviewRequest request);
 
     ReviewListResponse getList(String productId, int page, int take);

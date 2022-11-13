@@ -30,6 +30,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Review getByMemberIdAndProductId(String memberId, String productId) {
+        return reviewRepository.getByMemberIdAndProductId(memberId, productId).orElse(null);
+    }
+
+    @Override
     public Page<Review> getByProduct(Product product, int page, int take) {
         Pageable pageable = PageRequest.of(page - 1, take);
         return reviewRepository.getByProduct(product, pageable);
