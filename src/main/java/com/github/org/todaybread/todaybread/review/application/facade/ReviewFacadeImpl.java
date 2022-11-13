@@ -41,6 +41,11 @@ public class ReviewFacadeImpl implements ReviewFacade {
     private final OrderServiceImpl orderService;
 
     @Override
+    public Boolean hasOrder(String memberId, String productId) {
+        return reviewService.getByMemberIdAndProductId(memberId, productId) != null;
+    }
+
+    @Override
     @Transactional
     public ReviewResponse create(String memberId, CreateReviewRequest request) {
         Member member = memberService.getMember(memberId);

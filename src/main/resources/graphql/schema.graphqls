@@ -25,6 +25,7 @@ type Query {
     ordersWithStore(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
 
     ### Review ###
+    hasReview(productId: ID!): Boolean!
     reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewList!
 }
 

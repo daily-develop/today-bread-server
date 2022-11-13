@@ -9,7 +9,9 @@ public interface ReviewService {
     Review save(Review review);
 
     Review getById(String reviewId);
-    
+
+    Review getByMemberIdAndProductId(String memberId, String productId);
+
     Page<Review> getByProduct(Product product, int page, int take);
 
     Float getScoreByProduct(Product product);
