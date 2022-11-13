@@ -18,4 +18,8 @@ public interface OrderFacade {
     OrderResponse getById(String memberId, String orderId);
 
     List<OrderResponse> getListByStoreId(String memberId, String storeId, int page, int take);
+
+    OrderResponse success(String memberId, String orderId);
+
+    OrderResponse cancel(String memberId, String orderId);
 }

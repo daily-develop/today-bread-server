@@ -22,7 +22,7 @@ type Query {
     hasOrder(productId: ID!): Boolean!
     order(orderId: ID!): Order!
     ordersWithMember(page: Int = 1, take: Int = 10): [Order!]!
-    ordersWithManager(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
+    ordersWithStore(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
 
     ### Review ###
     reviews(productId: ID!, page: Int = 1, take: Int = 10): ReviewList!
@@ -56,6 +56,8 @@ type Mutation {
 
     ### Order ###
     createOrder(productId: ID!): Order!
+    success(orderId: ID!): Order!
+    cancel(orderId: ID!): Order!
 
     ### Review ###
     createReview(request: CreateReviewRequest!): Review!

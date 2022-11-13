@@ -1,8 +1,11 @@
 package com.github.org.todaybread.todaybread.order.infra.persistence;
 
+import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.domain.OrderType;
 import com.github.org.todaybread.todaybread.order.domain.QOrder;
 import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
+import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.domain.QProduct;
 import com.github.org.todaybread.todaybread.store.domain.QStore;
 import com.github.org.todaybread.todaybread.store.domain.Store;
@@ -32,10 +35,21 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> getByMemberIdAndProductId(String memberId, String productId) {
-        return orderJpaRepository.findByMemberIdAndProductId(
+    public List<Order> getByMemberIdAndStatus(String memberId, OrderType status, Pageable pageable) {
+        return orderJpaRepository.findByMemberIdAndStatusOrderByCreatedAtDesc(
             UUID.fromString(memberId),
-            UUID.fromString(productId)
+            status,
+            pageable
+        );
+    }
+
+    @Override
+    public Optional<Order> getByMemberIdAndProductIdAndStatus(String memberId, String productId,
+        OrderType status) {
+        return orderJpaRepository.findByMemberIdAndProductIdAndStatus(
+            UUID.fromString(memberId),
+            UUID.fromString(productId),
+            status
         );
     }
 
@@ -51,6 +65,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public Optional<Order> getByMemberAndProduct(Member member, Product product) {
+        return orderJpaRepository.findByMemberAndProduct(member, product);
+    }
+
+    @Override
     public List<OrderResponse> getByStore(Store findStore, Pageable pageable) {
         return queryFactory
             .select(Projections.constructor(OrderResponse.class,
@@ -60,7 +79,8 @@ public class OrderRepositoryImpl implements OrderRepository {
                 order.steepayOrderCode,
                 order.paidAmount,
                 order.product,
-                order.member
+                order.member,
+                order.status
             ))
             .from(order)
             .leftJoin(order.product, product)

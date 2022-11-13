@@ -1,7 +1,10 @@
 package com.github.org.todaybread.todaybread.order.application.service;
 
+import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.domain.OrderType;
 import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
+import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.util.List;
 
@@ -15,9 +18,13 @@ public interface OrderService {
 
     Order getById(String orderId);
 
-    Order getByMemberIdAndProductId(String memberId, String productId);
+    Order getByMemberAndProduct(Member member, Product product);
 
-    List<Order> getList(String memberId, int page, int take);
+    Order getByMemberIdAndProductIdAndSuccess(String memberId, String productId);
+
+    List<Order> getListByMemberId(String memberId, int page, int take);
 
     List<OrderResponse> getListByStore(Store store, int page, int take);
+
+    Order updateStatus(Order order, OrderType status);
 }

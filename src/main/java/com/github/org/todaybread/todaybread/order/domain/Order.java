@@ -6,6 +6,8 @@ import com.github.org.todaybread.todaybread.order.infra.http.response.OrderRespo
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -38,6 +40,10 @@ public class Order extends Core {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(columnDefinition = "varchar(255) default 'READY'")
+    @Enumerated(EnumType.STRING)
+    private OrderType status = OrderType.READY;
+
     @Builder
     public Order(
         Long steppayId,
@@ -51,6 +57,11 @@ public class Order extends Core {
         this.paidAmount = paidAmount;
         this.product = product;
         this.member = member;
+    }
+
+    public Order updateStatus(OrderType status) {
+        this.status = status;
+        return this;
     }
 
     public OrderResponse toResponse() {
