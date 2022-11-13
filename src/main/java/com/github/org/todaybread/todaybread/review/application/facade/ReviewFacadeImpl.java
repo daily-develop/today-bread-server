@@ -46,7 +46,7 @@ public class ReviewFacadeImpl implements ReviewFacade {
         Member member = memberService.getMember(memberId);
         Product product = productService.getById(request.getProductId());
 
-        Order order = orderService.getByMemberIdAndProductId(memberId, request.getProductId());
+        Order order = orderService.getByMemberAndProduct(member, product);
         if (!member.getId().equals(order.getMember().getId())) {
             throw new NotFoundOrderException();
         }
