@@ -3,6 +3,7 @@ package com.github.org.todaybread.todaybread.order.infra.http.response;
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.member.infra.http.response.MemberResponse;
 import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.domain.OrderType;
 import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.product.infra.http.response.ProductResponse;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class OrderResponse {
     Long paidAmount;
     ProductResponse product;
     MemberResponse member;
+    OrderType status;
 
     public OrderResponse(
         UUID id,
@@ -30,7 +32,8 @@ public class OrderResponse {
         String steppayOrderCode,
         Long paidAmount,
         Product product,
-        Member member
+        Member member,
+        OrderType status
     ) {
         this.id = id.toString();
         this.createdAt = createdAt;
@@ -39,6 +42,7 @@ public class OrderResponse {
         this.paidAmount = paidAmount;
         this.product = product.toResponse();
         this.member = member.toResponse();
+        this.status = status;
     }
 
     @Builder
@@ -50,5 +54,6 @@ public class OrderResponse {
         this.paidAmount = order.getPaidAmount();
         this.product = order.getProduct().toResponse();
         this.member = order.getMember().toResponse();
+        this.status = order.getStatus();
     }
 }

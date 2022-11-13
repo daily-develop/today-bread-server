@@ -7,6 +7,7 @@ import com.github.org.todaybread.todaybread.member.application.service.MemberSer
 import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.application.service.OrderServiceImpl;
 import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.domain.OrderType;
 import com.github.org.todaybread.todaybread.order.exception.NotFoundOrderAuthorityException;
 import com.github.org.todaybread.todaybread.order.exception.OrderNotAcceptedException;
 import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
@@ -48,7 +49,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
     @Override
     public Boolean hasOrder(String memberId, String productId) {
-        return orderService.getByMemberIdAndProductId(memberId, productId) != null;
+        return orderService.getByMemberIdAndProductIdAndSuccess(memberId, productId) != null;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class OrderFacadeImpl implements OrderFacade {
             throw new OrderNotAcceptedException();
         }
 
-        Order order = orderService.getByMemberIdAndProductId(memberId, productId);
+        Order order = orderService.getByMemberAndProduct(member, product);
         if (order != null) {
             return order.toResponse();
         }
@@ -93,7 +94,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
     @Override
     public List<OrderResponse> getList(String memberId, int page, int take) {
-        return orderService.getList(memberId, page, take).stream()
+        return orderService.getListByMemberId(memberId, page, take).stream()
             .map(Order::toResponse)
             .collect(Collectors.toList());
     }
@@ -125,5 +126,31 @@ public class OrderFacadeImpl implements OrderFacade {
         }
 
         return orderService.getListByStore(store, page, take);
+    }
+
+    @Override
+    @Transactional
+    public OrderResponse success(String memberId, String orderId) {
+        Member member = memberService.getMember(memberId);
+        Order order = orderService.getById(orderId);
+
+        if (!member.getId().equals(order.getMember().getId())) {
+            throw new NotFoundOrderAuthorityException();
+        }
+
+        return orderService.updateStatus(order, OrderType.SUCCESS).toResponse();
+    }
+
+    @Override
+    @Transactional
+    public OrderResponse cancel(String memberId, String orderId) {
+        Member member = memberService.getMember(memberId);
+        Order order = orderService.getById(orderId);
+
+        if (!member.getId().equals(order.getMember().getId())) {
+            throw new NotFoundOrderAuthorityException();
+        }
+
+        return orderService.updateStatus(order, OrderType.CANCEL).toResponse();
     }
 }

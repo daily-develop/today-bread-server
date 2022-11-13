@@ -45,7 +45,7 @@ public class OrderController {
     }
 
     @QueryMapping
-    public List<OrderResponse> ordersWithManager(
+    public List<OrderResponse> ordersWithStore(
         Authentication authentication,
         @Argument String storeId,
         @Argument int page,
@@ -65,6 +65,22 @@ public class OrderController {
         @Argument String productId
     ) {
         return orderFacade.create(authentication.getName(), productId);
+    }
+
+    @MutationMapping
+    public OrderResponse success(
+        Authentication authentication,
+        @Argument String orderId
+    ) {
+        return orderFacade.success(authentication.getName(), orderId);
+    }
+
+    @MutationMapping
+    public OrderResponse cancel(
+        Authentication authentication,
+        @Argument String orderId
+    ) {
+        return orderFacade.cancel(authentication.getName(), orderId);
     }
 
     @SchemaMapping(typeName = "Order", field = "orderUrl")

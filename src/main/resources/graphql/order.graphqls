@@ -1,4 +1,10 @@
 ### Type ###
+enum OrderType {
+    READY
+    SUCCESS
+    CANCEL
+}
+
 type Order {
     id: ID!
     createdAt: LocalDateTime!
@@ -8,4 +14,5 @@ type Order {
     paidAmount: Int!
     product: Product!
     member: Member!
+    status: OrderType!
 }

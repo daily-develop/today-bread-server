@@ -1,9 +1,12 @@
 package com.github.org.todaybread.todaybread.order.application.service;
 
+import com.github.org.todaybread.todaybread.member.domain.Member;
 import com.github.org.todaybread.todaybread.order.domain.Order;
+import com.github.org.todaybread.todaybread.order.domain.OrderType;
 import com.github.org.todaybread.todaybread.order.exception.NotFoundOrderException;
 import com.github.org.todaybread.todaybread.order.infra.http.response.OrderResponse;
 import com.github.org.todaybread.todaybread.order.infra.persistence.OrderRepositoryImpl;
+import com.github.org.todaybread.todaybread.product.domain.Product;
 import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -44,14 +47,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getByMemberIdAndProductId(String memberId, String productId) {
-        return orderRepository.getByMemberIdAndProductId(memberId, productId).orElse(null);
+    public Order getByMemberAndProduct(Member member, Product product) {
+        return orderRepository.getByMemberAndProduct(member, product).orElse(null);
     }
 
     @Override
-    public List<Order> getList(String memberId, int page, int take) {
-        return orderRepository.getByMemberId(
+    public Order getByMemberIdAndProductIdAndSuccess(String memberId, String productId) {
+        return orderRepository.getByMemberIdAndProductIdAndStatus(memberId, productId, OrderType.SUCCESS)
+            .orElse(null);
+    }
+
+    @Override
+    public List<Order> getListByMemberId(String memberId, int page, int take) {
+        return orderRepository.getByMemberIdAndStatus(
             memberId,
+            OrderType.SUCCESS,
             PageRequest.of(page - 1, take)
         );
     }
@@ -63,4 +73,11 @@ public class OrderServiceImpl implements OrderService {
             PageRequest.of(page - 1, take)
         );
     }
+
+    @Override
+    @Transactional
+    public Order updateStatus(Order order, OrderType status) {
+        return order.updateStatus(status);
+    }
+
 }
