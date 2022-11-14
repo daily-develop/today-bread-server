@@ -5,6 +5,8 @@ import com.github.org.todaybread.todaybread.file.domain.File;
 import com.github.org.todaybread.todaybread.file.domain.FileType;
 import com.github.org.todaybread.todaybread.manager.exception.NotFoundManagerException;
 import com.github.org.todaybread.todaybread.manager.exception.NotManagerException;
+import com.github.org.todaybread.todaybread.order.application.service.OrderService;
+import com.github.org.todaybread.todaybread.order.domain.OrderType;
 import com.github.org.todaybread.todaybread.product.application.service.ProductService;
 import com.github.org.todaybread.todaybread.product.attachment.application.ProductAttachmentService;
 import com.github.org.todaybread.todaybread.product.attachment.domain.ProductAttachment;
@@ -39,6 +41,7 @@ public class ProductFacadeImpl implements ProductFacade {
     private final ProductService productService;
     private final ProductAttachmentService productAttachmentService;
     private final StoreService storeService;
+    private final OrderService orderService;
     private final SteppayProductService steppayProductService;
     private final SteppayPlanService steppayPlanService;
 
@@ -48,8 +51,9 @@ public class ProductFacadeImpl implements ProductFacade {
     }
 
     @Override
-    public List<ProductResponse> getList(String storeId, BreadType breadType, int page, int take) {
-        return productService.getList(storeId, breadType, page, take).stream()
+    public List<ProductResponse> getList(String storeId, BreadType breadType, Boolean saleOnly,
+        int page, int take) {
+        return productService.getList(storeId, breadType, saleOnly, page, take).stream()
             .map(Product::toResponse)
             .collect(Collectors.toList());
     }
@@ -182,6 +186,9 @@ public class ProductFacadeImpl implements ProductFacade {
 
         steppayProductService.stop(product.getSteppayId());
         product.updateStatus(false);
+
+        orderService.getListByProductId(productId)
+            .forEach(order -> orderService.updateStatus(order, OrderType.CANCEL));
 
         return product.toResponse();
     }

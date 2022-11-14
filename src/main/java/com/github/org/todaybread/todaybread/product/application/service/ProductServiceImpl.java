@@ -23,10 +23,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getList(String storeId, BreadType breadType, int page, int take) {
+    public List<Product> getList(
+        String storeId,
+        BreadType breadType,
+        Boolean saleOnly,
+        int page,
+        int take
+    ) {
         return productRepository.getList(
             storeId,
             breadType,
+            saleOnly,
             PageRequest.of(page - 1, take)
         );
     }
@@ -36,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getList(
             null,
             null,
+            true,
             PageRequest.of(0, take)
         );
     }

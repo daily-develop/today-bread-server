@@ -35,7 +35,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> getByMemberIdAndStatus(String memberId, OrderType status, Pageable pageable) {
+    public List<Order> getByMemberIdAndStatus(String memberId, OrderType status,
+        Pageable pageable) {
         return orderJpaRepository.findByMemberIdAndStatusOrderByCreatedAtDesc(
             UUID.fromString(memberId),
             status,
@@ -60,8 +61,15 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<Order> getByMemberId(String memberId, Pageable pageable) {
-        return orderJpaRepository.findByMemberIdOrderByCreatedAt(UUID.fromString(memberId),
-            pageable);
+        return orderJpaRepository.findByMemberIdOrderByCreatedAt(
+            UUID.fromString(memberId),
+            pageable
+        );
+    }
+
+    @Override
+    public List<Order> getByProductId(String productId) {
+        return orderJpaRepository.findByProductId(UUID.fromString(productId));
     }
 
     @Override
