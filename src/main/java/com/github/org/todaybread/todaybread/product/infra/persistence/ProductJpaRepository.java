@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductJpaRepository extends JpaRepository<Product, UUID> {
 
-    List<Product> findAllByOrderByScoreDesc(Pageable pageable);
+    List<Product> findByStatusOrderByScoreDesc(Boolean status, Pageable pageable);
 }
