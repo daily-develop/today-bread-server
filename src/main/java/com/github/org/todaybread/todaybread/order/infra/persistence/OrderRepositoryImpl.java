@@ -35,12 +35,30 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> getByMemberIdAndStatus(String memberId, OrderType status, Pageable pageable) {
-        return orderJpaRepository.findByMemberIdAndStatusOrderByCreatedAtDesc(
-            UUID.fromString(memberId),
-            status,
-            pageable
-        );
+    public List<OrderResponse> getByMemberIdAndStatus(
+        String memberId,
+        OrderType status,
+        Boolean productStatus,
+        Pageable pageable
+    ) {
+        return queryFactory
+            .select(Projections.constructor(OrderResponse.class,
+                order.id,
+                order.createdAt,
+                order.updatedAt,
+                order.steepayOrderCode,
+                order.paidAmount,
+                order.product,
+                order.member,
+                order.status
+            ))
+            .from(order)
+            .leftJoin(order.product, product)
+            .where(product.status.eq(productStatus))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(order.createdAt.desc())
+            .fetch();
     }
 
     @Override

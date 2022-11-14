@@ -19,6 +19,4 @@ public interface OrderJpaRepository extends JpaRepository<Order, UUID> {
 
     List<Order> findByMemberIdOrderByCreatedAt(UUID memberId, Pageable pageable);
 
-    List<Order> findByMemberIdAndStatusOrderByCreatedAtDesc(UUID memberId, OrderType status, Pageable pageable);
-
 }

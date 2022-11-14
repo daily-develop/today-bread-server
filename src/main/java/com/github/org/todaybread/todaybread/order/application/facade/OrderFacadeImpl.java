@@ -94,9 +94,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
     @Override
     public List<OrderResponse> getList(String memberId, int page, int take) {
-        return orderService.getListByMemberId(memberId, page, take).stream()
-            .map(Order::toResponse)
-            .collect(Collectors.toList());
+        return orderService.getListByMemberId(memberId, page, take);
     }
 
     @Override

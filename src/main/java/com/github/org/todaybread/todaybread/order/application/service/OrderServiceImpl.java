@@ -58,10 +58,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getListByMemberId(String memberId, int page, int take) {
+    public List<OrderResponse> getListByMemberId(String memberId, int page, int take) {
         return orderRepository.getByMemberIdAndStatus(
             memberId,
             OrderType.SUCCESS,
+            true,
             PageRequest.of(page - 1, take)
         );
     }
