@@ -32,7 +32,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> getList(String storeId, BreadType breadType, Pageable pageable) {
+    public List<Product> getList(
+        String storeId,
+        BreadType breadType,
+        Boolean saleOnly,
+        Pageable pageable
+    ) {
         JPAQuery<Product> query = queryFactory
             .selectFrom(product)
             .leftJoin(product.image, file).fetchJoin()
@@ -44,6 +49,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         if (breadType != null) {
             query = query.where(product.breadType.eq(breadType));
+        }
+
+        if (saleOnly) {
+            query = query.where(product.status.eq(true));
         }
 
         return query

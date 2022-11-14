@@ -24,6 +24,8 @@ public interface OrderService {
 
     List<Order> getListByMemberId(String memberId, int page, int take);
 
+    List<Order> getListByProductId(String productId);
+
     List<OrderResponse> getListByStore(Store store, int page, int take);
 
     Order updateStatus(Order order, OrderType status);

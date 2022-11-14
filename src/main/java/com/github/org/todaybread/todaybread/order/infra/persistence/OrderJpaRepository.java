@@ -14,11 +14,17 @@ public interface OrderJpaRepository extends JpaRepository<Order, UUID> {
 
     Optional<Order> findByMemberAndProduct(Member member, Product product);
 
-    Optional<Order> findByMemberIdAndProductIdAndStatus(UUID memberId, UUID productId,
-        OrderType status);
+    Optional<Order> findByMemberIdAndProductIdAndStatus(
+        UUID memberId,
+        UUID productId,
+        OrderType status
+    );
+
+    List<Order> findByProductId(UUID productId);
 
     List<Order> findByMemberIdOrderByCreatedAt(UUID memberId, Pageable pageable);
 
-    List<Order> findByMemberIdAndStatusOrderByCreatedAtDesc(UUID memberId, OrderType status, Pageable pageable);
+    List<Order> findByMemberIdAndStatusOrderByCreatedAtDesc(UUID memberId, OrderType status,
+        Pageable pageable);
 
 }

@@ -34,10 +34,11 @@ public class ProductController {
     public List<ProductResponse> products(
         @Argument String storeId,
         @Argument BreadType breadType,
+        @Argument Boolean saleOnly,
         @Valid @Min(1) @Argument int page,
         @Valid @Min(1) @Argument int take
     ) {
-        return productFacade.getList(storeId, breadType, page, take);
+        return productFacade.getList(storeId, breadType, saleOnly, page, take);
     }
 
     @QueryMapping
