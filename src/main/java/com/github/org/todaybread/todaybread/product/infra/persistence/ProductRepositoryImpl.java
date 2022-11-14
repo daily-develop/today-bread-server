@@ -64,7 +64,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> getRanking(Pageable pageable) {
-        return productJpaRepository.findAllByOrderByScoreDesc(pageable);
+        return productJpaRepository.findByStatusOrderByScoreDesc(true, pageable);
     }
 
     @Override
