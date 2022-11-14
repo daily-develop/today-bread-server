@@ -22,7 +22,7 @@ type Query {
     hasOrder(productId: ID!): Boolean!
     order(orderId: ID!): Order!
     ordersWithMember(page: Int = 1, take: Int = 10): [Order!]!
-    ordersWithStore(storeId: String!, page: Int = 1, take: Int = 10): [Order!]!
+    ordersWithStore(storeId: ID!, page: Int = 1, take: Int = 10): [Order!]!
 
     ### Review ###
     hasReview(productId: ID!): Boolean!
