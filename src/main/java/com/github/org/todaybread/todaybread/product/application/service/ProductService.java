@@ -8,7 +8,7 @@ public interface ProductService {
 
     Product getById(String productId);
 
-    List<Product> getList(String storeId, BreadType type, int page, int take);
+    List<Product> getList(String storeId, BreadType type, Boolean saleOnly, int page, int take);
 
     List<Product> getRecommended(int take);
 

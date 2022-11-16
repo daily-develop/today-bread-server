@@ -53,7 +53,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getByMemberIdAndProductIdAndSuccess(String memberId, String productId) {
-        return orderRepository.getByMemberIdAndProductIdAndStatus(memberId, productId, OrderType.SUCCESS)
+        return orderRepository.getByMemberIdAndProductIdAndStatus(memberId, productId,
+                OrderType.SUCCESS)
             .orElse(null);
     }
 
@@ -65,6 +66,11 @@ public class OrderServiceImpl implements OrderService {
             true,
             PageRequest.of(page - 1, take)
         );
+    }
+
+    @Override
+    public List<Order> getListByProductId(String productId) {
+        return orderRepository.getByProductId(productId);
     }
 
     @Override

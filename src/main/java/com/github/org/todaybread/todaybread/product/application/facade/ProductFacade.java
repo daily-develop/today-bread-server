@@ -10,7 +10,8 @@ public interface ProductFacade {
 
     ProductResponse getById(String productId);
 
-    List<ProductResponse> getList(String storeId, BreadType breadType, int page, int take);
+    List<ProductResponse> getList(String storeId, BreadType breadType, Boolean saleOnly, int page,
+        int take);
 
     List<ProductResponse> getRecommended(int take);
 
