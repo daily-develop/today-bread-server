@@ -35,25 +35,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> getByMemberIdAndStatus(String memberId, OrderType status, Pageable pageable) {
-        return orderJpaRepository.findByMemberIdAndStatusOrderByCreatedAtDesc(
-            UUID.fromString(memberId),
-            status,
-            pageable
-        );
-    }
-
-    @Override
-    public Optional<Order> getByMemberIdAndProductIdAndStatus(String memberId, String productId,
-        OrderType status) {
-        return orderJpaRepository.findByMemberIdAndProductIdAndStatus(
-            UUID.fromString(memberId),
-            UUID.fromString(productId),
-            status
-        );
-    }
-
-    @Override
     public Optional<Order> getById(String orderId) {
         return orderJpaRepository.findById(UUID.fromString(orderId));
     }
@@ -69,11 +50,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public List<Order> getByProductId(String productId) {
         return orderJpaRepository.findByProductId(UUID.fromString(productId));
-    }
-
-    @Override
-    public Optional<Order> getByMemberAndProduct(Member member, Product product) {
-        return orderJpaRepository.findByMemberAndProduct(member, product);
     }
 
     @Override
@@ -97,6 +73,11 @@ public class OrderRepositoryImpl implements OrderRepository {
             .limit(pageable.getPageSize())
             .orderBy(order.createdAt.desc())
             .fetch();
+    }
+
+    @Override
+    public Optional<Order> getByMemberAndProduct(Member member, Product product) {
+        return orderJpaRepository.findByMemberAndProduct(member, product);
     }
 
     @Override
@@ -124,11 +105,6 @@ public class OrderRepositoryImpl implements OrderRepository {
             .limit(pageable.getPageSize())
             .orderBy(order.createdAt.desc())
             .fetch();
-    }
-
-    @Override
-    public Optional<Order> getByMemberAndProduct(Member member, Product product) {
-        return orderJpaRepository.findByMemberAndProduct(member, product);
     }
 
     @Override
