@@ -22,7 +22,7 @@ public interface OrderService {
 
     Order getByMemberIdAndProductIdAndSuccess(String memberId, String productId);
 
-    List<Order> getListByMemberId(String memberId, int page, int take);
+    List<OrderResponse> getListByMemberId(String memberId, int page, int take);
 
     List<Order> getListByProductId(String productId);
 

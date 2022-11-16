@@ -13,9 +13,9 @@ public interface OrderFacade {
 
     OrderResponse create(String memberId, String productId);
 
-    List<OrderResponse> getList(String memberId, int page, int take);
-
     OrderResponse getById(String memberId, String orderId);
+
+    List<OrderResponse> getListByMemberId(String memberId, int page, int take);
 
     List<OrderResponse> getListByStoreId(String memberId, String storeId, int page, int take);
 

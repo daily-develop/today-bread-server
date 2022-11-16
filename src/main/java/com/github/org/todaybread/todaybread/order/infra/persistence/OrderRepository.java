@@ -14,18 +14,23 @@ public interface OrderRepository {
 
     Order save(Order order);
 
-    Optional<Order> getByMemberIdAndProductIdAndStatus(String memberId, String productId,
-        OrderType status);
-
     Optional<Order> getById(String orderId);
 
     List<Order> getByMemberId(String memberId, Pageable pageable);
 
     List<Order> getByProductId(String productId);
 
-    Optional<Order> getByMemberAndProduct(Member member, Product product);
-
     List<OrderResponse> getByStore(Store findStore, Pageable pageable);
 
-    List<Order> getByMemberIdAndStatus(String memberId, OrderType status, Pageable pageable);
+    Optional<Order> getByMemberAndProduct(Member member, Product product);
+
+    List<OrderResponse> getByMemberIdAndStatus(
+        String memberId,
+        OrderType status,
+        Boolean productStatus,
+        Pageable pageable
+    );
+
+    Optional<Order> getByMemberIdAndProductIdAndStatus(String memberId, String productId, OrderType status);
+
 }

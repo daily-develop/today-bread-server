@@ -41,7 +41,7 @@ public class OrderController {
         @Argument int page,
         @Argument int take
     ) {
-        return orderFacade.getList(authentication.getName(), page, take);
+        return orderFacade.getListByMemberId(authentication.getName(), page, take);
     }
 
     @QueryMapping
