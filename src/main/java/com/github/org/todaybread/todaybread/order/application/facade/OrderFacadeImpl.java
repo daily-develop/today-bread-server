@@ -20,7 +20,6 @@ import com.github.org.todaybread.todaybread.steppay.order.infra.response.Steppay
 import com.github.org.todaybread.todaybread.store.application.service.StoreServiceImpl;
 import com.github.org.todaybread.todaybread.store.domain.Store;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,11 +92,6 @@ public class OrderFacadeImpl implements OrderFacade {
     }
 
     @Override
-    public List<OrderResponse> getList(String memberId, int page, int take) {
-        return orderService.getListByMemberId(memberId, page, take);
-    }
-
-    @Override
     public OrderResponse getById(String memberId, String orderId) {
         Member member = memberService.getMember(memberId);
         Order order = orderService.getById(orderId);
@@ -107,6 +101,11 @@ public class OrderFacadeImpl implements OrderFacade {
         }
 
         return order.toResponse();
+    }
+
+    @Override
+    public List<OrderResponse> getListByMemberId(String memberId, int page, int take) {
+        return orderService.getListByMemberId(memberId, page, take);
     }
 
     @Override

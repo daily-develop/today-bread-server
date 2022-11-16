@@ -35,6 +35,40 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public Optional<Order> getById(String orderId) {
+        return orderJpaRepository.findById(UUID.fromString(orderId));
+    }
+
+    @Override
+    public List<Order> getByMemberId(String memberId, Pageable pageable) {
+        return orderJpaRepository.findByMemberIdOrderByCreatedAt(UUID.fromString(memberId),
+            pageable);
+    }
+
+    @Override
+    public List<OrderResponse> getByStore(Store findStore, Pageable pageable) {
+        return queryFactory
+            .select(Projections.constructor(OrderResponse.class,
+                order.id,
+                order.createdAt,
+                order.updatedAt,
+                order.steepayOrderCode,
+                order.paidAmount,
+                order.product,
+                order.member,
+                order.status
+            ))
+            .from(order)
+            .leftJoin(order.product, product)
+            .leftJoin(product.store, store)
+            .where(order.product.store.eq(findStore))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(order.createdAt.desc())
+            .fetch();
+    }
+
+    @Override
     public List<OrderResponse> getByMemberIdAndStatus(
         String memberId,
         OrderType status,
@@ -62,6 +96,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public Optional<Order> getByMemberAndProduct(Member member, Product product) {
+        return orderJpaRepository.findByMemberAndProduct(member, product);
+    }
+
+    @Override
     public Optional<Order> getByMemberIdAndProductIdAndStatus(String memberId, String productId,
         OrderType status) {
         return orderJpaRepository.findByMemberIdAndProductIdAndStatus(
@@ -69,44 +108,5 @@ public class OrderRepositoryImpl implements OrderRepository {
             UUID.fromString(productId),
             status
         );
-    }
-
-    @Override
-    public Optional<Order> getById(String orderId) {
-        return orderJpaRepository.findById(UUID.fromString(orderId));
-    }
-
-    @Override
-    public List<Order> getByMemberId(String memberId, Pageable pageable) {
-        return orderJpaRepository.findByMemberIdOrderByCreatedAt(UUID.fromString(memberId),
-            pageable);
-    }
-
-    @Override
-    public Optional<Order> getByMemberAndProduct(Member member, Product product) {
-        return orderJpaRepository.findByMemberAndProduct(member, product);
-    }
-
-    @Override
-    public List<OrderResponse> getByStore(Store findStore, Pageable pageable) {
-        return queryFactory
-            .select(Projections.constructor(OrderResponse.class,
-                order.id,
-                order.createdAt,
-                order.updatedAt,
-                order.steepayOrderCode,
-                order.paidAmount,
-                order.product,
-                order.member,
-                order.status
-            ))
-            .from(order)
-            .leftJoin(order.product, product)
-            .leftJoin(product.store, store)
-            .where(order.product.store.eq(findStore))
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
-            .orderBy(order.createdAt.desc())
-            .fetch();
     }
 }
